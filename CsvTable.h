@@ -25,5 +25,6 @@ public:
 
 protected:
 private:
+    bfs::path mFilePath;
     bfs::wifstream mFileStream;
 };
