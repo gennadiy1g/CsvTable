@@ -25,6 +25,8 @@ public:
 
 protected:
 private:
+    void checkInputFile();
+
     bfs::path mFilePath;
     bfs::wifstream mFileStream;
 };
