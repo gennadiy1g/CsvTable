@@ -1,4 +1,11 @@
+#include <boost/locale.hpp>
+#include <stdexcept>
+
 #include "CsvTable.h"
+
+namespace blocale = boost::locale;
+
+using namespace std::literals::string_literals;
 
 FileLines::FileLines(const bfs::path& filePath)
     : mFileStream(filePath)

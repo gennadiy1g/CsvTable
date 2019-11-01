@@ -2,14 +2,9 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
-#include <boost/locale.hpp>
-#include <stdexcept>
 #include <string>
 
 namespace bfs = boost::filesystem;
-namespace blocale = boost::locale;
-
-using namespace std::literals::string_literals;
 
 class FileLines
 {
