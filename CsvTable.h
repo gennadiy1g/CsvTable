@@ -29,4 +29,6 @@ private:
 
     bfs::path mFilePath;
     bfs::wifstream mFileStream;
+
+    std::size_t mNumLines { 0 };
 };
