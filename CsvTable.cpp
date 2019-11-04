@@ -37,3 +37,30 @@ void FileLines::checkInputFile()
         throw std::runtime_error("File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" is empty!"s);
     }
 }
+
+void FileLines::generateOffsets()
+{
+    const std::size_t kMinRecords { 100 }; /* read at least that many records before trying to evaluate
+                                            * the total number of records */
+    std::size_t posAfterHeaderLine { 0 };
+    std::size_t posAfterNthLine { 0 };
+
+    std::wstring line;
+    std::size_t numLines { 0 };
+
+    while(std::getline(mFileStream, line)) {
+        ++numLines;
+        if(numLines == 1) {
+            posAfterHeaderLine = mFileStream.tellg();
+        } else if(numLines == kMinRecords) {
+            posAfterNthLine = mFileStream.tellg();
+        }
+    }
+
+    if(!mFileStream.eof()) {
+        std::stringstream message;
+        message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
+                << "\", line: " << numLines + 1 << ", column: " << line.length() + 1 << '.';
+        throw std::runtime_error(message.str());
+    }
+}
