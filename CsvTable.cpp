@@ -1,4 +1,6 @@
 #include <boost/locale.hpp>
+#include <cassert>
+#include <cmath>
 #include <stdexcept>
 
 #include "CsvTable.h"
@@ -40,18 +42,31 @@ void FileLines::checkInputFile()
 
 void FileLines::generateOffsets()
 {
-    const std::size_t kMinNumRecords { 100 }; /* read at least that many records before trying to evaluate
-                                               * the total number of records */
+    const int kMinNumRecords { 100 }; /* read at least that many records, excluding the line with headers,
+     * before trying to evaluate the total number of records */
+
+    const int kMaxNumSamples { 10000 }; // maximum number of offset samples
+
     std::size_t posAfterHeaderLine { 0 };
     std::size_t posAfterMinNumRecords { 0 };
 
     std::wstring line;
     while (std::getline(mFileStream, line)) {
         ++mNumLines;
+
         if (mNumLines == 1) {
+            // First line contains headers
             posAfterHeaderLine = mFileStream.tellg();
-        } else if (mNumLines == kMinNumRecords) {
+        } else if (mNumLines == kMinNumRecords + 1 /* do not count the line with headers */) {
             posAfterMinNumRecords = mFileStream.tellg();
+
+            // Evaluate the number of records in the file
+            auto approxNumLines = kMinNumRecords * (bfs::file_size(mFilePath) - posAfterHeaderLine) / posAfterMinNumRecords;
+            assert(approxNumLines > 0);
+
+            // Calculate the number of lines between offset samples
+            mNumLinesBetweenSamples = lround(approxNumLines / kMaxNumSamples);
+            assert(mNumLinesBetweenSamples >= 1);
         }
     }
 

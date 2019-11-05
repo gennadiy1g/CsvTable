@@ -29,5 +29,6 @@ private:
     bfs::path mFilePath;
     bfs::wifstream mFileStream;
 
-    std::size_t mNumLines { 0 };
+    std::size_t mNumLines { 0 };        // Number of lines in the file
+    int mNumLinesBetweenSamples { 1 };  // Number of lines between offset samples
 };
