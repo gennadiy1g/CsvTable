@@ -52,22 +52,36 @@ void FileLines::generateOffsets()
 
     std::wstring line;
     while (std::getline(mFileStream, line)) {
-        ++mNumLines;
+        if (!(mNumLines % mNumLinesBetweenSamples)) {
+            mOffsetsSamples.push_back(mFileStream.tellg());
+        }
 
-        if (mNumLines == 1) {
+        if (!mNumLines) {
             // First line contains headers
             posAfterHeaderLine = mFileStream.tellg();
-        } else if (mNumLines == kMinNumRecords + 1 /* do not count the line with headers */) {
+        } else if (mNumLines == kMinNumRecords /* do not count the line with headers */) {
             posAfterMinNumRecords = mFileStream.tellg();
+            assert(posAfterMinNumRecords > 0);
 
-            // Evaluate the number of records in the file
+            // Evaluate number of records in the file
             auto approxNumLines = kMinNumRecords * (bfs::file_size(mFilePath) - posAfterHeaderLine) / posAfterMinNumRecords;
             assert(approxNumLines > 0);
 
-            // Calculate the number of lines between offset samples
+            // Calculate number of lines between offset samples
             mNumLinesBetweenSamples = lround(approxNumLines / kMaxNumSamples);
             assert(mNumLinesBetweenSamples >= 1);
+
+            // Keep offsets for lines where line number is divisible by mNumLinesBetweenSamples, get rid of offsets for other lines
+            if (mNumLinesBetweenSamples > 1) {
+                std::vector<std::size_t> offsetsSamples;
+                for (std::size_t i = 0; i < mOffsetsSamples.size(); i += mNumLinesBetweenSamples) {
+                    offsetsSamples.push_back(mOffsetsSamples[i]);
+                }
+                std::swap(mOffsetsSamples, offsetsSamples);
+            }
         }
+
+        ++mNumLines;
     }
 
     if (!mFileStream.eof()) {
