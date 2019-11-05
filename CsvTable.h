@@ -6,11 +6,10 @@
 
 namespace bfs = boost::filesystem;
 
-class FileLines
-{
+class FileLines {
 public:
     FileLines(const bfs::path& filePath); // Constructor
-    virtual ~FileLines() = default;       // Defaulted virtual destructor
+    virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
     FileLines(const FileLines& src) = delete;

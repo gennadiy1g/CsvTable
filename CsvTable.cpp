@@ -13,7 +13,7 @@ FileLines::FileLines(const bfs::path& filePath)
 {
     checkInputFile();
 
-    if(!mFileStream.is_open()) {
+    if (!mFileStream.is_open()) {
         throw std::runtime_error(
             "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
     }
@@ -23,17 +23,17 @@ void FileLines::checkInputFile()
 {
     bfs::file_status inputFileStatus = bfs::status(mFilePath);
 
-    if(!bfs::exists(inputFileStatus)) {
+    if (!bfs::exists(inputFileStatus)) {
         throw std::runtime_error(
             "File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" does not exist!"s);
     }
 
-    if(!bfs::is_regular_file(inputFileStatus)) {
+    if (!bfs::is_regular_file(inputFileStatus)) {
         throw std::runtime_error(
             "File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" is not a regular file!"s);
     }
 
-    if(bfs::file_size(mFilePath) == 0) {
+    if (bfs::file_size(mFilePath) == 0) {
         throw std::runtime_error("File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" is empty!"s);
     }
 }
@@ -46,16 +46,16 @@ void FileLines::generateOffsets()
     std::size_t posAfterMinNumRecords { 0 };
 
     std::wstring line;
-    while(std::getline(mFileStream, line)) {
+    while (std::getline(mFileStream, line)) {
         ++mNumLines;
-        if(mNumLines == 1) {
+        if (mNumLines == 1) {
             posAfterHeaderLine = mFileStream.tellg();
-        } else if(mNumLines == kMinNumRecords) {
+        } else if (mNumLines == kMinNumRecords) {
             posAfterMinNumRecords = mFileStream.tellg();
         }
     }
 
-    if(!mFileStream.eof()) {
+    if (!mFileStream.eof()) {
         std::stringstream message;
         message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
                 << "\", line: " << mNumLines + 1 << ", column: " << line.length() + 1 << '.';
