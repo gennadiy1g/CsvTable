@@ -21,7 +21,7 @@ public:
     FileLines& operator=(FileLines&& rhs) = default;
 
     void generateOffsetsSamples();
-    std::wstring getLine(const int lineNumber);
+    std::wstring getLine(const int lineNum);
 
 protected:
 private:
