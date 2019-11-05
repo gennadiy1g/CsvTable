@@ -20,7 +20,7 @@ public:
     FileLines(FileLines&& src) = default;
     FileLines& operator=(FileLines&& rhs) = default;
 
-    void generateOffsets();
+    void generateOffsetsSamples();
     std::wstring getLine(const int lineNumber);
 
 protected:

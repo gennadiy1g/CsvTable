@@ -40,7 +40,7 @@ void FileLines::checkInputFile()
     }
 }
 
-void FileLines::generateOffsets()
+void FileLines::generateOffsetsSamples()
 {
     const int kMinNumRecords { 100 }; /* read at least that many records, excluding the line with headers,
      * before trying to evaluate the total number of records */
