@@ -21,7 +21,7 @@ public:
     FileLines& operator=(FileLines&& rhs) = default;
 
     void generateOffsetsSamples();
-    std::wstring getLine(const int lineNum);
+    std::wstring getLine(std::size_t lineNum);
 
 protected:
 private:
@@ -31,6 +31,6 @@ private:
     bfs::wifstream mFileStream;
 
     std::size_t mNumLines { 0 }; // Number of lines in the file
-    int mNumLinesBetweenSamples { 1 }; // Number of lines between offset samples
+    std::size_t mNumLinesBetweenSamples { 1 }; // Number of lines between offset samples
     std::vector<std::size_t> mOffsetsSamples;
 };

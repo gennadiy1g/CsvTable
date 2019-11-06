@@ -42,10 +42,10 @@ void FileLines::checkInputFile()
 
 void FileLines::generateOffsetsSamples()
 {
-    const int kMinNumRecords { 100 }; /* read at least that many records, excluding the line with headers,
+    const std::size_t kMinNumRecords { 100 }; /* read at least that many records, excluding the line with headers,
      * before trying to evaluate the total number of records */
 
-    const int kMaxNumSamples { 10000 }; // maximum number of offset samples
+    const std::size_t kMaxNumSamples { 10000 }; // maximum number of offset samples
 
     std::size_t posAfterHeaderLine { 0 };
     std::size_t posAfterMinNumRecords { 0 };
@@ -90,4 +90,34 @@ void FileLines::generateOffsetsSamples()
                 << "\", line: " << mNumLines + 1 << ", column: " << line.length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
+}
+
+std::wstring FileLines::getLine(std::size_t lineNum)
+{
+    assert(0 <= lineNum && lineNum < mNumLines);
+    std::size_t offset { 0 };
+    std::wstring line;
+
+    if (mNumLinesBetweenSamples == 1) {
+        assert(lineNum < mOffsetsSamples.size());
+        offset = mOffsetsSamples.at(lineNum);
+        mFileStream.seekg(offset);
+        std::getline(mFileStream, line);
+    } else {
+        auto posOffsetSample = std::floor(lineNum / mNumLinesBetweenSamples); // pos of the closest offset sample
+        assert(posOffsetSample < mOffsetsSamples.size());
+        offset = mOffsetsSamples.at(posOffsetSample);
+        mFileStream.seekg(offset);
+
+        auto numLinesFromSampleLine = lineNum % mNumLinesBetweenSamples; /* Number of lines between the line of the closest offset sample and
+         * the requested line lineNum */
+        if (!numLinesFromSampleLine) {
+            std::getline(mFileStream, line);
+        } else {
+            for (std::size_t i = 0; i < numLinesFromSampleLine; ++i) {
+                std::getline(mFileStream, line);
+            }
+        }
+    }
+    return line;
 }
