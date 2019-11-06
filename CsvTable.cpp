@@ -48,7 +48,7 @@ void FileLines::generateOffsetsSamples()
     const std::size_t kMaxNumSamples { 10000 }; // maximum number of sample lines
 
     std::size_t posAfterHeaderLine { 0 }; // position after the line with headers
-    std::size_t posAfterMinNumRecords { 0 }; // position after kMinNumLines
+    std::size_t posAfterMinNumLines { 0 }; // position after kMinNumLines
 
     std::wstring line;
     while (std::getline(mFileStream, line)) {
@@ -60,24 +60,24 @@ void FileLines::generateOffsetsSamples()
             // First line contains headers
             posAfterHeaderLine = mFileStream.tellg();
         } else if (mNumLines == kMinNumLines /* do not count the line with headers */) {
-            posAfterMinNumRecords = mFileStream.tellg();
-            assert(posAfterMinNumRecords > 0);
+            posAfterMinNumLines = mFileStream.tellg();
+            assert(posAfterMinNumLines > 0);
 
             // Evaluate number of records in the file
-            auto approxNumLines = kMinNumLines * (bfs::file_size(mFilePath) - posAfterHeaderLine) / posAfterMinNumRecords;
+            auto approxNumLines = kMinNumLines * (bfs::file_size(mFilePath) - posAfterHeaderLine) / posAfterMinNumLines;
             assert(approxNumLines > 0);
 
             // Calculate the number of lines between successive samples
             mNumLinesBetweenSamples = lround(approxNumLines / kMaxNumSamples);
             assert(mNumLinesBetweenSamples >= 1);
 
-            // Keep positions only for lines with line number divisible by mNumLinesBetweenSamples
+            // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
             if (mNumLinesBetweenSamples > 1) {
-                std::vector<std::size_t> samples;
+                std::vector<std::size_t> keep;
                 for (std::size_t i = 0; i < mSamples.size(); i += mNumLinesBetweenSamples) {
-                    samples.push_back(mSamples[i]);
+                    keep.push_back(mSamples[i]);
                 }
-                std::swap(mSamples, samples);
+                std::swap(mSamples, keep);
             }
         }
 
