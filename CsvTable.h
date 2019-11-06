@@ -27,10 +27,11 @@ protected:
 private:
     void checkInputFile();
 
+    // The file
     bfs::path mFilePath;
     bfs::wifstream mFileStream;
 
     std::size_t mNumLines { 0 }; // Number of lines in the file
-    std::size_t mNumLinesBetweenSamples { 1 }; // Number of lines between offset samples
-    std::vector<std::size_t> mOffsetsSamples;
+    std::vector<std::size_t> mSamples; // Positions of sample lines of the file
+    std::size_t mNumLinesBetweenSamples { 1 }; // Number of lines between successive samples
 };
