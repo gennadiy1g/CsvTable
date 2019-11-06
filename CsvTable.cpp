@@ -104,16 +104,16 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
     } else {
-        auto indexNearestSample = std::floor(lineNum / mNumLinesBetweenSamples); // index of the nearest sample
-        assert(indexNearestSample < mSamples.size());
-        pos = mSamples.at(indexNearestSample);
+        auto sampleLineNum = std::floor(lineNum / mNumLinesBetweenSamples); // line number of the nearest sample
+        assert(sampleLineNum < mSamples.size());
+        pos = mSamples.at(sampleLineNum);
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
 
-        auto numLinesFromNearestSample = lineNum % mNumLinesBetweenSamples; /* number of lines between the nearest sample and
-         * the requested line lineNum */
-        if (numLinesFromNearestSample) {
-            for (std::size_t i = 0; i < numLinesFromNearestSample; ++i) {
+        auto mNumLinesBetweenSampleAndRequested = lineNum % mNumLinesBetweenSamples; /* number of lines between the nearest sample
+         * and the requested line */
+        if (mNumLinesBetweenSampleAndRequested) {
+            for (std::size_t i = 0; i < mNumLinesBetweenSampleAndRequested; ++i) {
                 std::getline(mFileStream, line);
             }
         }
