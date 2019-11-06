@@ -20,7 +20,7 @@ public:
     FileLines(FileLines&& src) = default;
     FileLines& operator=(FileLines&& rhs) = default;
 
-    void generateOffsetsSamples();
+    void getPositionsOfSampleLines();
     std::wstring getLine(std::size_t lineNum);
 
 protected:
@@ -32,6 +32,6 @@ private:
     bfs::wifstream mFileStream;
 
     std::size_t mNumLines { 0 }; // Number of lines in the file
-    std::vector<std::size_t> mSamples; // Positions of sample lines of the file
+    std::vector<std::size_t> mPositionsOfSampleLines; // Positions of sample lines
     std::size_t mNumLinesBetweenSamples { 1 }; // Number of lines between successive samples
 };
