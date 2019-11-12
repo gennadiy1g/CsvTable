@@ -5,6 +5,7 @@
 #include <numeric>
 #include <thread>
 
+#include "CsvTable.h"
 #include "log.h"
 #include "utilities.h"
 
@@ -39,7 +40,15 @@ struct GlobalFixture {
 
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
 
-BOOST_AUTO_TEST_CASE(test_case1)
+BOOST_AUTO_TEST_CASE(non_existing_file)
 {
-    BOOST_TEST_MESSAGE("test_case1");
+    BOOST_REQUIRE_THROW(FileLines(LR"^(non_existing_file)^"), std::runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
+{
+    FileLines fileLines(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\ZX0training_UTF-8.csv)^");
+    BOOST_TEST(fileLines.numLines() == 0);
+    fileLines.getPositionsOfSampleLines();
+    BOOST_TEST(fileLines.numLines() == 7438);
 }
