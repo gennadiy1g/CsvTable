@@ -3,6 +3,9 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="utilities.h"/>
+    <File Name="utilities.cpp"/>
+    <File Name="log.h"/>
     <File Name="CsvTable.cpp"/>
     <File Name="CsvTable.h"/>
     <File Name="main.cpp"/>
@@ -16,6 +19,10 @@
         <LibraryPath Value="."/>
         <Library Value="libboost_filesystem.a"/>
         <Library Value="libboost_locale.a"/>
+        <Library Value="libboost_log_setup.a"/>
+        <Library Value="libboost_log.a"/>
+        <Library Value="libboost_unit_test_framework.a"/>
+        <Library Value="libboost_thread.a"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
