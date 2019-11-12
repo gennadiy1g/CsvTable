@@ -29,7 +29,7 @@ void initLogging()
 {
     blog::add_file_log(
 #ifdef NDEBUG
-        blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BulkLoadCsv.log"),
+        blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
 #else
         blkeywords::file_name = "trace.log",
 #endif

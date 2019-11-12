@@ -38,3 +38,8 @@ struct GlobalFixture {
 };
 
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
+
+BOOST_AUTO_TEST_CASE(test_case1)
+{
+    BOOST_TEST_MESSAGE("test_case1");
+}
