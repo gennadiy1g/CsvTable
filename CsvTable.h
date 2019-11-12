@@ -21,6 +21,7 @@ public:
     FileLines& operator=(FileLines&& rhs) = default;
 
     void getPositionsOfSampleLines();
+    std::size_t numLines() { return mNumLines; };
     std::wstring getLine(std::size_t lineNum);
 
 protected:
