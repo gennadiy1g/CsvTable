@@ -51,9 +51,6 @@ void FileLines::getPositionsOfSampleLines()
 
     const std::size_t kMaxNumSamples { 10000 }; // maximum number of sample lines
 
-    std::size_t posAfterHeaderLine { 0 }; // position after the line with headers
-    std::size_t posAfterMinNumLines { 0 }; // position after kMinNumLines
-
     auto& gLogger = GlobalLogger::get();
     std::wstring line;
     while (std::getline(mFileStream, line)) {
@@ -63,17 +60,9 @@ void FileLines::getPositionsOfSampleLines()
                                                      << "]=" << mPositionOfSampleLine.at(mPositionOfSampleLine.size() - 1) << FUNCTION_FILE_LINE;
         }
 
-        if (!mNumLines) {
-            // First line contains headers
-            posAfterHeaderLine = mFileStream.tellg();
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", posAfterHeaderLine=" << posAfterHeaderLine << FUNCTION_FILE_LINE;
-        } else if (mNumLines == kMinNumLines /* do not count the line with headers */) {
-            posAfterMinNumLines = mFileStream.tellg();
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", posAfterMinNumLines=" << posAfterMinNumLines << FUNCTION_FILE_LINE;
-            assert(posAfterMinNumLines > 0);
-
+        if (mNumLines == kMinNumLines) {
             // Evaluate number of records in the file
-            auto approxNumLines = kMinNumLines * (bfs::file_size(mFilePath) - posAfterHeaderLine) / posAfterMinNumLines;
+            auto approxNumLines = kMinNumLines * (bfs::file_size(mFilePath) - mPositionOfSampleLine.at(0)) / mPositionOfSampleLine.at(kMinNumLines);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
             assert(approxNumLines > 0);
 
