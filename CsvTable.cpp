@@ -63,7 +63,7 @@ void FileLines::getPositionsOfSampleLines()
         if (mNumLines == kMinNumLines) {
             // Evaluate number of records in the file
             auto approxNumLines = kMinNumLines * (bfs::file_size(mFilePath) - mPositionOfSampleLine.at(0)) / mPositionOfSampleLine.at(kMinNumLines);
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "file_size=" << bfs::file_size(mFilePath) << ", approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
             assert(approxNumLines > 0);
 
             // Calculate the number of lines between successive samples
