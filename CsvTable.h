@@ -33,6 +33,6 @@ private:
     bfs::wifstream mFileStream;
 
     std::size_t mNumLines { 0 }; // Number of lines in the file
-    std::vector<std::size_t> mPositionsOfSampleLines; // Positions of sample lines
+    std::vector<std::size_t> mPositionOfSampleLine; // Positions of sample lines
     std::size_t mNumLinesBetweenSamples { 1 }; // Number of lines between successive samples
 };

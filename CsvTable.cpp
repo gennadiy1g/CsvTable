@@ -58,9 +58,9 @@ void FileLines::getPositionsOfSampleLines()
     std::wstring line;
     while (std::getline(mFileStream, line)) {
         if (!(mNumLines % mNumLinesBetweenSamples)) {
-            mPositionsOfSampleLines.push_back(mFileStream.tellg());
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", mPositionsOfSampleLines[" << mPositionsOfSampleLines.size() - 1
-                                                     << "]=" << mPositionsOfSampleLines.at(mPositionsOfSampleLines.size() - 1) << FUNCTION_FILE_LINE;
+            mPositionOfSampleLine.push_back(mFileStream.tellg());
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", mPositionOfSampleLine[" << mPositionOfSampleLine.size() - 1
+                                                     << "]=" << mPositionOfSampleLine.at(mPositionOfSampleLine.size() - 1) << FUNCTION_FILE_LINE;
         }
 
         if (!mNumLines) {
@@ -85,10 +85,10 @@ void FileLines::getPositionsOfSampleLines()
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
             if (mNumLinesBetweenSamples > 1) {
                 std::vector<std::size_t> keep;
-                for (std::size_t i = 0; i < mPositionsOfSampleLines.size(); i += mNumLinesBetweenSamples) {
-                    keep.push_back(mPositionsOfSampleLines[i]);
+                for (std::size_t i = 0; i < mPositionOfSampleLine.size(); i += mNumLinesBetweenSamples) {
+                    keep.push_back(mPositionOfSampleLine[i]);
                 }
-                std::swap(mPositionsOfSampleLines, keep);
+                std::swap(mPositionOfSampleLine, keep);
             }
         }
 
@@ -110,14 +110,14 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     std::wstring line;
 
     if (mNumLinesBetweenSamples == 1) {
-        assert(lineNum < mPositionsOfSampleLines.size());
-        pos = mPositionsOfSampleLines.at(lineNum);
+        assert(lineNum < mPositionOfSampleLine.size());
+        pos = mPositionOfSampleLine.at(lineNum);
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
     } else {
         auto lineNumNearSample = std::floor(lineNum / mNumLinesBetweenSamples); // line number of the nearest sample
-        assert(lineNumNearSample < mPositionsOfSampleLines.size());
-        pos = mPositionsOfSampleLines.at(lineNumNearSample);
+        assert(lineNumNearSample < mPositionOfSampleLine.size());
+        pos = mPositionOfSampleLine.at(lineNumNearSample);
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
 
