@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include "CsvTable.h"
+#include "log.h"
 
 namespace blocale = boost::locale;
 
@@ -13,6 +14,9 @@ FileLines::FileLines(const bfs::path& filePath)
     : mFilePath(filePath)
     , mFileStream(filePath)
 {
+    auto& gLogger = GlobalLogger::get();
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mFilePath=" << mFilePath << FUNCTION_FILE_LINE;
+
     checkInputFile();
 
     if (!mFileStream.is_open()) {
@@ -50,25 +54,32 @@ void FileLines::getPositionsOfSampleLines()
     std::size_t posAfterHeaderLine { 0 }; // position after the line with headers
     std::size_t posAfterMinNumLines { 0 }; // position after kMinNumLines
 
+    auto& gLogger = GlobalLogger::get();
     std::wstring line;
     while (std::getline(mFileStream, line)) {
         if (!(mNumLines % mNumLinesBetweenSamples)) {
             mPositionsOfSampleLines.push_back(mFileStream.tellg());
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", mPositionsOfSampleLines[" << mPositionsOfSampleLines.size() - 1
+                                                     << "]=" << mPositionsOfSampleLines.at(mPositionsOfSampleLines.size() - 1) << FUNCTION_FILE_LINE;
         }
 
         if (!mNumLines) {
             // First line contains headers
             posAfterHeaderLine = mFileStream.tellg();
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", posAfterHeaderLine=" << posAfterHeaderLine << FUNCTION_FILE_LINE;
         } else if (mNumLines == kMinNumLines /* do not count the line with headers */) {
             posAfterMinNumLines = mFileStream.tellg();
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", posAfterMinNumLines=" << posAfterMinNumLines << FUNCTION_FILE_LINE;
             assert(posAfterMinNumLines > 0);
 
             // Evaluate number of records in the file
             auto approxNumLines = kMinNumLines * (bfs::file_size(mFilePath) - posAfterHeaderLine) / posAfterMinNumLines;
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
             assert(approxNumLines > 0);
 
             // Calculate the number of lines between successive samples
             mNumLinesBetweenSamples = lround(approxNumLines / kMaxNumSamples);
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples << FUNCTION_FILE_LINE;
             assert(mNumLinesBetweenSamples >= 1);
 
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
