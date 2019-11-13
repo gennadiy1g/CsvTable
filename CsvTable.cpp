@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <boost/locale.hpp>
 #include <cassert>
 #include <cmath>
@@ -67,9 +68,8 @@ void FileLines::getPositionsOfSampleLines()
             assert(approxNumLines > 0);
 
             // Calculate the number of lines between successive samples
-            mNumLinesBetweenSamples = lround(approxNumLines / kMaxNumSamples);
+            mNumLinesBetweenSamples = std::max(lround(approxNumLines / kMaxNumSamples), 1l);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples << FUNCTION_FILE_LINE;
-            assert(mNumLinesBetweenSamples >= 1);
 
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
             if (mNumLinesBetweenSamples > 1) {
