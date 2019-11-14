@@ -54,16 +54,21 @@ void FileLines::getPositionsOfSampleLines()
 
     auto& gLogger = GlobalLogger::get();
     std::string line;
-    while (std::getline(mFileStream, line)) {
+    while (mFileStream) {
         if (!(mNumLines % mNumLinesBetweenSamples)) {
             mPositionOfSampleLine.push_back(mFileStream.tellg());
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", mPositionOfSampleLine[" << mPositionOfSampleLine.size() - 1
                                                      << "]=" << mPositionOfSampleLine.at(mPositionOfSampleLine.size() - 1) << FUNCTION_FILE_LINE;
         }
 
-        if (mNumLines == kMinNumLines) {
+        if (!std::getline(mFileStream, line)) {
+            break;
+        }
+
+        if (mNumLines == kMinNumLines + 1) {
             // Evaluate number of records in the file
-            auto approxNumLines = kMinNumLines * (bfs::file_size(mFilePath) - mPositionOfSampleLine.at(0)) / mPositionOfSampleLine.at(kMinNumLines);
+            assert(mNumLines = mPositionOfSampleLine.size() - 1);
+            auto approxNumLines = kMinNumLines * (bfs::file_size(mFilePath) - mPositionOfSampleLine.at(1)) / mPositionOfSampleLine.at(mNumLines);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "file_size=" << bfs::file_size(mFilePath) << ", approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
             assert(approxNumLines > 0);
 
