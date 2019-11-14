@@ -53,7 +53,7 @@ void FileLines::getPositionsOfSampleLines()
     const std::size_t kMaxNumSamples { 10000 }; // maximum number of sample lines
 
     auto& gLogger = GlobalLogger::get();
-    std::wstring line;
+    std::string line;
     while (std::getline(mFileStream, line)) {
         if (!(mNumLines % mNumLinesBetweenSamples)) {
             mPositionOfSampleLine.push_back(mFileStream.tellg());
@@ -96,7 +96,7 @@ void FileLines::getPositionsOfSampleLines()
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
     assert(0 <= lineNum && lineNum < mNumLines);
-    std::wstring line;
+    std::string line;
 
     if (mFileStream.fail()) {
         mFileStream.clear();
@@ -126,5 +126,5 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             }
         }
     }
-    return line;
+    return blocale::conv::utf_to_utf<wchar_t>(line);
 }

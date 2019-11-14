@@ -30,7 +30,7 @@ private:
 
     // The file
     bfs::path mFilePath;
-    bfs::wifstream mFileStream;
+    bfs::ifstream mFileStream;
 
     std::size_t mNumLines { 0 }; // Number of lines in the file
     std::vector<std::size_t> mPositionOfSampleLine; // Positions of sample lines
