@@ -88,7 +88,7 @@ void FileLines::getPositionsOfSampleLines()
     if (!mFileStream.eof()) {
         std::stringstream message;
         message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
-                << "\", line: " << mNumLines + 1 << ", column: " << line.length() + 1 << '.';
+                << "\", line: " << mNumLines + 1 << ", column: " << blocale::conv::utf_to_utf<wchar_t>(line).length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
 }
