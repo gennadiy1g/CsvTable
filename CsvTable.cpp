@@ -13,7 +13,7 @@ using namespace std::literals::string_literals;
 
 FileLines::FileLines(const bfs::path& filePath)
     : mFilePath(filePath)
-    , mFileStream(filePath)
+    , mFileStream(filePath, std::ios_base::binary)
 {
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mFilePath=" << mFilePath << FUNCTION_FILE_LINE;
