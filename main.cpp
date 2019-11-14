@@ -1,5 +1,6 @@
 #define BOOST_TEST_MODULE Master Test Suite
 
+#include <boost/algorithm/string.hpp>
 #include <boost/locale/localization_backend.hpp>
 #include <boost/test/unit_test.hpp>
 #include <numeric>
@@ -51,4 +52,6 @@ BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
     BOOST_TEST(fileLines.numLines() == 0);
     fileLines.getPositionsOfSampleLines();
     BOOST_TEST(fileLines.numLines() == 7438);
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"499962071,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"499946553,"));
 }
