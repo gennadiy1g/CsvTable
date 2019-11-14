@@ -54,4 +54,8 @@ BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
     BOOST_TEST(fileLines.numLines() == 7438);
     BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"499962071,"));
     BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"499946553,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"499942149,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(7436), L"408339518,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(7435), L"408339882,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(7434), L"408339961,"));
 }
