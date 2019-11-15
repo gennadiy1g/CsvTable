@@ -60,3 +60,18 @@ BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
     BOOST_CHECK(boost::starts_with(fileLines.getLine(7436), L"408339882,"));
     BOOST_CHECK(boost::starts_with(fileLines.getLine(7435), L"408339961,"));
 }
+
+BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
+{
+    FileLines fileLines(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\russian_UTF-8_2.csv)^");
+    BOOST_TEST(fileLines.numLines() == 0);
+    fileLines.getPositionsOfSampleLines();
+    BOOST_TEST(fileLines.numLines() == 11);
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"идентификатор,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"строка1,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"строка2,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"строка3,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(10), L"строка10,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(9), L"строка9,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(8), L"строка8,"));
+}
