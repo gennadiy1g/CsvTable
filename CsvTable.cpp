@@ -113,9 +113,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         auto pos = mPositionOfSampleLine.at(lineNum);
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
         mFileStream.seekg(pos);
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
         std::getline(mFileStream, line);
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << line << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
     } else {
         auto lineNumNearSample = std::floor(lineNum / mNumLinesBetweenSamples); // line number of the nearest sample
         assert(lineNumNearSample < mPositionOfSampleLine.size());
@@ -131,5 +130,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             }
         }
     }
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << blocale::conv::utf_to_utf<wchar_t>(line)
+                                             << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
     return blocale::conv::utf_to_utf<wchar_t>(line);
 }
