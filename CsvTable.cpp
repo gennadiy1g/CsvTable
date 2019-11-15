@@ -114,7 +114,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << blocale::conv::utf_to_utf<wchar_t>(line)
+                                                 << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
     } else {
         auto lineNumNearSample = std::floor(lineNum / mNumLinesBetweenSamples); // line number of the nearest sample
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", mNumLinesBetweenSamples=" << mNumLinesBetweenSamples
@@ -124,13 +125,13 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << blocale::conv::utf_to_utf<wchar_t>(line)
+                                                 << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
         for (std::size_t i = 0; i < lineNum % mNumLinesBetweenSamples; ++i) {
             std::getline(mFileStream, line);
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << blocale::conv::utf_to_utf<wchar_t>(line)
+                                                     << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
         }
     }
-    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << blocale::conv::utf_to_utf<wchar_t>(line)
-                                             << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
     return blocale::conv::utf_to_utf<wchar_t>(line);
 }
