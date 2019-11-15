@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
 #include <cassert>
 #include <cmath>
@@ -93,7 +94,7 @@ void FileLines::getPositionsOfSampleLines()
     if (!mFileStream.eof()) {
         std::stringstream message;
         message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
-                << "\", line: " << mNumLines + 1 << ", column: " << blocale::conv::utf_to_utf<wchar_t>(line).length() + 1 << '.';
+                << "\", line: " << mNumLines + 1 << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
 }
@@ -114,7 +115,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << blocale::conv::utf_to_utf<wchar_t>(line)
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                  << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
     } else {
         auto lineNumNearSample = std::floor(lineNum / mNumLinesBetweenSamples); // line number of the nearest sample
@@ -125,13 +126,13 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << blocale::conv::utf_to_utf<wchar_t>(line)
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                  << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
         for (std::size_t i = 0; i < lineNum % mNumLinesBetweenSamples; ++i) {
             std::getline(mFileStream, line);
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << blocale::conv::utf_to_utf<wchar_t>(line)
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                      << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
         }
     }
-    return blocale::conv::utf_to_utf<wchar_t>(line);
+    return boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line));
 }
