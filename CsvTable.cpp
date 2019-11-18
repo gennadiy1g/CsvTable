@@ -84,6 +84,7 @@ void FileLines::getPositionsOfSampleLines()
                     keep.push_back(mPositionOfSampleLine[i]);
                 }
                 std::swap(mPositionOfSampleLine, keep);
+                mPositionOfSampleLine.reserve(kMaxNumSamples);
             }
         }
 
