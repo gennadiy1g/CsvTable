@@ -85,6 +85,7 @@ void FileLines::getPositionsOfSampleLines()
                 }
                 std::swap(mPositionOfSampleLine, keep);
                 mPositionOfSampleLine.reserve(kMaxNumSamples);
+                mOffsets.reserve(mNumLinesBetweenSamples - 1);
             }
         }
 
@@ -122,9 +123,16 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         auto lineNumNearSample = std::floor(lineNum / mNumLinesBetweenSamples); // line number of the nearest sample
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", mNumLinesBetweenSamples=" << mNumLinesBetweenSamples
                                                  << ", lineNumNearSample=" << lineNumNearSample << FUNCTION_FILE_LINE;
+
+        if (mPrevLineNumNearSample != lineNumNearSample) {
+            mOffsets.clear();
+            mPrevLineNumNearSample = lineNumNearSample;
+        }
+
         assert(lineNumNearSample < mPositionOfSampleLine.size());
         auto pos = mPositionOfSampleLine.at(lineNumNearSample);
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
+
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
