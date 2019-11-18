@@ -36,6 +36,6 @@ private:
     std::vector<std::size_t> mPositionOfSampleLine; // Positions of sample lines
     std::size_t mNumLinesBetweenSamples { 1 }; // Number of lines between successive samples
 
-    std::vector<std::size_t> mOffsets; // Positions of lines between sample lines
+    std::vector<std::size_t> mPosBetweenSamples; // Positions of lines between sample lines
     std::size_t mPrevLineNumNearSample { 0 };
 };
