@@ -4,7 +4,6 @@
 #include <boost/locale/localization_backend.hpp>
 #include <boost/test/unit_test.hpp>
 #include <numeric>
-#include <thread>
 
 #include "CsvTable.h"
 #include "log.h"
@@ -32,8 +31,6 @@ struct GlobalFixture {
         std::string backendsList = std::accumulate(backends.cbegin(), backends.cend(), ""s,
             [](const std::string& a, const std::string& b) { return a + (a == "" ? "" : ", ") + b; });
         BOOST_LOG_SEV(gLogger, bltrivial::debug) << "Localization backends: " << backendsList << '.';
-
-        BOOST_LOG_SEV(gLogger, bltrivial::info) << std::thread::hardware_concurrency() << " concurrent threads are supported.";
     }
 
     void teardown() {}
