@@ -121,8 +121,10 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                                                  << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
     } else {
         auto lineNumNearSample = std::floor(lineNum / mNumLinesBetweenSamples); // line number of the nearest sample
+        auto rem = lineNum % mNumLinesBetweenSamples;
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", mNumLinesBetweenSamples=" << mNumLinesBetweenSamples
-                                                 << ", lineNumNearSample=" << lineNumNearSample << FUNCTION_FILE_LINE;
+                                                 << ", lineNumNearSample=" << lineNumNearSample << ", rem=" << rem << FUNCTION_FILE_LINE;
+        assert(lineNumNearSample < mPosSampleLine.size());
 
         if (mPrevLineNumNearSample != lineNumNearSample) {
             mPosBetweenSamples.clear();
@@ -130,7 +132,6 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         }
 
         if (!mPosBetweenSamples.size()) {
-            assert(lineNumNearSample < mPosSampleLine.size());
             auto pos = mPosSampleLine.at(lineNumNearSample);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
 
@@ -143,7 +144,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                      << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
 
-            for (std::size_t i = 0; i < lineNum % mNumLinesBetweenSamples; ++i) {
+            for (std::size_t i = 0; i < rem; ++i) {
                 std::getline(mFileStream, line);
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                          << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
@@ -156,7 +157,6 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             }
         } else {
             assert(mPosBetweenSamples.size() <= mNumLinesBetweenSamples - 1);
-            auto rem = lineNum % mNumLinesBetweenSamples;
             if (rem <= mPosBetweenSamples.size()) {
                 auto pos = mPosBetweenSamples.at(rem - 1);
                 mFileStream.seekg(pos);
