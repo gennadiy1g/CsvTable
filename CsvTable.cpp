@@ -120,20 +120,20 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                  << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
     } else {
-        auto lineNumNearSample = lineNum / mNumLinesBetweenSamples; // line number of the nearest sample
+        auto sampleNum = lineNum / mNumLinesBetweenSamples; // line number of the nearest sample
         auto rem = lineNum % mNumLinesBetweenSamples;
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", mNumLinesBetweenSamples=" << mNumLinesBetweenSamples
-                                                 << ", lineNumNearSample=" << lineNumNearSample << ", rem=" << rem << FUNCTION_FILE_LINE;
-        assert(lineNumNearSample < mPosSampleLine.size());
+                                                 << ", sampleNum=" << sampleNum << ", rem=" << rem << FUNCTION_FILE_LINE;
+        assert(sampleNum < mPosSampleLine.size());
 
-        if (mPrevLineNumNearSample != lineNumNearSample) {
+        if (mPrevSampleNum != sampleNum) {
             mPosBetweenSamples.clear();
-            mPrevLineNumNearSample = lineNumNearSample;
+            mPrevSampleNum = sampleNum;
         }
 
         if (!mPosBetweenSamples.size()) {
-            auto pos = mPosSampleLine.at(lineNumNearSample);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
+            auto pos = mPosSampleLine.at(sampleNum);
 
             mFileStream.seekg(pos);
             std::getline(mFileStream, line);
