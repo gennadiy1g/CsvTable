@@ -160,7 +160,19 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             }
         } else {
             assert(mPosBetweenSamples.size() <= mNumLinesBetweenSamples - 1);
-            if (rem <= mPosBetweenSamples.size()) {
+            if (!rem) {
+                auto pos = mPosSampleLine.at(sampleNum);
+                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "pos=" << pos << FUNCTION_FILE_LINE;
+                mFileStream.seekg(pos);
+                std::getline(mFileStream, line);
+                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
+                                                         << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+                if (mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1 && mFileStream.tellg() < mFileSize) {
+                    mPosBetweenSamples.push_back(mFileStream.tellg());
+                    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
+                                                             << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
+                }
+            } else if (rem <= mPosBetweenSamples.size()) {
                 auto pos = mPosBetweenSamples.at(rem - 1);
                 mFileStream.seekg(pos);
                 std::getline(mFileStream, line);
@@ -171,7 +183,6 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                              << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
                 }
-
             } else {
                 auto pos = mPosBetweenSamples.at(mPosBetweenSamples.size() - 1);
                 for (std::size_t i = 0; i < rem - mPosBetweenSamples.size() + 1; ++i) {
