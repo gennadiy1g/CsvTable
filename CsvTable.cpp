@@ -142,7 +142,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                                                      << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
             auto getlineLineNum = sampleNum * mNumLinesBetweenSamples;
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "getlineLineNum=" << getlineLineNum << FUNCTION_FILE_LINE;
-            if (getlineLineNum < mMaxLineNum) {
+            if (mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1) {
                 assert(mFileStream.tellg() < mFileSize);
                 mPosBetweenSamples.push_back(mFileStream.tellg());
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
@@ -155,7 +155,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                                                          << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
                 ++getlineLineNum;
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "getlineLineNum=" << getlineLineNum << FUNCTION_FILE_LINE;
-                if (getlineLineNum < mMaxLineNum) {
+                if (mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1) {
                     assert(mFileStream.tellg() < mFileSize);
                     mPosBetweenSamples.push_back(mFileStream.tellg());
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
@@ -172,7 +172,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                                                          << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
                 auto getlineLineNum = sampleNum * mNumLinesBetweenSamples + rem;
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "getlineLineNum=" << getlineLineNum << FUNCTION_FILE_LINE;
-                if (getlineLineNum < mMaxLineNum) {
+                if (mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1) {
                     assert(mFileStream.tellg() < mFileSize);
                     mPosBetweenSamples.push_back(mFileStream.tellg());
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
@@ -188,7 +188,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                                                              << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
                     auto getlineLineNum = sampleNum * mNumLinesBetweenSamples + mPosBetweenSamples.size();
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "getlineLineNum=" << getlineLineNum << FUNCTION_FILE_LINE;
-                    if (getlineLineNum < mMaxLineNum) {
+                    if (mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1) {
                         assert(mFileStream.tellg() < mFileSize);
                         mPosBetweenSamples.push_back(mFileStream.tellg());
                         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
