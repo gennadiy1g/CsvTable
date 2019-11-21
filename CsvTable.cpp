@@ -113,6 +113,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     }
 
     auto& gLogger = GlobalLogger::get();
+    BOOST_LOG_SEV(gLogger, bltrivial::trace);
     if (mNumLinesBetweenSamples == 1) {
         assert(lineNum < mPosSampleLine.size());
         auto pos = mPosSampleLine.at(lineNum);
@@ -129,6 +130,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
 
         if (mPrevSampleNum != sampleNum) {
             mPosBetweenSamples.clear();
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Cleared mPosBetweenSamples";
             mPrevSampleNum = sampleNum;
         }
 
