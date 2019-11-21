@@ -135,7 +135,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
 
         if (!mPosBetweenSamples.size()) {
             auto pos = mPosSampleLine.at(sampleNum);
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << ", pos=" << pos << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "pos=" << pos << FUNCTION_FILE_LINE;
             mFileStream.seekg(pos);
             std::getline(mFileStream, line);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
