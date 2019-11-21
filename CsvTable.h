@@ -31,7 +31,7 @@ private:
     // The file
     bfs::path mFilePath;
     bfs::ifstream mFileStream;
-    std::size_t mFileSize { 0 };
+    std::intmax_t mFileSize { 0 };
 
     std::size_t mNumLines { 0 }; // Number of lines in the file
     std::size_t mMaxLineNum { 0 }; // Max line number
