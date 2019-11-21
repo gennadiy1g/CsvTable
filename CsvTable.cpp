@@ -93,7 +93,6 @@ void FileLines::getPositionsOfSampleLines()
 
         ++mNumLines;
     }
-    mMaxLineNum = mNumLines - 1;
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
 
     if (!mFileStream.eof()) {
