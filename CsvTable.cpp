@@ -132,6 +132,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             mPrevSampleNum = sampleNum;
         }
 
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size() << FUNCTION_FILE_LINE;
         if (!mPosBetweenSamples.size()) {
             auto pos = mPosSampleLine.at(sampleNum);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "pos=" << pos << FUNCTION_FILE_LINE;
