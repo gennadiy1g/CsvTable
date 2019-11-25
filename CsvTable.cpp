@@ -11,7 +11,6 @@
 namespace blocale = boost::locale;
 
 using namespace std::literals::string_literals;
-using namespace std::literals::string_view_literals;
 
 FileLines::FileLines(const bfs::path& filePath)
     : mFilePath(filePath)
@@ -106,12 +105,12 @@ void FileLines::getPositionsOfSampleLines()
     mIsPrepared = true;
 }
 
-const std::string_view kMsgObjectNotPrepared = "FileLines object is not prepared, call getPositionsOfSampleLines first!"sv;
+const char* kMsgObjectNotPrepared = "FileLines object is not prepared, call getPositionsOfSampleLines first!";
 
 std::size_t FileLines::numLines()
 {
     if (!mIsPrepared) {
-        throw std::runtime_error(kMsgObjectNotPrepared.data());
+        throw std::runtime_error(kMsgObjectNotPrepared);
     }
     return mNumLines;
 }
@@ -119,7 +118,7 @@ std::size_t FileLines::numLines()
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
     if (!mIsPrepared) {
-        throw std::runtime_error(kMsgObjectNotPrepared.data());
+        throw std::runtime_error(kMsgObjectNotPrepared);
     }
 
     assert(0 <= lineNum && lineNum < mNumLines);
@@ -229,7 +228,7 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparat
 std::size_t TokenizedFileLines::numColumns()
 {
     if (!mFileLines.isPrepared()) {
-        throw std::runtime_error(kMsgObjectNotPrepared.data());
+        throw std::runtime_error(kMsgObjectNotPrepared);
     }
 
     return getTokenizedLine(0).size();
@@ -238,7 +237,7 @@ std::size_t TokenizedFileLines::numColumns()
 const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
 {
     if (!mFileLines.isPrepared()) {
-        throw std::runtime_error(kMsgObjectNotPrepared.data());
+        throw std::runtime_error(kMsgObjectNotPrepared);
     }
 
     auto search = mTokenizedLines.find(lineNum);
