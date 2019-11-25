@@ -106,12 +106,12 @@ void FileLines::getPositionsOfSampleLines()
     mIsPrepared = true;
 }
 
-const std::string_view messageObjectNotPrepared = "FileLines object is not prepared, call getPositionsOfSampleLines first!"sv;
+const std::string_view kMsgObjectNotPrepared = "FileLines object is not prepared, call getPositionsOfSampleLines first!"sv;
 
 std::size_t FileLines::numLines()
 {
     if (!mIsPrepared) {
-        throw std::runtime_error(messageObjectNotPrepared.data());
+        throw std::runtime_error(kMsgObjectNotPrepared.data());
     }
     return mNumLines;
 }
@@ -119,7 +119,7 @@ std::size_t FileLines::numLines()
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
     if (!mIsPrepared) {
-        throw std::runtime_error(messageObjectNotPrepared.data());
+        throw std::runtime_error(kMsgObjectNotPrepared.data());
     }
 
     assert(0 <= lineNum && lineNum < mNumLines);
@@ -229,7 +229,7 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparat
 std::size_t TokenizedFileLines::numColumns()
 {
     if (!mFileLines.isPrepared()) {
-        throw std::runtime_error(messageObjectNotPrepared.data());
+        throw std::runtime_error(kMsgObjectNotPrepared.data());
     }
 
     return getTokenizedLine(0).size();
@@ -238,7 +238,7 @@ std::size_t TokenizedFileLines::numColumns()
 const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
 {
     if (!mFileLines.isPrepared()) {
-        throw std::runtime_error(messageObjectNotPrepared.data());
+        throw std::runtime_error(kMsgObjectNotPrepared.data());
     }
 
     auto search = mTokenizedLines.find(lineNum);
