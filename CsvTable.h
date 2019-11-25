@@ -43,7 +43,7 @@ private:
 
 class TokenizedFileLines {
 public:
-    TokenizedFileLines(); // Constructor
+    TokenizedFileLines(const bfs::path& filePath); // Constructor
     virtual ~TokenizedFileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
@@ -54,6 +54,9 @@ public:
     TokenizedFileLines(TokenizedFileLines&& src) = default;
     TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = default;
 
+    void prepare();
+
 protected:
 private:
+    FileLines mFileLines;
 };
