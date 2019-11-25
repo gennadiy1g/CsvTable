@@ -2,6 +2,7 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/tokenizer.hpp>
 #include <map>
 #include <string>
 #include <vector>
@@ -43,6 +44,8 @@ private:
     std::size_t mPrevSampleNum { 0 };
 };
 
+typedef boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>> EscapedListSeparator;
+
 class TokenizedFileLines {
 public:
     TokenizedFileLines(const bfs::path& filePath); // Constructor
@@ -64,8 +67,6 @@ public:
 
 private:
     FileLines mFileLines;
-    wchar_t mEscape { L'\\' };
-    wchar_t mFieldSeparator { L',' };
-    wchar_t mQuote { L'\"' };
+    EscapedListSeparator mEscapedListSeparator;
     std::map<int, std::vector<std::wstring>> mTokenizedLines;
 };

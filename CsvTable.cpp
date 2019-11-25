@@ -223,9 +223,7 @@ TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath)
 void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparator, wchar_t quote)
 {
     mTokenizedLines.clear();
-    mEscape = escape;
-    mFieldSeparator = fieldSeparator;
-    mQuote = quote;
+    mEscapedListSeparator = EscapedListSeparator(escape, fieldSeparator, quote);
 }
 
 std::size_t TokenizedFileLines::numColumns()
