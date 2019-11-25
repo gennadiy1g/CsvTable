@@ -25,7 +25,6 @@ public:
     std::size_t numLines();
     std::wstring getLine(std::size_t lineNum);
 
-protected:
 private:
     void checkInputFile();
 
@@ -58,7 +57,6 @@ public:
 
     void prepare() { mFileLines.getPositionsOfSampleLines(); };
 
-protected:
 private:
     FileLines mFileLines;
 };
