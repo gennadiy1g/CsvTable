@@ -245,6 +245,9 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
     if (search != mTokenizedLines.end()) {
         return search->second;
     } else {
+        if (mTokenizedLines.size() == kMaxSize) {
+        }
+
         auto line = mFileLines.getLine(lineNum);
         LineTokenizer tok(line, mEscapedListSeparator);
         std::vector<std::wstring> tokenizedLine;
