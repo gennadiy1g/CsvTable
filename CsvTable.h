@@ -56,7 +56,7 @@ public:
     TokenizedFileLines(TokenizedFileLines&& src) = default;
     TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = default;
 
-    void prepare();
+    void prepare() { mFileLines.getPositionsOfSampleLines(); };
 
 protected:
 private:

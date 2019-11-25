@@ -219,5 +219,3 @@ TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath)
     : mFileLines(filePath)
 {
 }
-
-void TokenizedFileLines::prepare() { mFileLines.getPositionsOfSampleLines(); }
