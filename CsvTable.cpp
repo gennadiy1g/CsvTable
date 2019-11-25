@@ -219,3 +219,27 @@ TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath)
     : mFileLines(filePath)
 {
 }
+
+void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparator, wchar_t quote)
+{
+    mTokenizedLines.clear();
+    mEscape = escape;
+    mFieldSeparator = fieldSeparator;
+    mQuote = quote;
+}
+
+std::size_t TokenizedFileLines::numColumns()
+{
+    if (!mFileLines.isPrepared()) {
+        throw std::runtime_error(messageObjectNotPrepared.data());
+    }
+
+    return getTokenizedLine(0).size();
+}
+
+const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
+{
+    if (!mFileLines.isPrepared()) {
+        throw std::runtime_error(messageObjectNotPrepared.data());
+    }
+}

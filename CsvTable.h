@@ -2,6 +2,7 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -55,8 +56,16 @@ public:
     TokenizedFileLines(TokenizedFileLines&& src) = default;
     TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = default;
 
-    void prepare() { mFileLines.getPositionsOfSampleLines(); };
+    void getPositionsOfSampleLines() { mFileLines.getPositionsOfSampleLines(); };
+    void setTokenizerParams(wchar_t escape = L'\\', wchar_t fieldSeparator = L',', wchar_t quote = L'\"');
+    std::size_t numLines() { return mFileLines.numLines(); };
+    std::size_t numColumns();
+    const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
 
 private:
     FileLines mFileLines;
+    wchar_t mEscape { L'\\' };
+    wchar_t mFieldSeparator { L',' };
+    wchar_t mQuote { L'\"' };
+    std::map<int, std::vector<std::wstring>> mTokenizedLines;
 };
