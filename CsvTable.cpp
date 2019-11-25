@@ -236,6 +236,7 @@ std::size_t TokenizedFileLines::numColumns()
 
 const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
 {
+    auto& gLogger = GlobalLogger::get();
     if (!mFileLines.isPrepared()) {
         throw std::runtime_error(kMsgObjectNotPrepared);
     }
@@ -245,6 +246,23 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
         return search->second;
     } else {
         if (mTokenizedLines.size() == kMaxSize) {
+            /* The size of the map is at maximum. Remove one element from the map - the element
+             * that is furthest away from lineNum. */
+            assert(mTokenizedLines.size() > 4); // the logic below works only if there are more than 4 elements in the map
+            auto itFirst = mTokenizedLines.begin();
+            if (itFirst->first == 0) {
+                // Always keep the line #0 because it contains columns' names
+                ++itFirst;
+            }
+            auto itLast = mTokenizedLines.rbegin();
+
+            if (lineNum - itFirst->first > itLast->first - lineNum) {
+                mTokenizedLines.erase(itFirst);
+                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Erased line #" << itFirst->first << FUNCTION_FILE_LINE;
+            } else {
+                mTokenizedLines.erase(itLast->first);
+                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Erased line #" << itLast->first << FUNCTION_FILE_LINE;
+            }
         }
 
         auto line = mFileLines.getLine(lineNum);
@@ -255,6 +273,7 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
         }
         const auto [it, success] = mTokenizedLines.insert({ lineNum, std::move(tokenizedLine) });
         assert(success);
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Inserted line #" << lineNum << FUNCTION_FILE_LINE;
         return it->second;
     }
 }
