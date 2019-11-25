@@ -240,4 +240,19 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
     if (!mFileLines.isPrepared()) {
         throw std::runtime_error(messageObjectNotPrepared.data());
     }
+
+    auto search = mTokenizedLines.find(lineNum);
+    if (search != mTokenizedLines.end()) {
+        return search->second;
+    } else {
+        auto line = mFileLines.getLine(lineNum);
+        LineTokenizer tok(line, mEscapedListSeparator);
+        std::vector<std::wstring> tokenizedLine;
+        for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
+            tokenizedLine.push_back(*beg);
+        }
+        const auto [it, success] = mTokenizedLines.insert({ lineNum, std::move(tokenizedLine) });
+        assert(success);
+        return it->second;
+    }
 }

@@ -45,6 +45,7 @@ private:
 };
 
 typedef boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>> EscapedListSeparator;
+typedef boost::tokenizer<EscapedListSeparator, std::wstring::const_iterator, std::wstring> LineTokenizer;
 
 class TokenizedFileLines {
 public:
@@ -68,5 +69,5 @@ public:
 private:
     FileLines mFileLines;
     EscapedListSeparator mEscapedListSeparator;
-    std::map<int, std::vector<std::wstring>> mTokenizedLines;
+    std::map<std::size_t, std::vector<std::wstring>> mTokenizedLines;
 };
