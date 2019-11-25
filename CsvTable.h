@@ -40,3 +40,20 @@ private:
     std::vector<std::size_t> mPosBetweenSamples; // Positions of lines between sample lines
     std::size_t mPrevSampleNum { 0 };
 };
+
+class TokenizedFileLines {
+public:
+    TokenizedFileLines(); // Constructor
+    virtual ~TokenizedFileLines() = default; // Defaulted virtual destructor
+
+    // Disallow assignment and pass-by-value.
+    TokenizedFileLines(const TokenizedFileLines& src) = delete;
+    TokenizedFileLines& operator=(const TokenizedFileLines& rhs) = delete;
+
+    // Explicitly default move constructor and move assignment operator.
+    TokenizedFileLines(TokenizedFileLines&& src) = default;
+    TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = default;
+
+protected:
+private:
+};
