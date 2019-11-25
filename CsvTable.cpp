@@ -11,6 +11,7 @@
 namespace blocale = boost::locale;
 
 using namespace std::literals::string_literals;
+using namespace std::literals::string_view_literals;
 
 FileLines::FileLines(const bfs::path& filePath)
     : mFilePath(filePath)
@@ -101,10 +102,26 @@ void FileLines::getPositionsOfSampleLines()
                 << "\", line: " << mNumLines + 1 << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
+
+    mIsPrepared = true;
+}
+
+const std::string_view messageObjectNotPrepared = "FileLines object is not prepared, call getPositionsOfSampleLines first!"sv;
+
+std::size_t FileLines::numLines()
+{
+    if (!mIsPrepared) {
+        throw std::runtime_error(messageObjectNotPrepared.data());
+    }
+    return mNumLines;
 }
 
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
+    if (!mIsPrepared) {
+        throw std::runtime_error(messageObjectNotPrepared.data());
+    }
+
     assert(0 <= lineNum && lineNum < mNumLines);
     std::string line;
 
