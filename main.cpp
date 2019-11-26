@@ -162,4 +162,42 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(6) == L"0");
 }
 
+BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
+{
+    TokenizedFileLines tokenizedFileLines(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\russian_UTF-8_2.csv)^");
+    tokenizedFileLines.getPositionsOfSampleLines();
+    BOOST_TEST(tokenizedFileLines.numLines() == 11);
+    BOOST_TEST(tokenizedFileLines.numColumns() == 4);
+
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"идентификатор");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L" переменная1");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L" переменная2");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L" переменная3");
+
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"строка1");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"красный");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(2) == L"большой");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(3) == L"далеко");
+
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(0) == L"строка10");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(1) == L"розовый");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(2) == L"не маленький");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(3) == L"близко");
+
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"идентификатор");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L" переменная1");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L" переменная2");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L" переменная3");
+
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"строка1");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"красный");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(2) == L"большой");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(3) == L"далеко");
+
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(0) == L"строка10");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(1) == L"розовый");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(2) == L"не маленький");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(3) == L"близко");
+}
+
 BOOST_AUTO_TEST_SUITE_END();
