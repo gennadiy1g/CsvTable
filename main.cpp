@@ -38,6 +38,8 @@ struct GlobalFixture {
 
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
 
+BOOST_AUTO_TEST_SUITE(FileLines_tests);
+
 BOOST_AUTO_TEST_CASE(non_existing_file)
 {
     BOOST_REQUIRE_THROW(FileLines(LR"^(non_existing_file)^"), std::runtime_error);
@@ -102,3 +104,5 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
     BOOST_CHECK(boost::starts_with(fileLines.getLine(38039), L"1672082702,"));
     BOOST_CHECK(boost::starts_with(fileLines.getLine(38039), L"1672082702,"));
 }
+
+BOOST_AUTO_TEST_SUITE_END();
