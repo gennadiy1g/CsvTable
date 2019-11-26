@@ -48,7 +48,6 @@ BOOST_AUTO_TEST_CASE(non_existing_file)
 BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
 {
     FileLines fileLines(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\ZX0training_UTF-8.csv)^");
-    BOOST_TEST(fileLines.numLines() == 0);
     fileLines.getPositionsOfSampleLines();
     BOOST_TEST(fileLines.numLines() == 7438);
     BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"customer Id2,"));
@@ -63,7 +62,6 @@ BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
 {
     FileLines fileLines(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\russian_UTF-8_2.csv)^");
-    BOOST_TEST(fileLines.numLines() == 0);
     fileLines.getPositionsOfSampleLines();
     BOOST_TEST(fileLines.numLines() == 11);
     BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"идентификатор,"));
@@ -78,7 +76,6 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
 BOOST_AUTO_TEST_CASE(Hits_csv)
 {
     FileLines fileLines(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\Hits.csv)^");
-    BOOST_TEST(fileLines.numLines() == 0);
     fileLines.getPositionsOfSampleLines();
     BOOST_TEST(fileLines.numLines() == 38044);
     BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
