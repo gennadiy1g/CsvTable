@@ -68,7 +68,7 @@ public:
 
 private:
     FileLines mFileLines;
-    EscapedListSeparator mEscapedListSeparator;
+    EscapedListSeparator mEscapedListSeparator { L'\\', L',', L'\"' };
     std::map<std::size_t, std::vector<std::wstring>> mTokenizedLines;
     std::size_t kMaxSize { 10000 };
 };
