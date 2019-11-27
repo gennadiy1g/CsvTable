@@ -121,7 +121,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         throw std::runtime_error(kMsgObjectNotPrepared);
     }
 
-    assert(0 <= lineNum && lineNum < mNumLines);
+    assert(lineNum < mNumLines);
     std::string line;
 
     if (mFileStream.fail()) {
