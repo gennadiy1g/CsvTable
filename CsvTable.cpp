@@ -70,7 +70,7 @@ void FileLines::getPositionsOfSampleLines()
 
         if (mNumLines == kMinNumLines + 1) {
             // Evaluate number of records in the file
-            assert(mNumLines = mPosSampleLine.size() - 1);
+            assert(mNumLines == mPosSampleLine.size() - 1);
             auto approxNumLines = kMinNumLines * (mFileSize - mPosSampleLine.at(1)) / mPosSampleLine.at(mNumLines);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "file_size=" << mFileSize << ", approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
             assert(approxNumLines > 0);
