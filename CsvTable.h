@@ -11,7 +11,7 @@ namespace bfs = boost::filesystem;
 
 class FileLines {
 public:
-    FileLines(const bfs::path& filePath); // Constructor
+    explicit FileLines(const bfs::path& filePath); // Constructor
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
@@ -49,7 +49,7 @@ typedef boost::tokenizer<EscapedListSeparator, std::wstring::const_iterator, std
 
 class TokenizedFileLines {
 public:
-    TokenizedFileLines(const bfs::path& filePath); // Constructor
+    explicit TokenizedFileLines(const bfs::path& filePath); // Constructor
     virtual ~TokenizedFileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
