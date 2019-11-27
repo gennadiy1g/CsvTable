@@ -257,11 +257,11 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
             auto itLast = mTokenizedLines.rbegin();
 
             if (lineNum - itFirst->first > itLast->first - lineNum) {
+                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Erasing line #" << itFirst->first << FUNCTION_FILE_LINE;
                 mTokenizedLines.erase(itFirst);
-                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Erased line #" << itFirst->first << FUNCTION_FILE_LINE;
             } else {
+                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Erasing line #" << itLast->first << FUNCTION_FILE_LINE;
                 mTokenizedLines.erase(itLast->first);
-                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Erased line #" << itLast->first << FUNCTION_FILE_LINE;
             }
         }
 
