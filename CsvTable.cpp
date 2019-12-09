@@ -27,6 +27,8 @@ FileLines::FileLines(const bfs::path& filePath)
         throw std::runtime_error(
             "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
     }
+
+    getPositionsOfSampleLines();
 }
 
 void FileLines::checkInputFile()
@@ -101,26 +103,15 @@ void FileLines::getPositionsOfSampleLines()
                 << "\", line: " << mNumLines + 1 << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
-
-    mIsPrepared = true;
 }
-
-const char* kMsgObjectNotPrepared = "FileLines object is not prepared, call getPositionsOfSampleLines first!";
 
 std::size_t FileLines::numLines()
 {
-    if (!mIsPrepared) {
-        throw std::runtime_error(kMsgObjectNotPrepared);
-    }
     return mNumLines;
 }
 
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
-    if (!mIsPrepared) {
-        throw std::runtime_error(kMsgObjectNotPrepared);
-    }
-
     assert(lineNum < mNumLines);
     std::string line;
 
@@ -227,20 +218,12 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparat
 
 std::size_t TokenizedFileLines::numColumns()
 {
-    if (!mFileLines.isPrepared()) {
-        throw std::runtime_error(kMsgObjectNotPrepared);
-    }
-
     return getTokenizedLine(0).size();
 }
 
 const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
 {
     auto& gLogger = GlobalLogger::get();
-    if (!mFileLines.isPrepared()) {
-        throw std::runtime_error(kMsgObjectNotPrepared);
-    }
-
     auto search = mTokenizedLines.find(lineNum);
     if (search != mTokenizedLines.end()) {
         return search->second;
