@@ -2,6 +2,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
 #include <cassert>
+#include <cinttypes>
 #include <cmath>
 #include <stdexcept>
 
@@ -120,7 +121,6 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     }
 
     auto& gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltrivial::trace);
     if (mNumLinesBetweenSamples == 1) {
         assert(lineNum < mPosSampleLine.size());
         auto pos = mPosSampleLine.at(lineNum);
@@ -239,7 +239,8 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
             }
             auto itLast = mTokenizedLines.rbegin();
 
-            if (lineNum - itFirst->first > itLast->first - lineNum) {
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first << FUNCTION_FILE_LINE;
+            if (std::imaxabs(lineNum - itFirst->first) > std::imaxabs(lineNum - itLast->first)) {
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Erasing line #" << itFirst->first << FUNCTION_FILE_LINE;
                 mTokenizedLines.erase(itFirst);
             } else {
