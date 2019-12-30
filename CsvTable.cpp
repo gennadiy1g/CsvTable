@@ -106,11 +106,6 @@ void FileLines::getPositionsOfSampleLines()
     }
 }
 
-std::size_t FileLines::numLines()
-{
-    return mNumLines;
-}
-
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
     assert(lineNum < mNumLines);
@@ -214,11 +209,6 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparat
 {
     mTokenizedLines.clear();
     mEscapedListSeparator = EscapedListSeparator(escape, fieldSeparator, quote);
-}
-
-std::size_t TokenizedFileLines::numColumns()
-{
-    return getTokenizedLine(0).size();
 }
 
 const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
