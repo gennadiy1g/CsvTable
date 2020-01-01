@@ -13,10 +13,10 @@ namespace blocale = boost::locale;
 
 using namespace std::literals::string_literals;
 
-FileLines::FileLines(const bfs::path& filePath, std::function<void(long)> callBack)
+FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
     : mFilePath(filePath)
     , mFileStream(filePath, std::ios_base::binary)
-    , mCallBack(callBack)
+    , mOnProgress(onProgress)
 {
     mFileSize = bfs::file_size(mFilePath);
 
@@ -69,7 +69,7 @@ void FileLines::getPositionsOfSampleLines()
         }
 
         if (mFileSize) {
-            mCallBack(lround(mFileStream.tellg() / mFileSize));
+            mOnProgress(lround(mFileStream.tellg() / mFileSize));
         }
 
         if (!std::getline(mFileStream, line)) {
@@ -110,7 +110,7 @@ void FileLines::getPositionsOfSampleLines()
         throw std::runtime_error(message.str());
     }
 
-    mCallBack(100);
+    mOnProgress(100);
 }
 
 std::wstring FileLines::getLine(std::size_t lineNum)
@@ -207,8 +207,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     return boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line));
 }
 
-TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath, std::function<void(long)> callBack)
-    : mFileLines(filePath, callBack)
+TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress)
+    : mFileLines(filePath, onProgress)
 {
 }
 
