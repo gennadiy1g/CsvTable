@@ -13,9 +13,10 @@ namespace blocale = boost::locale;
 
 using namespace std::literals::string_literals;
 
-FileLines::FileLines(const bfs::path& filePath)
+FileLines::FileLines(const bfs::path& filePath, std::function<void(int)> callBack)
     : mFilePath(filePath)
     , mFileStream(filePath, std::ios_base::binary)
+    , mCallBack(callBack)
 {
     mFileSize = bfs::file_size(mFilePath);
 
@@ -201,7 +202,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
 }
 
 TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath, std::function<void(int)> callBack)
-    : mFileLines(filePath)
+    : mFileLines(filePath, callBack)
 {
 }
 

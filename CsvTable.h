@@ -12,7 +12,7 @@ namespace bfs = boost::filesystem;
 
 class FileLines {
 public:
-    explicit FileLines(const bfs::path& filePath); // Constructor
+    explicit FileLines(const bfs::path& filePath, std::function<void(int)> callBack = std::function<void(int)>()); // Constructor
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
@@ -41,6 +41,8 @@ private:
 
     std::vector<std::size_t> mPosBetweenSamples; // Positions of lines between sample lines
     std::size_t mPrevSampleNum { 0 };
+
+    std::function<void(int)> mCallBack { std::function<void(int)>() };
 };
 
 typedef boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>> EscapedListSeparator;
