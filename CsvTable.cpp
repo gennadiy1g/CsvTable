@@ -68,6 +68,10 @@ void FileLines::getPositionsOfSampleLines()
                                                      << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1) << FUNCTION_FILE_LINE;
         }
 
+        if (mFileSize) {
+            mCallBack(lround(mFileStream.tellg() / mFileSize));
+        }
+
         if (!std::getline(mFileStream, line)) {
             break;
         }
@@ -105,6 +109,8 @@ void FileLines::getPositionsOfSampleLines()
                 << "\", line: " << mNumLines + 1 << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
+
+    mCallBack(100);
 }
 
 std::wstring FileLines::getLine(std::size_t lineNum)
