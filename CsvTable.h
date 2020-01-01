@@ -3,6 +3,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/tokenizer.hpp>
+#include <functional>
 #include <map>
 #include <string>
 #include <vector>
@@ -47,7 +48,7 @@ typedef boost::tokenizer<EscapedListSeparator, std::wstring::const_iterator, std
 
 class TokenizedFileLines {
 public:
-    explicit TokenizedFileLines(const bfs::path& filePath); // Constructor
+    explicit TokenizedFileLines(const bfs::path& filePath, std::function<void(int)> callBack = std::function<void(int)>()); // Constructor
     virtual ~TokenizedFileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.

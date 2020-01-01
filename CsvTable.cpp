@@ -200,7 +200,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     return boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line));
 }
 
-TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath)
+TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath, std::function<void(int)> callBack)
     : mFileLines(filePath)
 {
 }
