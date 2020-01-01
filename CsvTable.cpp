@@ -68,9 +68,8 @@ void FileLines::getPositionsOfSampleLines()
                                                      << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1) << FUNCTION_FILE_LINE;
         }
 
-        if (mFileSize) {
-            mOnProgress(lround(mFileStream.tellg() / mFileSize));
-        }
+        assert(mFileSize);
+        mOnProgress(lround(mFileStream.tellg() / mFileSize));
 
         if (!std::getline(mFileStream, line)) {
             break;
