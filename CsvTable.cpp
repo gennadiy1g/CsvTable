@@ -69,7 +69,9 @@ void FileLines::getPositionsOfSampleLines()
         }
 
         assert(mFileSize);
-        mOnProgress(lround(mFileStream.tellg() / mFileSize));
+        if (mOnProgress.target<OnProgress*>()) {
+            mOnProgress(lround(mFileStream.tellg() / mFileSize));
+        }
 
         if (!std::getline(mFileStream, line)) {
             break;
@@ -109,7 +111,9 @@ void FileLines::getPositionsOfSampleLines()
         throw std::runtime_error(message.str());
     }
 
-    mOnProgress(100);
+    if (mOnProgress.target<OnProgress*>()) {
+        mOnProgress(100);
+    }
 }
 
 std::wstring FileLines::getLine(std::size_t lineNum)
