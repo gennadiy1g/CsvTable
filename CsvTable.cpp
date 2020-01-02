@@ -60,7 +60,7 @@ void FileLines::getPositionsOfSampleLines()
     const std::size_t kMaxNumSamples { 10000 }; // maximum number of sample lines
 
     auto& gLogger = GlobalLogger::get();
-    std::string line;
+    std::string line { "" };
     while (mFileStream) {
         if (!(mNumLines % mNumLinesBetweenSamples)) {
             mPosSampleLine.push_back(mFileStream.tellg());
