@@ -118,7 +118,7 @@ void FileLines::getPositionsOfSampleLines()
         throw std::runtime_error(message.str());
     }
 
-    if (mOnProgress) {
+    if (mOnProgress && percent < 100) {
         mOnProgress(100);
     }
 }
