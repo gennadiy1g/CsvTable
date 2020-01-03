@@ -71,7 +71,7 @@ void FileLines::getPositionsOfSampleLines()
         }
 
         assert(mFileSize);
-        if (mOnProgress.target<OnProgress*>()) {
+        if (mOnProgress) {
             percent = lround(static_cast<float>(mFileStream.tellg()) / mFileSize * 100);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "percent=" << percent << FUNCTION_FILE_LINE;
             if (percent - prevPercent >= 1) {
@@ -118,7 +118,7 @@ void FileLines::getPositionsOfSampleLines()
         throw std::runtime_error(message.str());
     }
 
-    if (mOnProgress.target<OnProgress*>()) {
+    if (mOnProgress) {
         mOnProgress(100);
     }
 }
