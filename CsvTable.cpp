@@ -61,7 +61,7 @@ void FileLines::getPositionsOfSampleLines()
 
     auto& gLogger = GlobalLogger::get();
     std::string line { "" };
-    long prevPercent { -1 }, percent { 0 };
+    int prevPercent { -1 }, percent { 0 };
 
     while (mFileStream) {
         if (!(mNumLines % mNumLinesBetweenSamples)) {
