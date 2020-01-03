@@ -61,7 +61,7 @@ void FileLines::getPositionsOfSampleLines()
 
     auto& gLogger = GlobalLogger::get();
     std::string line { "" };
-    long prevPercent { 0 }, percent { 0 };
+    long prevPercent { -1 }, percent { 0 };
 
     while (mFileStream) {
         if (!(mNumLines % mNumLinesBetweenSamples)) {
@@ -74,7 +74,7 @@ void FileLines::getPositionsOfSampleLines()
         if (mOnProgress.target<OnProgress*>()) {
             percent = lround(static_cast<float>(mFileStream.tellg()) / mFileSize * 100);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "percent=" << percent << FUNCTION_FILE_LINE;
-            if ((percent - prevPercent >= 1) || !prevPercent) {
+            if (percent - prevPercent >= 1) {
                 mOnProgress(percent);
             }
             prevPercent = percent;
