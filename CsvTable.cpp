@@ -72,8 +72,9 @@ void FileLines::getPositionsOfSampleLines()
 
         assert(mFileSize);
         if (mOnProgress.target<OnProgress*>()) {
-            percent = lround(mFileStream.tellg() / mFileSize);
-            if ((percent >= prevPercent + 1) || !prevPercent) {
+            percent = lround(static_cast<float>(mFileStream.tellg()) / mFileSize * 100);
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "percent=" << percent << FUNCTION_FILE_LINE;
+            if ((percent - prevPercent >= 1) || !prevPercent) {
                 mOnProgress(percent);
             }
             prevPercent = percent;
@@ -91,7 +92,7 @@ void FileLines::getPositionsOfSampleLines()
             assert(approxNumLines > 0);
 
             // Calculate the number of lines between successive samples
-            mNumLinesBetweenSamples = std::max(lround(approxNumLines / kMaxNumSamples), 1l);
+            mNumLinesBetweenSamples = std::max(lround(static_cast<float>(approxNumLines) / kMaxNumSamples), 1l);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples << FUNCTION_FILE_LINE;
 
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
