@@ -28,6 +28,12 @@ public:
     std::size_t numLines() const { return mNumLines; };
     std::wstring getLine(std::size_t lineNum);
 
+    void Clear()
+    {
+        mPosSampleLine.clear();
+        mPosBetweenSamples.clear();
+    };
+
 private:
     void checkInputFile();
     void getPositionsOfSampleLines();
@@ -67,6 +73,12 @@ public:
     std::size_t numLines() const { return mFileLines.numLines(); };
     std::size_t numColumns() { return getTokenizedLine(0).size(); };
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
+
+    void Clear()
+    {
+        mFileLines.Clear();
+        mTokenizedLines.clear();
+    };
 
 private:
     FileLines mFileLines;
