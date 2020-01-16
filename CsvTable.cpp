@@ -18,8 +18,6 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
     , mFileStream(filePath, std::ios_base::binary)
     , mOnProgress(onProgress)
 {
-    mFileSize = bfs::file_size(mFilePath);
-
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mFilePath=" << mFilePath << FUNCTION_FILE_LINE;
 
@@ -30,6 +28,7 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
             "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
     }
 
+    mFileSize = bfs::file_size(mFilePath);
     getPositionsOfSampleLines();
 }
 
