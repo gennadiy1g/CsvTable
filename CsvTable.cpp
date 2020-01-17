@@ -223,13 +223,18 @@ TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath, OnProgress onP
 
 void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparator, wchar_t quote)
 {
+    auto& gLogger = GlobalLogger::get();
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
     mTokenizedLines.clear();
     mEscapedListSeparator = EscapedListSeparator(escape, fieldSeparator, quote);
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
 }
 
 const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
 {
     auto& gLogger = GlobalLogger::get();
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << FUNCTION_FILE_LINE;
+
     auto search = mTokenizedLines.find(lineNum);
     if (search != mTokenizedLines.end()) {
         return search->second;
@@ -256,6 +261,7 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
         }
 
         auto line = mFileLines.getLine(lineNum);
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << line << ']' << FUNCTION_FILE_LINE;
         LineTokenizer tok(line, mEscapedListSeparator);
         std::vector<std::wstring> tokenizedLine;
         for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
@@ -266,4 +272,11 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Inserted line #" << lineNum << FUNCTION_FILE_LINE;
         return it->second;
     }
+}
+
+void TokenizedFileLines::clear()
+{
+    auto& gLogger = GlobalLogger::get();
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+    mTokenizedLines.clear();
 }
