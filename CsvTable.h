@@ -28,7 +28,7 @@ public:
     std::size_t numLines() const { return mNumLines; };
     std::wstring getLine(std::size_t lineNum);
 
-    void Clear()
+    void clear()
     {
         mPosSampleLine.clear();
         mPosBetweenSamples.clear();
@@ -74,9 +74,9 @@ public:
     std::size_t numColumns() { return getTokenizedLine(0).size(); };
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
 
-    void Clear()
+    void clear()
     {
-        mFileLines.Clear();
+        mFileLines.clear();
         mTokenizedLines.clear();
     };
 
