@@ -77,5 +77,5 @@ private:
     std::size_t kMaxSize { 10000 };
     wchar_t mSeparator { L',' };
     wchar_t mEscape { L'\\' };
-    wchar_t mQuote { L'"' };
+    wchar_t mQuote { L'\"' };
 };
