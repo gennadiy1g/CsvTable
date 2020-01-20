@@ -227,6 +227,7 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t separator, w
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
 
     if (separator != mSeparator || quote != mQuote || escape != mEscape) {
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
         mTokenizedLines.clear();
     }
 
