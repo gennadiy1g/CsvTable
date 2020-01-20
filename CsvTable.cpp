@@ -225,8 +225,16 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparat
 {
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
-    mTokenizedLines.clear();
+
+    if (fieldSeparator != mSeparator || quote != mQuote || escape != mEscape) {
+        mTokenizedLines.clear();
+    }
+
     mEscapedListSeparator = EscapedListSeparator(escape, fieldSeparator, quote);
+    mEscape = escape;
+    mSeparator = fieldSeparator;
+    mQuote = quote;
+
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
 }
 

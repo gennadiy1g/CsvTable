@@ -75,4 +75,7 @@ private:
     EscapedListSeparator mEscapedListSeparator { L'\\', L',', L'\"' };
     std::map<std::size_t, std::vector<std::wstring>> mTokenizedLines;
     std::size_t kMaxSize { 10000 };
+    wchar_t mSeparator { L',' };
+    wchar_t mEscape { L'\\' };
+    wchar_t mQuote { L'"' };
 };
