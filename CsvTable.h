@@ -63,7 +63,7 @@ public:
     TokenizedFileLines(TokenizedFileLines&& src) = default;
     TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = default;
 
-    void setTokenizerParams(wchar_t escape = L'\\', wchar_t separator = L',', wchar_t quote = L'\"');
+    void setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote);
     std::size_t numLines() const { return mFileLines.numLines(); };
     std::size_t numColumns() { return getTokenizedLine(0).size(); };
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
