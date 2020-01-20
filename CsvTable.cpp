@@ -221,18 +221,18 @@ TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath, OnProgress onP
 {
 }
 
-void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t fieldSeparator, wchar_t quote)
+void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote)
 {
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
 
-    if (fieldSeparator != mSeparator || quote != mQuote || escape != mEscape) {
+    if (separator != mSeparator || quote != mQuote || escape != mEscape) {
         mTokenizedLines.clear();
     }
 
-    mEscapedListSeparator = EscapedListSeparator(escape, fieldSeparator, quote);
+    mEscapedListSeparator = EscapedListSeparator(escape, separator, quote);
     mEscape = escape;
-    mSeparator = fieldSeparator;
+    mSeparator = separator;
     mQuote = quote;
 
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
