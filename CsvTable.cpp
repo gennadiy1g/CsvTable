@@ -246,8 +246,10 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
 
     auto search = mTokenizedLines.find(lineNum);
     if (search != mTokenizedLines.end()) {
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
         return search->second;
     } else {
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
         if (mTokenizedLines.size() == kMaxSize) {
             /* The size of the map is at maximum. Remove one element from the map - the element
              * that is furthest away from lineNum. */
