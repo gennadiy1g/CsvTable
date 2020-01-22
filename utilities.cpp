@@ -46,7 +46,7 @@ void initLogging()
 #endif
 }
 
-void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> separator, std::optional<wchar_t> quote)
+void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separator, std::optional<wchar_t>& quote)
 {
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
