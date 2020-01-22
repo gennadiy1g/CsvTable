@@ -1,9 +1,13 @@
+#include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
+#include <string>
 
 #include "log.h"
 #include "utilities.h"
 
 namespace blocale = boost::locale;
+
+using namespace std::literals::string_literals;
 
 void initLocalization()
 {
@@ -42,4 +46,61 @@ void initLogging()
 #endif
 }
 
-void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> separator, std::optional<wchar_t> quote) {}
+void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> separator, std::optional<wchar_t> quote)
+{
+    auto& gLogger = GlobalLogger::get();
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+
+    separator = std::nullopt;
+    quote = std::nullopt;
+
+    bfs::wifstream fileStream(filePath);
+    if (!fileStream) {
+        throw std::runtime_error(
+            "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
+    }
+
+    std::wstring line { L"" };
+    std::getline(fileStream, line);
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << line << ']' << FUNCTION_FILE_LINE;
+    boost::trim(line);
+
+    if (line.length()) {
+        if (line[0] == L'\"' || line[line.length() - 1] == L'\"') {
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+            quote = L'\"';
+        } else if (line[0] == L'\'' || line[line.length() - 1] == L'\'') {
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+            quote = L'\'';
+        }
+
+        if (boost::find_first(line, L"\t")) {
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+            separator = L'\t';
+            return;
+        }
+
+        for (auto& ch : line) {
+            if (ch == L'|' || ch == L';' || ch == L',') {
+                if (!separator) {
+                    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                    separator = ch;
+                } else {
+                    if (separator.value() != ch) {
+                        // Ambiguous situation - multiple separators found
+                        BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                        separator = std::nullopt;
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (!separator) {
+            if (boost::find_first(line, L" ")) {
+                BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                separator = L' ';
+            }
+        }
+    }
+}
