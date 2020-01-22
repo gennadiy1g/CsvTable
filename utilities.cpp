@@ -54,15 +54,17 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
     separator = std::nullopt;
     quote = std::nullopt;
 
-    bfs::wifstream fileStream(filePath);
-    if (!fileStream) {
-        throw std::runtime_error(
-            "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
-    }
-
     std::wstring line { L"" };
-    std::getline(fileStream, line);
-    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << line << ']' << FUNCTION_FILE_LINE;
+    {
+        bfs::wifstream fileStream(filePath);
+        if (!fileStream) {
+            throw std::runtime_error(
+                "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
+        }
+
+        std::getline(fileStream, line);
+        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << line << ']' << FUNCTION_FILE_LINE;
+    }
     boost::trim(line);
 
     if (line.length()) {
