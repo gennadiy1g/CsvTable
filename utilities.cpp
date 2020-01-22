@@ -1,9 +1,8 @@
-#include <boost/filesystem.hpp>
 #include <boost/locale.hpp>
 
 #include "log.h"
+#include "utilities.h"
 
-namespace bfs = boost::filesystem;
 namespace blocale = boost::locale;
 
 void initLocalization()
@@ -42,3 +41,5 @@ void initLogging()
     blog::core::get()->set_filter(bltrivial::severity >= bltrivial::info);
 #endif
 }
+
+void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> separator, std::optional<wchar_t> quote) {}
