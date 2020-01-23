@@ -226,4 +226,13 @@ BOOST_AUTO_TEST_CASE(Hits_Space_csv)
     BOOST_CHECK(!quote);
 }
 
+BOOST_AUTO_TEST_CASE(Hits_Tab_csv)
+{
+    std::optional<wchar_t> separator;
+    std::optional<wchar_t> quote;
+    detectSeparatorAndQuote(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\Hits_Tab.csv)^", separator, quote);
+    BOOST_CHECK(separator && separator.value() == L'\t');
+    BOOST_CHECK(!quote);
+}
+
 BOOST_AUTO_TEST_SUITE_END();
