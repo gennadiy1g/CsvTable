@@ -196,3 +196,16 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
 }
 
 BOOST_AUTO_TEST_SUITE_END();
+
+BOOST_AUTO_TEST_SUITE(detectSeparatorAndQuote_tests);
+
+BOOST_AUTO_TEST_CASE(Hits_csv)
+{
+    std::optional<wchar_t> separator;
+    std::optional<wchar_t> quote;
+    detectSeparatorAndQuote(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\Hits.csv)^", separator, quote);
+    BOOST_CHECK(separator && separator.value() == L',');
+    BOOST_CHECK(!quote);
+}
+
+BOOST_AUTO_TEST_SUITE_END();
