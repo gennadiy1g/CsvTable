@@ -68,41 +68,43 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
     boost::trim(line);
 
     if (line.length()) {
+        // Detect separator
+        if (boost::find_first(line, L"\t")) {
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+            separator = L'\t';
+        } else {
+            auto ambiguous { false };
+            for (auto& ch : line) {
+                if (ch == L'|' || ch == L';' || ch == L',') {
+                    if (!separator) {
+                        BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                        separator = ch;
+                    } else {
+                        if (separator.value() != ch) {
+                            // Ambiguous situation - multiple separators found
+                            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                            ambiguous = true;
+                            separator = std::nullopt;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!ambiguous && !separator) {
+                if (boost::find_first(line, L" ")) {
+                    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                    separator = L' ';
+                }
+            }
+        }
+
+        // Detect quote
         if (line[0] == L'\"' || line[line.length() - 1] == L'\"') {
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
             quote = L'\"';
         } else if (line[0] == L'\'' || line[line.length() - 1] == L'\'') {
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
             quote = L'\'';
-        }
-
-        if (boost::find_first(line, L"\t")) {
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
-            separator = L'\t';
-            return;
-        }
-
-        for (auto& ch : line) {
-            if (ch == L'|' || ch == L';' || ch == L',') {
-                if (!separator) {
-                    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
-                    separator = ch;
-                } else {
-                    if (separator.value() != ch) {
-                        // Ambiguous situation - multiple separators found
-                        BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
-                        separator = std::nullopt;
-                        return;
-                    }
-                }
-            }
-        }
-
-        if (!separator) {
-            if (boost::find_first(line, L" ")) {
-                BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
-                separator = L' ';
-            }
         }
     }
 }
