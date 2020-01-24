@@ -1,6 +1,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
 #include <string>
+#include <string_view>
 
 #include "log.h"
 #include "utilities.h"
@@ -105,6 +106,24 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
         } else if (line.front() == L'\'' || line.back() == L'\'') {
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
             quote = L'\'';
+        }
+
+        if (separator && !quote) {
+            auto match = [](std::wstring_view line, wchar_t separator, wchar_t quote) {
+                std::wstring patternLeft {};
+                patternLeft += separator;
+                patternLeft += quote;
+                std::wstring patternRight {};
+                patternRight += quote;
+                patternRight += separator;
+                return line.find(patternLeft) != std::wstring::npos && line.find(patternRight) != std::wstring::npos;
+            };
+
+            if (match(line, separator.value(), L'\"')) {
+                quote = L'\"';
+            } else if (match(line, separator.value(), L'\'')) {
+                quote = L'\'';
+            }
         }
     }
 }
