@@ -165,9 +165,9 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
     BOOST_TEST(tokenizedFileLines.numColumns() == 4);
 
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"идентификатор");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L" переменная1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L" переменная2");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L" переменная3");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"переменная1");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"переменная2");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L"переменная3");
 
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"строка1");
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"красный");
@@ -180,9 +180,9 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10).at(3) == L"близко");
 
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"идентификатор");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L" переменная1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L" переменная2");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L" переменная3");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"переменная1");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"переменная2");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L"переменная3");
 
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"строка1");
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"красный");
