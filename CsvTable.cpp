@@ -117,6 +117,8 @@ void FileLines::getPositionsOfSampleLines()
         throw std::runtime_error(message.str());
     }
 
+    mFileStream.clear();
+
     if (mOnProgress && percent < 100) {
         mOnProgress(100);
     }
@@ -126,10 +128,6 @@ std::wstring FileLines::getLine(std::size_t lineNum)
 {
     assert(lineNum < mNumLines);
     std::string line;
-
-    if (mFileStream.fail()) {
-        mFileStream.clear();
-    }
 
     auto& gLogger = GlobalLogger::get();
     if (mNumLinesBetweenSamples == 1) {
