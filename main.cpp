@@ -99,6 +99,34 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
     BOOST_CHECK(boost::starts_with(fileLines.getLine(38039), L"1672082702,"));
 }
 
+BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
+{
+    FileLines fileLines(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\web complex data with target variable.csv)^");
+    BOOST_TEST(fileLines.numLines() == 1035808);
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"id,parent_id,cluster,program_id,offer_id,affiliate_id,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"id,parent_id,cluster,program_id,offer_id,affiliate_id,"));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"328090022,\\N,22,1,9656,43608,firstsub,secondsub,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"328090022,\\N,22,1,9656,43608,firstsub,secondsub,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"328375080,\\N,22,1,9656,43608,firstsub,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"328375080,\\N,22,1,9656,43608,firstsub,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"328436381,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/4.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"328436381,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/4.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(4), L"328588235,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(4), L"328588235,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(5), L"328636022,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(5), L"328636022,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035807), L"934804528,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035807), L"934804528,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035806), L"934802516,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035806), L"934802516,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035805), L"934802243,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,\"Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035805), L"934802243,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,\"Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035804), L"934801910,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035804), L"934801910,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035803), L"934801729,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035803), L"934801729,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+}
+
 BOOST_AUTO_TEST_SUITE_END();
 
 BOOST_AUTO_TEST_SUITE(TokenizedFileLines_tests);
