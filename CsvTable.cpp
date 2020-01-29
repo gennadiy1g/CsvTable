@@ -150,6 +150,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             mPrevSampleNum = sampleNum;
         }
 
+        auto morePosBetweenSamples = [this]() { return mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1 && mFileStream.tellg() < mFileSize; };
+
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size() << FUNCTION_FILE_LINE;
         if (!mPosBetweenSamples.size()) {
             auto pos = mPosSampleLine.at(sampleNum);
@@ -158,7 +160,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             std::getline(mFileStream, line);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                      << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
-            if (mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1 && mFileStream.tellg() < mFileSize) {
+            if (morePosBetweenSamples()) {
                 mPosBetweenSamples.push_back(mFileStream.tellg());
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                          << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
@@ -168,7 +170,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 std::getline(mFileStream, line);
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                          << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
-                if (mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1 && mFileStream.tellg() < mFileSize) {
+                if (morePosBetweenSamples()) {
                     mPosBetweenSamples.push_back(mFileStream.tellg());
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                              << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
@@ -189,7 +191,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 std::getline(mFileStream, line);
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                          << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
-                if (rem == mPosBetweenSamples.size() && mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1 && mFileStream.tellg() < mFileSize) {
+                if (rem == mPosBetweenSamples.size() && morePosBetweenSamples()) {
                     mPosBetweenSamples.push_back(mFileStream.tellg());
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                              << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
@@ -201,7 +203,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                     std::getline(mFileStream, line);
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=[" << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line))
                                                              << "], tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
-                    if (mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1 && mFileStream.tellg() < mFileSize) {
+                    if (morePosBetweenSamples()) {
                         mPosBetweenSamples.push_back(mFileStream.tellg());
                         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                                  << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
