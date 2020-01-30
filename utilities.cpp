@@ -31,20 +31,26 @@ void initLocalization()
 
 void initLogging()
 {
+    // clang-format off
     blog::add_file_log(
-#ifdef NDEBUG
-        blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
-#else
-        blkeywords::file_name = "trace.log",
-#endif
+
+        #ifdef NDEBUG
+            blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
+        #else
+            blkeywords::file_name = "trace.log",
+        #endif
+
         blkeywords::format = (blexpressions::stream
             << blexpressions::attr<unsigned int>("LineID") << ' ' << bltrivial::severity << ' '
             << blexpressions::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
-            << blexpressions::attr<blog::thread_id>("ThreadID") << ' ' << blexpressions::message));
+            << blexpressions::attr<blog::thread_id>("ThreadID") << ' ' << blexpressions::message)
+    );
     blog::add_common_attributes();
-#ifdef NDEBUG
-    blog::core::get()->set_filter(bltrivial::severity >= bltrivial::info);
-#endif
+
+    #ifdef NDEBUG
+        blog::core::get()->set_filter(bltrivial::severity >= bltrivial::info);
+    #endif
+    // clang-format on
 }
 
 void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separator, std::optional<wchar_t>& quote)
