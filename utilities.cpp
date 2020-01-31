@@ -32,7 +32,7 @@ void initLocalization()
 void initLogging()
 {
     // clang-format off
-    blog::add_file_log(
+    auto sink = blog::add_file_log(
 
         #ifdef NDEBUG
             blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
@@ -51,6 +51,9 @@ void initLogging()
         blog::core::get()->set_filter(bltrivial::severity >= bltrivial::info);
     #endif
     // clang-format on
+
+    // Enable auto-flushing after each log record written
+    sink->locked_backend()->auto_flush(true);
 }
 
 void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separator, std::optional<wchar_t>& quote)
