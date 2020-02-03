@@ -31,7 +31,7 @@ void initLocalization()
 
 void initLogging()
 {
-    auto sink = blog::add_file_log( // clang-format off
+    blog::add_file_log( // clang-format off
         #ifdef NDEBUG
             blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
         #else
@@ -41,15 +41,14 @@ void initLogging()
         blkeywords::format = (blexpressions::stream
             << blexpressions::attr<unsigned int>("LineID") << ' ' << bltrivial::severity << ' '
             << blexpressions::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
-            << blexpressions::attr<blog::thread_id>("ThreadID") << ' ' << blexpressions::message));
+            << blexpressions::attr<blog::thread_id>("ThreadID") << ' ' << blexpressions::message),
+
+        blkeywords::auto_flush = true);
     blog::add_common_attributes(); // clang-format off
 
     #ifdef NDEBUG
         blog::core::get()->set_filter(bltrivial::severity >= bltrivial::info);
     #endif // clang-format on
-
-    // Enable auto-flushing after each log record written
-    sink->locked_backend()->auto_flush(true);
 }
 
 void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separator, std::optional<wchar_t>& quote)
