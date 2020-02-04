@@ -241,7 +241,7 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(64) == L"WEEK_DAY");
 
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"328090022");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"N");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"\\N");
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(2) == L"22");
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(3) == L"1");
     BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(4) == L"9656");
