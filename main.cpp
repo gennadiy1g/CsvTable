@@ -229,27 +229,51 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
     BOOST_TEST(tokenizedFileLines.numLines() == 1035808);
     BOOST_TEST(tokenizedFileLines.numColumns() == 65);
 
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"id");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"parent_id");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"cluster");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L"program_id");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(4) == L"offer_id");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(5) == L"affiliate_id");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(6) == L"sub");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(62) == L"minute");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(63) == L"second");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(64) == L"WEEK_DAY");
+    for (auto i = 0; i < 2; ++i) {
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"id");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"parent_id");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"cluster");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L"program_id");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(4) == L"offer_id");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(5) == L"affiliate_id");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(6) == L"sub");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(62) == L"minute");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(63) == L"second");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(64) == L"WEEK_DAY");
 
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"328090022");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"\\N");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(2) == L"22");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(3) == L"1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(4) == L"9656");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(5) == L"43608");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(6) == L"firstsub");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(62) == L"1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(63) == L"23");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(64) == L"3");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"328090022");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"\\N");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(2) == L"22");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(3) == L"1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(4) == L"9656");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(5) == L"43608");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(6) == L"firstsub");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(62) == L"1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(63) == L"23");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(64) == L"3");
+
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(0) == L"934804528");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(1) == L"\\N");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(2) == L"12");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(3) == L"1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(4) == L"9656");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(5) == L"43608");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(6) == L"zone10061");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(62) == L"31");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(63) == L"5");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(64) == L"2");
+
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(0) == L"934802516");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(1) == L"\\N");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(2) == L"12");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(3) == L"1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(4) == L"9656");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(5) == L"43608");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(6) == L"zone10061");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(62) == L"4");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(63) == L"20");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(64) == L"2");
+    }
 }
 
 BOOST_AUTO_TEST_SUITE_END();
