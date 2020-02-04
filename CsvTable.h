@@ -72,10 +72,10 @@ public:
 
 private:
     FileLines mFileLines;
-    EscapedListSeparator mEscapedListSeparator { L'\\', L',', L'\"' };
+    EscapedListSeparator mEscapedListSeparator { L'\0', L',', L'\"' };
     std::map<std::size_t, std::vector<std::wstring>> mTokenizedLines;
     std::size_t kMaxSize { 10000 };
     wchar_t mSeparator { L',' };
-    wchar_t mEscape { L'\\' };
+    wchar_t mEscape { L'\0' };
     wchar_t mQuote { L'\"' };
 };
