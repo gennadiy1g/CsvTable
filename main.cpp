@@ -137,53 +137,31 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
     BOOST_TEST(tokenizedFileLines.numLines() == 38044);
     BOOST_TEST(tokenizedFileLines.numColumns() == 7);
 
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"enrolid");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"TKR1yr_predicted");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"model_number");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L"scenario_number");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(4) == L"probability");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(5) == L"TKR1yr_real");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(6) == L"Hit");
+    for (auto i = 0; i < 2; ++i) {
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"enrolid");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"TKR1yr_predicted");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"model_number");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L"scenario_number");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(4) == L"probability");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(5) == L"TKR1yr_real");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(6) == L"Hit");
 
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"14702501");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(2) == L"4");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(3) == L"261");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(4) == L"50.0");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(5) == L"1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(6) == L"1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"14702501");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(2) == L"4");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(3) == L"261");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(4) == L"50.0");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(5) == L"1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(6) == L"1");
 
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(0) == L"29392848001");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(1) == L"1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(2) == L"12");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(3) == L"2");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(4) == L"12.91");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(5) == L"0");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(6) == L"0");
-
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"enrolid");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"TKR1yr_predicted");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"model_number");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(3) == L"scenario_number");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(4) == L"probability");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(5) == L"TKR1yr_real");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(6) == L"Hit");
-
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(0) == L"14702501");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(1) == L"1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(2) == L"4");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(3) == L"261");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(4) == L"50.0");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(5) == L"1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(6) == L"1");
-
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(0) == L"29392848001");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(1) == L"1");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(2) == L"12");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(3) == L"2");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(4) == L"12.91");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(5) == L"0");
-    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(6) == L"0");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(0) == L"29392848001");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(1) == L"1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(2) == L"12");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(3) == L"2");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(4) == L"12.91");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(5) == L"0");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(38043).at(6) == L"0");
+    }
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
