@@ -75,28 +75,19 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
 {
     FileLines fileLines(LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\Hits.csv)^");
     BOOST_TEST(fileLines.numLines() == 38044);
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"14702501,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"14702501,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"141188302,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"141188302,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"139747401,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"139747401,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(4), L"590641701,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(4), L"590641701,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(5), L"30347501,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(5), L"30347501,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38043), L"29392848001,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38043), L"29392848001,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38042), L"28781773901,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38042), L"28781773901,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38041), L"29391061301,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38041), L"29391061301,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38040), L"29422758401,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38040), L"29422758401,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38039), L"1672082702,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38039), L"1672082702,"));
+    for (auto i = 0; i < 2; ++i) {
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"14702501,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"141188302,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"139747401,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(4), L"590641701,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(5), L"30347501,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(38043), L"29392848001,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(38042), L"28781773901,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(38041), L"29391061301,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(38040), L"29422758401,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(38039), L"1672082702,"));
+    }
 }
 
 BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
