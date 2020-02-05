@@ -4,6 +4,7 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/tokenizer.hpp>
 #include <functional>
+#include <limits>
 #include <map>
 #include <string>
 #include <vector>
@@ -42,7 +43,7 @@ private:
     std::size_t mNumLinesBetweenSamples { 1 }; // Number of lines between successive sample lines
 
     std::vector<std::size_t> mPosBetweenSamples; // Positions of lines between sample lines
-    std::size_t mPrevSampleNum { 0 };
+    std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
 
     OnProgress mOnProgress { OnProgress() };
 };
