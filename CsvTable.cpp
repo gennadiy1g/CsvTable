@@ -91,7 +91,7 @@ void FileLines::getPositionsOfSampleLines()
             assert(approxNumLines > 0);
 
             // Calculate the number of lines between successive samples
-            mNumLinesBetweenSamples = std::max(lround(static_cast<float>(approxNumLines) / kMaxNumSamples), 1l);
+            mNumLinesBetweenSamples = std::max(std::lround(static_cast<float>(approxNumLines) / kMaxNumSamples), 1l);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples << FUNCTION_FILE_LINE;
 
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
