@@ -163,7 +163,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             if (morePosBetweenSamples()) {
                 mPosBetweenSamples.push_back(mFileStream.tellg());
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                                                         << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
+                                                         << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
             }
 
             for (std::size_t i = 0; i < rem; ++i) {
@@ -173,7 +173,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 if (morePosBetweenSamples()) {
                     mPosBetweenSamples.push_back(mFileStream.tellg());
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                                                             << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
+                                                             << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
                 }
             }
         } else {
@@ -195,10 +195,10 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 if (rem == mPosBetweenSamples.size() && morePosBetweenSamples()) {
                     mPosBetweenSamples.push_back(mFileStream.tellg());
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                                                             << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
+                                                             << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
                 }
             } else {
-                auto pos = mPosBetweenSamples.at(mPosBetweenSamples.size() - 1);
+                auto pos = mPosBetweenSamples.back();
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "pos=" << pos << FUNCTION_FILE_LINE;
                 mFileStream.seekg(pos);
                 auto reps = rem - mPosBetweenSamples.size() + 1;
@@ -209,7 +209,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                     if (morePosBetweenSamples()) {
                         mPosBetweenSamples.push_back(mFileStream.tellg());
                         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                                                                 << "]=" << mPosBetweenSamples.at(mPosBetweenSamples.size() - 1) << FUNCTION_FILE_LINE;
+                                                                 << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
                     }
                 }
             }
