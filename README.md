@@ -1,6 +1,6 @@
 # CsvTable
 
-This repository contains classes used by [Buckwheat CSV](https://github.com/gennadiy1g/BuckwheatCsv) project.
+This repository contains classes used by [BuckwheatCsv](https://github.com/gennadiy1g/BuckwheatCsv) project.
 
 ## Credit and licenses for embedded resources
 
