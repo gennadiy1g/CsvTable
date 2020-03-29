@@ -53,7 +53,7 @@ void FileLines::checkInputFile()
 
 void FileLines::getPositionsOfSampleLines()
 {
-    constexpr std::size_t kMinNumLines { 100 }; /* read at least that many lines, excluding the line with headers,
+    constexpr std::size_t kMinNumLines { 100 }; /* read at least that many lines, excluding headers' line,
      * before trying to evaluate the number of lines in the file */
 
     constexpr std::size_t kMaxNumSamples { 10'000 }; // maximum number of sample lines
@@ -83,8 +83,8 @@ void FileLines::getPositionsOfSampleLines()
             break;
         }
 
-        if (mNumLines == kMinNumLines) {
-            // Evaluate number of records in the file
+        if (mNumLines == kMinNumLines) { // mNumLines does not include headers' line
+            // Evaluate number of lines (including headers) in the file
             assert(mNumLines == mPosSampleLine.size() - 1);
             const auto approxNumLines = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (mPosSampleLine.at(mNumLines) - mPosSampleLine.at(1));
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "file_size=" << mFileSize << ", approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
@@ -106,7 +106,7 @@ void FileLines::getPositionsOfSampleLines()
             }
         }
 
-        ++mNumLines;
+        ++mNumLines; // mNumLines now includes headers' line
     }
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
 
