@@ -11,7 +11,7 @@
 
 namespace bfs = boost::filesystem;
 
-typedef std::function<void(int)> OnProgress;
+using OnProgress = std::function<void(int)>;
 
 class FileLines {
 public:
