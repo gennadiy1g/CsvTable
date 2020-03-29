@@ -101,7 +101,8 @@ void FileLines::getPositionsOfSampleLines()
                     keep.push_back(mPosSampleLine[i]);
                 }
                 std::swap(mPosSampleLine, keep);
-                mPosSampleLine.reserve(kMaxNumSamples);
+                mPosSampleLine.reserve(kMaxNumSamples + 1); // kMaxNumSamples data lines plus headers' line
+                assert(mPosSampleLine.at(0) == 0);
                 mPosBetweenSamples.reserve(mNumLinesBetweenSamples - 1);
             }
         }
