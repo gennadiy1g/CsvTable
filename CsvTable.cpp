@@ -53,10 +53,10 @@ void FileLines::checkInputFile()
 
 void FileLines::getPositionsOfSampleLines()
 {
-    const std::size_t kMinNumLines { 100 }; /* read at least that many lines, excluding the line with headers,
+    constexpr std::size_t kMinNumLines { 100 }; /* read at least that many lines, excluding the line with headers,
      * before trying to evaluate the number of lines in the file */
 
-    const std::size_t kMaxNumSamples { 10'000 }; // maximum number of sample lines
+    constexpr std::size_t kMaxNumSamples { 10'000 }; // maximum number of sample lines
 
     auto& gLogger = GlobalLogger::get();
     std::string line { "" };
