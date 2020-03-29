@@ -75,8 +75,8 @@ void FileLines::getPositionsOfSampleLines()
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "percent=" << percent << FUNCTION_FILE_LINE;
             if (percent - prevPercent >= 1) {
                 mOnProgress(percent);
+                prevPercent = percent;
             }
-            prevPercent = percent;
         }
 
         if (!std::getline(mFileStream, line)) {
