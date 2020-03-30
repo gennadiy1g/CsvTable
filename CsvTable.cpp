@@ -63,7 +63,7 @@ void FileLines::getPositionsOfSampleLines()
     long prevPercent { -1 }, percent { 0 };
 
     while (mFileStream) {
-        if (!(mNumLines % mNumLinesBetweenSamples)) {
+        if (!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
             mPosSampleLine.push_back(mFileStream.tellg());
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", mPosSampleLine[" << mPosSampleLine.size() - 1
                                                      << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1) << FUNCTION_FILE_LINE;
@@ -83,7 +83,7 @@ void FileLines::getPositionsOfSampleLines()
             break;
         }
 
-        if (mNumLines == kMinNumLines) { // mNumLines does not include headers' line
+        if (mNumLines == kMinNumLines) {
             // Evaluate number of lines, excluding headers' line, in the file
             assert(mFileStream && mFileStream.tellg() > 0);
             const auto approxNumLines = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (static_cast<std::size_t>(mFileStream.tellg()) - mPosSampleLine.at(1));
