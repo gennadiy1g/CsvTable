@@ -48,8 +48,8 @@ private:
     OnProgress mOnProgress { OnProgress() };
 };
 
-typedef boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>> EscapedListSeparator;
-typedef boost::tokenizer<EscapedListSeparator, std::wstring::const_iterator, std::wstring> LineTokenizer;
+using EscapedListSeparator = boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>>;
+using LineTokenizer = boost::tokenizer<EscapedListSeparator, std::wstring::const_iterator, std::wstring>;
 
 class TokenizedFileLines {
 public:
