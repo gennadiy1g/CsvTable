@@ -202,13 +202,15 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 auto pos = mPosBetweenSamples.back();
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "pos=" << pos << FUNCTION_FILE_LINE;
                 mFileStream.seekg(pos);
-                auto reps = rem - mPosBetweenSamples.size() + 1;
+                auto reps = rem - mPosBetweenSamples.size() + 1; /* The last pos in mPosBetweenSamples is for the line that
+                  has not been read yet, hence plus one. Do not eliminate varible reps by putting the expression
+                  directly into the loop's condition, because size of mPosBetweenSamples changes in the loop's body.  */
                 for (std::size_t i = 0; i < reps; ++i) {
                     std::getline(mFileStream, line);
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
                                                              << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
                     if (morePosBetweenSamples()) {
-                        mPosBetweenSamples.push_back(mFileStream.tellg());
+                        mPosBetweenSamples.push_back(mFileStream.tellg()); // changes size of mPosBetweenSamples!
                         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                                  << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
                     }
