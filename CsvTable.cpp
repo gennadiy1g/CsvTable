@@ -13,10 +13,11 @@ namespace blocale = boost::locale;
 
 using namespace std::literals::string_literals;
 
-FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
+FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancelled isCancelled)
     : mFilePath(filePath)
     , mFileStream(filePath, std::ios_base::binary)
     , mOnProgress(onProgress)
+    , mIsCancelled(isCancelled)
 {
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mFilePath=" << mFilePath << FUNCTION_FILE_LINE;
@@ -222,8 +223,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     return boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line));
 }
 
-TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress)
-    : mFileLines(filePath, onProgress)
+TokenizedFileLines::TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress, IsCancelled isCancelled)
+    : mFileLines(filePath, onProgress, isCancelled)
 {
 }
 

@@ -12,10 +12,11 @@
 namespace bfs = boost::filesystem;
 
 using OnProgress = std::function<void(int)>;
+using IsCancelled = std::function<bool()>;
 
 class FileLines {
 public:
-    explicit FileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress()); // Constructor
+    explicit FileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
@@ -45,7 +46,8 @@ private:
     std::vector<std::size_t> mPosBetweenSamples; // Positions of lines between sample lines
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
 
-    OnProgress mOnProgress { OnProgress() };
+    OnProgress mOnProgress;
+    IsCancelled mIsCancelled;
 };
 
 using EscapedListSeparator = boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>>;
@@ -53,7 +55,7 @@ using LineTokenizer = boost::tokenizer<EscapedListSeparator, std::wstring::const
 
 class TokenizedFileLines {
 public:
-    explicit TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress()); // Constructor
+    explicit TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
     virtual ~TokenizedFileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
