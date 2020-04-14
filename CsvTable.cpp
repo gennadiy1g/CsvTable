@@ -80,6 +80,12 @@ void FileLines::getPositionsOfSampleLines()
             }
         }
 
+        if (mIsCancelled && mIsCancelled()) { // TODO: Do not call mIsCancelled for each line, call it a few times per second
+            // Cancelled by user
+            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Cancelled by user" << FUNCTION_FILE_LINE;
+            return;
+        }
+
         if (!std::getline(mFileStream, line)) {
             break;
         }
