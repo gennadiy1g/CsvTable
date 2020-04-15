@@ -2,8 +2,10 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
 #include <cassert>
+#include <chrono>
 #include <cinttypes>
 #include <cmath>
+#include <ratio>
 #include <stdexcept>
 
 #include "CsvTable.h"
@@ -62,6 +64,7 @@ void FileLines::getPositionsOfSampleLines()
     auto& gLogger = GlobalLogger::get();
     std::string line { "" };
     long prevPercent { -1 }, percent { 0 };
+    auto prevTimePoint = std::chrono::system_clock::now();
 
     while (mFileStream) {
         if (!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
@@ -80,10 +83,16 @@ void FileLines::getPositionsOfSampleLines()
             }
         }
 
-        if (mIsCancelled && mIsCancelled()) { // TODO: Do not call mIsCancelled for each line, call it a few times per second
-            // Cancelled by user
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Cancelled by user" << FUNCTION_FILE_LINE;
-            return;
+        if (mIsCancelled) {
+            auto timePoint = std::chrono::system_clock::now();
+            if (std::chrono::duration<float, std::milli>(timePoint - prevTimePoint).count() > 100) {
+                if (mIsCancelled()) {
+                    // Cancelled by user
+                    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Cancelled by user" << FUNCTION_FILE_LINE;
+                    return;
+                }
+                prevTimePoint = timePoint;
+            }
         }
 
         if (!std::getline(mFileStream, line)) {
