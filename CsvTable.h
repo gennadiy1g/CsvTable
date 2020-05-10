@@ -28,6 +28,7 @@ public:
     FileLines& operator=(FileLines&& rhs) = default;
 
     std::size_t numLines() const { return mNumLines; };
+    bool IsNumLinesLimitReached() { return mIsNumLinesLimitReached; }
     std::wstring getLine(std::size_t lineNum);
 
 private:
@@ -42,6 +43,7 @@ private:
     std::size_t mNumLines { 0 }; // Number of lines in the file
     std::vector<std::size_t> mPosSampleLine; // Positions of sample lines
     std::size_t mNumLinesBetweenSamples { 1 }; // Number of lines between successive sample lines
+    bool mIsNumLinesLimitReached { false };
 
     std::vector<std::size_t> mPosBetweenSamples; // Positions of lines between sample lines
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
@@ -68,6 +70,7 @@ public:
 
     void setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote);
     std::size_t numLines() const { return mFileLines.numLines(); };
+    bool IsNumLinesLimitReached() { return mFileLines.IsNumLinesLimitReached(); }
     std::size_t numColumns() { return getTokenizedLine(0).size(); };
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
 
