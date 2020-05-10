@@ -16,7 +16,8 @@ using IsCancelled = std::function<bool()>;
 
 class FileLines {
 public:
-    explicit FileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
+    explicit FileLines(
+        const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
@@ -57,7 +58,8 @@ using LineTokenizer = boost::tokenizer<EscapedListSeparator, std::wstring::const
 
 class TokenizedFileLines {
 public:
-    explicit TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
+    explicit TokenizedFileLines(
+        const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
     virtual ~TokenizedFileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
