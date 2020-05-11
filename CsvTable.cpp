@@ -27,8 +27,7 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancell
     checkInputFile();
 
     if (!mFileStream.is_open()) {
-        throw std::runtime_error(
-            "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
+        throw std::runtime_error("Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
     }
 
     mFileSize = bfs::file_size(mFilePath);
@@ -40,13 +39,11 @@ void FileLines::checkInputFile()
     bfs::file_status inputFileStatus = bfs::status(mFilePath);
 
     if (!bfs::exists(inputFileStatus)) {
-        throw std::runtime_error(
-            "File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" does not exist!"s);
+        throw std::runtime_error("File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" does not exist!"s);
     }
 
     if (!bfs::is_regular_file(inputFileStatus)) {
-        throw std::runtime_error(
-            "File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" is not a regular file!"s);
+        throw std::runtime_error("File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" is not a regular file!"s);
     }
 
     if (bfs::file_size(mFilePath) == 0) {
@@ -57,7 +54,7 @@ void FileLines::checkInputFile()
 void FileLines::getPositionsOfSampleLines()
 {
     constexpr std::size_t kMinNumLines { 100 }; /* read at least that many lines, excluding headers' line,
-     * before trying to evaluate the number of lines in the file */
+                                                 * before trying to evaluate the number of lines in the file */
 
     constexpr std::size_t kMaxNumSamples { 10'000 }; // maximum number of sample lines, excluding headers' line
 
@@ -109,8 +106,10 @@ void FileLines::getPositionsOfSampleLines()
         if (mNumLines == kMinNumLines) {
             // Evaluate number of lines, excluding headers' line, in the file
             assert(mFileStream && mFileStream.tellg() > 0);
-            const auto approxNumLines = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (static_cast<std::size_t>(mFileStream.tellg()) - mPosSampleLine.at(1));
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "file_size=" << mFileSize << ", approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
+            const auto approxNumLines
+                = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (static_cast<std::size_t>(mFileStream.tellg()) - mPosSampleLine.at(1));
+            BOOST_LOG_SEV(gLogger, bltrivial::trace)
+                << "file_size=" << mFileSize << ", approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
             assert(approxNumLines > 0);
 
             // Calculate the number of lines between successive samples
@@ -137,7 +136,8 @@ void FileLines::getPositionsOfSampleLines()
     if (!mFileStream.eof() && !mIsNumLinesLimitReached) {
         std::stringstream message;
         message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
-                << "\", line: " << mNumLines + 1 << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
+                << "\", line: " << mNumLines + 1
+                << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
 
@@ -165,7 +165,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     } else {
         auto sampleNum = lineNum / mNumLinesBetweenSamples; // line number of the nearest sample
         auto rem = lineNum % mNumLinesBetweenSamples;
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "lineNum=" << lineNum << ", sampleNum=" << sampleNum << ", rem=" << rem << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltrivial::trace)
+            << "lineNum=" << lineNum << ", sampleNum=" << sampleNum << ", rem=" << rem << FUNCTION_FILE_LINE;
         assert(sampleNum < mPosSampleLine.size());
 
         if (mPrevSampleNum != sampleNum) {
@@ -174,7 +175,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             mPrevSampleNum = sampleNum;
         }
 
-        auto morePosBetweenSamples = [this]() { return mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1 && mFileStream.tellg() < mFileSize; };
+        auto morePosBetweenSamples
+            = [this]() { return mPosBetweenSamples.size() < mNumLinesBetweenSamples - 1 && mFileStream.tellg() < mFileSize; };
 
         BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size() << FUNCTION_FILE_LINE;
         if (!mPosBetweenSamples.size()) {
@@ -186,8 +188,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                                                      << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
             if (morePosBetweenSamples()) {
                 mPosBetweenSamples.push_back(mFileStream.tellg());
-                BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                                                         << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltrivial::trace)
+                    << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
             }
 
             for (std::size_t i = 0; i < rem; ++i) {
@@ -290,7 +292,8 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
             }
             auto itLast = mTokenizedLines.rbegin();
 
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltrivial::trace)
+                << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first << FUNCTION_FILE_LINE;
             if (std::imaxabs(lineNum - itFirst->first) > std::imaxabs(lineNum - itLast->first)) {
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Erasing line #" << itFirst->first << FUNCTION_FILE_LINE;
                 mTokenizedLines.erase(itFirst);
