@@ -67,6 +67,13 @@ void FileLines::getPositionsOfSampleLines()
     auto prevTimePoint = std::chrono::system_clock::now();
 
     while (mFileStream) {
+        /* Class wxGrid uses int for number of rows. See int wxGridTableBase::GetRowsCount() const and virtual int
+         * wxGridTableBase::GetNumberRows() for more details at docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html */
+        if (mNumLines == std::numeric_limits<int>::max()) {
+            mIsNumLinesLimitReached = true;
+            break;
+        }
+
         if (!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
             mPosSampleLine.push_back(mFileStream.tellg());
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLines=" << mNumLines << ", mPosSampleLine[" << mPosSampleLine.size() - 1
@@ -127,7 +134,7 @@ void FileLines::getPositionsOfSampleLines()
     }
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
 
-    if (!mFileStream.eof()) {
+    if (!mFileStream.eof() && !mIsNumLinesLimitReached) {
         std::stringstream message;
         message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
                 << "\", line: " << mNumLines + 1 << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
