@@ -386,7 +386,7 @@ BOOST_AUTO_TEST_CASE(Hits_Tab_csv)
 {
     std::optional<wchar_t> separator;
     std::optional<wchar_t> quote;
-    detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Tab.csv)^", separator, quote);
+    detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_TAB.csv)^", separator, quote);
     BOOST_CHECK(separator && separator.value() == L'\t');
     BOOST_CHECK(!quote);
 }
