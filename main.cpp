@@ -185,8 +185,7 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
 
 BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
 {
-    TokenizedFileLines tokenizedFileLines(
-        kTestDataDir + LR"^(web complex data with target variable.csv)^");
+    TokenizedFileLines tokenizedFileLines(kTestDataDir + LR"^(web complex data with target variable.csv)^");
     BOOST_TEST(tokenizedFileLines.numLines() == 1035808);
     BOOST_TEST(tokenizedFileLines.numColumns() == 65);
 
@@ -423,8 +422,7 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_csv)
 {
     std::optional<wchar_t> separator;
     std::optional<wchar_t> quote;
-    detectSeparatorAndQuote(
-        kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote.csv)^", separator, quote);
+    detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote.csv)^", separator, quote);
     BOOST_CHECK(separator && separator.value() == L'\t');
     BOOST_CHECK(quote && quote.value() == L'\'');
 }
@@ -433,8 +431,7 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_2_csv)
 {
     std::optional<wchar_t> separator;
     std::optional<wchar_t> quote;
-    detectSeparatorAndQuote(
-        kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote_2.csv)^", separator, quote);
+    detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote_2.csv)^", separator, quote);
     BOOST_CHECK(separator && separator.value() == L'\t');
     BOOST_CHECK(quote && quote.value() == L'\'');
 }
