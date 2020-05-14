@@ -29,7 +29,7 @@ public:
     FileLines& operator=(FileLines&& rhs) = default;
 
     std::size_t numLines() const { return mNumLines; };
-    bool IsNumLinesLimitReached() { return mIsNumLinesLimitReached; }
+    bool isNumLinesLimitReached() { return mIsNumLinesLimitReached; }
     std::wstring getLine(std::size_t lineNum);
 
 private:
@@ -72,7 +72,7 @@ public:
 
     void setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote);
     std::size_t numLines() const { return mFileLines.numLines(); };
-    bool IsNumLinesLimitReached() { return mFileLines.IsNumLinesLimitReached(); }
+    bool isNumLinesLimitReached() { return mFileLines.isNumLinesLimitReached(); }
     std::size_t numColumns() { return getTokenizedLine(0).size(); };
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
 
