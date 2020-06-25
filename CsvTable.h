@@ -51,6 +51,7 @@ private:
 
     OnProgress mOnProgress;
     IsCancelled mIsCancelled;
+    bool mIsCancelled_ { false };
 };
 
 using EscapedListSeparator = boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>>;

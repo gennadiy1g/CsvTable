@@ -94,7 +94,8 @@ void FileLines::getPositionsOfSampleLines()
                 if (mIsCancelled()) {
                     // Cancelled by user
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Cancelled by user" << FUNCTION_FILE_LINE;
-                    return;
+                    mIsCancelled_ = true;
+                    break;
                 }
                 prevTimePoint = timePoint;
             }
@@ -134,7 +135,7 @@ void FileLines::getPositionsOfSampleLines()
     }
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
 
-    if (!mFileStream.eof() && !mIsNumLinesLimitReached) {
+    if (!mFileStream.eof() && !mIsNumLinesLimitReached && !mIsCancelled_) {
         std::stringstream message;
         message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
                 << "\", line: " << mNumLines + 1
