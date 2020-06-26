@@ -88,7 +88,7 @@ void FileLines::getPositionsOfSampleLines()
             }
         }
 
-        if (mIsCancelled) {
+        if (mIsCancelled && mApproxNumLines) {
             const auto timePoint = std::chrono::system_clock::now();
             if (std::chrono::duration<float, std::milli>(timePoint - prevTimePoint).count() > 100) {
                 if (mIsCancelled()) {
