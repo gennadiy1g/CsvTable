@@ -108,13 +108,13 @@ void FileLines::getPositionsOfSampleLines()
         if (mNumLines == kMinNumLines) {
             // Evaluate number of lines, excluding headers' line, in the file
             assert(mFileStream && mFileStream.tellg() > 0);
-            const auto approxNumLines = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1));
+            mApproxNumLines = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1));
             BOOST_LOG_SEV(gLogger, bltrivial::trace)
-                << "file_size=" << mFileSize << ", approxNumLines=" << approxNumLines << FUNCTION_FILE_LINE;
-            assert(approxNumLines > 0);
+                << "file_size=" << mFileSize << ", mApproxNumLines=" << mApproxNumLines << FUNCTION_FILE_LINE;
+            assert(mApproxNumLines > 0);
 
             // Calculate the number of lines between successive samples
-            mNumLinesBetweenSamples = std::max(std::lround(static_cast<float>(approxNumLines) / kMaxNumSamples), 1l);
+            mNumLinesBetweenSamples = std::max(std::lround(static_cast<float>(mApproxNumLines) / kMaxNumSamples), 1l);
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples << FUNCTION_FILE_LINE;
 
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
