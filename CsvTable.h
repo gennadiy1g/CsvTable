@@ -32,6 +32,7 @@ public:
     std::size_t approxNumLines() const { return mApproxNumLines; };
     bool isNumLinesLimitReached() const { return mIsNumLinesLimitReached; }
     std::wstring getLine(std::size_t lineNum);
+    bool isCancelled() const { return mIsCancelled_; };
 
 private:
     void checkInputFile();
@@ -79,6 +80,7 @@ public:
     bool isNumLinesLimitReached() const { return mFileLines.isNumLinesLimitReached(); }
     std::size_t numColumns() { return getTokenizedLine(0).size(); };
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
+    bool isCancelled() const { return mFileLines.isCancelled(); };
 
     void clear();
 
