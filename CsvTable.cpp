@@ -34,6 +34,12 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancell
     getPositionsOfSampleLines();
 }
 
+FileLines::FileLines(const bfs::path& filePath, std::size_t linesToScan)
+    : FileLines(filePath)
+{
+    mLinesToScan.value() = linesToScan;
+}
+
 void FileLines::checkInputFile()
 {
     bfs::file_status inputFileStatus = bfs::status(mFilePath);
@@ -64,6 +70,10 @@ void FileLines::getPositionsOfSampleLines()
     auto prevTimePoint = std::chrono::system_clock::now();
 
     while (mFileStream) {
+        if (mLinesToScan && mNumLines == mLinesToScan.value()) {
+            break;
+        };
+
         /* Class wxGrid uses int for number of rows. See int wxGridTableBase::GetRowsCount() const and virtual int
          * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
          * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */

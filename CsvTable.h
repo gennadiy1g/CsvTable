@@ -18,6 +18,7 @@ class FileLines {
 public:
     explicit FileLines(
         const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
+    explicit FileLines(const bfs::path& filePath, std::size_t linesToScan); // Delegating Constructor
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
@@ -42,6 +43,7 @@ private:
     bfs::path mFilePath;
     bfs::ifstream mFileStream;
     bfs::ifstream::pos_type mFileSize { 0 };
+    std::optional<std::size_t> mLinesToScan {};
 
     std::size_t mNumLines { 0 }; // Number of lines in the file
     std::size_t mApproxNumLines { 0 }; // Approximate number of lines in the file
