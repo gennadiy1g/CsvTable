@@ -62,8 +62,8 @@ using LineTokenizer = boost::tokenizer<EscapedListSeparator, std::wstring::const
 
 class TokenizedFileLines {
 public:
-    explicit TokenizedFileLines(
-        const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
+    explicit TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled())
+        : mFileLines(filePath, onProgress, isCancelled) {}; // Constructor
     virtual ~TokenizedFileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
