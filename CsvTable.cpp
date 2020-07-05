@@ -59,9 +59,6 @@ void FileLines::checkInputFile()
 
 void FileLines::getPositionsOfSampleLines()
 {
-    constexpr std::size_t kMinNumLines { 100 }; /* read at least that many lines, excluding headers' line,
-                                                 * before trying to evaluate the number of lines in the file */
-
     constexpr std::size_t kMaxNumSamples { 10'000 }; // maximum number of sample lines, excluding headers' line
 
     auto& gLogger = GlobalLogger::get();
@@ -115,7 +112,7 @@ void FileLines::getPositionsOfSampleLines()
             break;
         }
 
-        if (mNumLines == kMinNumLines) {
+        if (!mLinesToScan && mNumLines == kMinNumLines) {
             // Evaluate number of lines, excluding headers' line, in the file
             assert(mFileStream && mFileStream.tellg() > 0);
             mApproxNumLines = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1));
