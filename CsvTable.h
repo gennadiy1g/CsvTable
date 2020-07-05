@@ -21,7 +21,7 @@ class FileLines {
 public:
     explicit FileLines(
         const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
-    explicit FileLines(const bfs::path& filePath, std::size_t linesToScan); // Delegating Constructor
+    explicit FileLines(const bfs::path& filePath, std::size_t linesToPreview); // Delegating Constructor
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
@@ -46,7 +46,12 @@ private:
     bfs::path mFilePath;
     bfs::ifstream mFileStream;
     bfs::ifstream::pos_type mFileSize { 0 };
-    std::optional<std::size_t> mLinesToScan {};
+
+    /* In the "preview" mode, only top lines of a file are scanned to show these top lines as quickly as possible in
+     * the grid without waiting for the whole file to be scanned. In the "normal" mode, all lines of the file are scanned.
+     */
+    bool mPreviewMode { false };
+    std::optional<std::size_t> mLinesToPreview {};
 
     std::size_t mNumLines { 0 }; // Number of lines in the file
     std::size_t mApproxNumLines { 0 }; // Approximate number of lines in the file

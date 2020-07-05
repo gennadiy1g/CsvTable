@@ -34,10 +34,11 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancell
     getPositionsOfSampleLines();
 }
 
-FileLines::FileLines(const bfs::path& filePath, std::size_t linesToScan)
+FileLines::FileLines(const bfs::path& filePath, std::size_t linesToPreview)
     : FileLines(filePath)
 {
-    mLinesToScan.value() = linesToScan;
+    mPreviewMode = true;
+    mLinesToPreview.value() = linesToPreview;
 }
 
 void FileLines::checkInputFile()
@@ -67,7 +68,7 @@ void FileLines::getPositionsOfSampleLines()
     auto prevTimePoint = std::chrono::system_clock::now();
 
     while (mFileStream) {
-        if (mLinesToScan && mNumLines == mLinesToScan.value()) {
+        if (mPreviewMode && mNumLines == mLinesToPreview.value()) {
             break;
         };
 
@@ -112,7 +113,7 @@ void FileLines::getPositionsOfSampleLines()
             break;
         }
 
-        if (!mLinesToScan && mNumLines == kMinNumLines) {
+        if (!mPreviewMode && mNumLines == kMinNumLines) {
             // Evaluate number of lines, excluding headers' line, in the file
             assert(mFileStream && mFileStream.tellg() > 0);
             mApproxNumLines = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1));
