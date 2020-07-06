@@ -40,7 +40,7 @@ FileLines::FileLines(const bfs::path& filePath, std::size_t linesToPreview)
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "filePath=" << filePath << ", linesToPreview=" << linesToPreview << FUNCTION_FILE_LINE;
     mPreviewMode = true;
-    mLinesToPreview.value() = linesToPreview;
+    mLinesToPreview = linesToPreview;
 }
 
 void FileLines::checkInputFile()
