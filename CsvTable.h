@@ -74,6 +74,8 @@ class TokenizedFileLines {
 public:
     explicit TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled())
         : mFileLines(filePath, onProgress, isCancelled) {}; // Constructor
+    TokenizedFileLines(const bfs::path& filePath, std::size_t linesToPreview)
+        : mFileLines(filePath, linesToPreview) {}; // Constructor
     virtual ~TokenizedFileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
