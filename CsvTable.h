@@ -21,7 +21,7 @@ class FileLines {
 public:
     explicit FileLines(
         const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
-    explicit FileLines(const bfs::path& filePath, std::size_t linesToPreview); // Delegating Constructor
+    FileLines(const bfs::path& filePath, std::size_t linesToPreview); // Delegating Constructor
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
