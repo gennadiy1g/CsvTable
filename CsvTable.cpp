@@ -37,6 +37,8 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancell
 FileLines::FileLines(const bfs::path& filePath, std::size_t linesToPreview)
     : FileLines(filePath)
 {
+    auto& gLogger = GlobalLogger::get();
+    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "filePath=" << filePath << ", linesToPreview=" << linesToPreview << FUNCTION_FILE_LINE;
     mPreviewMode = true;
     mLinesToPreview.value() = linesToPreview;
 }
