@@ -59,8 +59,8 @@ private:
     std::vector<bfs::ifstream::pos_type> mPosBetweenSamples; // Positions of lines between sample lines
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
 
-    OnProgress mOnProgress;
-    IsCancelled mIsCancelled;
+    OnProgress mOnProgress { OnProgress() };
+    IsCancelled mIsCancelled { IsCancelled() };
     bool mIsCancelled_ { false };
 };
 
