@@ -71,6 +71,8 @@ void FileLines::getPositionsOfSampleLines()
 
     while (mFileStream) {
         if (mPreviewMode && mNumLines == mLinesToPreview.value()) {
+            BOOST_LOG_SEV(gLogger, bltrivial::trace)
+                << "mPreviewMode=" << mPreviewMode << ", mNumLines=" << mNumLines << ", mLinesToPreview=" << mLinesToPreview.value();
             break;
         };
 
