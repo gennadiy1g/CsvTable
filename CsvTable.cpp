@@ -156,7 +156,7 @@ void FileLines::getPositionsOfSampleLines()
     }
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
 
-    if (!mFileStream.eof() && !mIsNumLinesLimitReached && !mIsCancelled_) {
+    if (!mFileStream.eof() && !mIsNumLinesLimitReached && !mIsCancelled_ && !mPreviewMode) {
         std::stringstream message;
         message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
                 << "\", line: " << mNumLines + 1
