@@ -18,7 +18,7 @@ class FileLines {
 public:
     explicit FileLines(
         const bfs::path& filePath, OnProgress onProgress = OnProgress(), IsCancelled isCancelled = IsCancelled()); // Constructor
-    FileLines(const bfs::path& filePath, std::size_t linesToPreview); // Delegating Constructor
+    FileLines(const bfs::path& filePath, std::size_t linesToPreview);
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
@@ -36,6 +36,7 @@ public:
     bool isCancelled() const { return mIsCancelled_; };
 
 private:
+    void constructorHelper(const bfs::path& filePath);
     void checkInputFile();
     void getPositionsOfSampleLines();
 

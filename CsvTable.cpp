@@ -18,8 +18,24 @@ using namespace std::literals::string_literals;
 FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancelled isCancelled)
     : mFilePath(filePath)
     , mFileStream(filePath, std::ios_base::binary)
+    , mPreviewMode(false)
+    , mLinesToPreview({})
     , mOnProgress(onProgress)
     , mIsCancelled(isCancelled)
+{
+    constructorHelper(filePath);
+}
+
+FileLines::FileLines(const bfs::path& filePath, std::size_t linesToPreview)
+    : mFilePath(filePath)
+    , mFileStream(filePath, std::ios_base::binary)
+    , mPreviewMode(true)
+    , mLinesToPreview(linesToPreview)
+{
+    constructorHelper(filePath);
+}
+
+void FileLines::constructorHelper(const bfs::path& filePath)
 {
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mFilePath=" << mFilePath << FUNCTION_FILE_LINE;
@@ -32,15 +48,6 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancell
 
     mFileSize = bfs::file_size(mFilePath);
     getPositionsOfSampleLines();
-}
-
-FileLines::FileLines(const bfs::path& filePath, std::size_t linesToPreview)
-    : FileLines(filePath)
-{
-    auto& gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "filePath=" << filePath << ", linesToPreview=" << linesToPreview << FUNCTION_FILE_LINE;
-    mPreviewMode = true;
-    mLinesToPreview = linesToPreview;
 }
 
 void FileLines::checkInputFile()
