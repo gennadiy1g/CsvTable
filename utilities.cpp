@@ -69,8 +69,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
     {
         bfs::wifstream fileStream(filePath);
         if (!fileStream) {
-            throw std::runtime_error(
-                "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
+            throw std::runtime_error("Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
         }
 
         std::getline(fileStream, line);
