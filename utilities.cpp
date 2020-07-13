@@ -31,14 +31,16 @@ void initLocalization()
 
 void initLogging()
 {
-    blog::add_file_log( // clang-format off
+    // clang-format off
+
+    blog::add_file_log(
         #ifndef DEBUG
             blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
             blkeywords::target_file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
         #else
             blkeywords::file_name = "trace.log",
             blkeywords::target_file_name = "trace.log",
-        #endif // clang-format on
+        #endif
 
         blkeywords::format = (blexpressions::stream
             << blexpressions::attr<unsigned int>("LineID") << ' ' << bltrivial::severity << ' '
@@ -46,11 +48,13 @@ void initLogging()
             << blexpressions::attr<blog::thread_id>("ThreadID") << ' ' << blexpressions::message),
 
         blkeywords::auto_flush = true);
-    blog::add_common_attributes(); // clang-format off
+    blog::add_common_attributes();
 
     #ifndef DEBUG
         blog::core::get()->set_filter(bltrivial::severity >= bltrivial::info);
-    #endif // clang-format on
+    #endif
+
+    // clang-format on
 }
 
 void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separator, std::optional<wchar_t>& quote)
