@@ -32,10 +32,12 @@ void initLocalization()
 void initLogging()
 {
     blog::add_file_log( // clang-format off
-        #ifdef NDEBUG
+        #ifndef DEBUG
             blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
+            blkeywords::target_file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
         #else
             blkeywords::file_name = "trace.log",
+            blkeywords::target_file_name = "trace.log",
         #endif // clang-format on
 
         blkeywords::format = (blexpressions::stream
@@ -46,7 +48,7 @@ void initLogging()
         blkeywords::auto_flush = true);
     blog::add_common_attributes(); // clang-format off
 
-    #ifdef NDEBUG
+    #ifndef DEBUG
         blog::core::get()->set_filter(bltrivial::severity >= bltrivial::info);
     #endif // clang-format on
 }
