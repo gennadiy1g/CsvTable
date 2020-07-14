@@ -114,6 +114,7 @@ void FileLines::getPositionsOfSampleLines()
                     // Cancelled by user
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Cancelled by user" << FUNCTION_FILE_LINE;
                     mIsCancelled_ = true;
+                    mApproxNumLines = calculateApproxNumLines();
                     break;
                 }
                 prevTimePoint = timePoint;
@@ -130,7 +131,7 @@ void FileLines::getPositionsOfSampleLines()
         if (!mPreviewMode && mNumLines == kMinNumLines) {
             // Evaluate number of lines, excluding headers' line, in the file
             assert(mFileStream && mFileStream.tellg() > 0);
-            mApproxNumLines = mNumLines * (mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1));
+            mApproxNumLines = calculateApproxNumLines();
             BOOST_LOG_SEV(gLogger, bltrivial::trace)
                 << "file_size=" << mFileSize << ", mApproxNumLines=" << mApproxNumLines << FUNCTION_FILE_LINE;
             assert(mApproxNumLines > 0);
