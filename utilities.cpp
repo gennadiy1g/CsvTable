@@ -12,8 +12,10 @@ using namespace std::literals::string_literals;
 
 void initLocalization()
 {
+#ifdef __WIN64__
     // Get global backend, and select winapi backend as default for all categories
     blocale::localization_backend_manager::global().select("winapi");
+#endif
 
     /* Create and install global locale. Non UTF-8 encodings are not supported by winapi backend.
      * https://www.boost.org/doc/libs/1_69_0/libs/locale/doc/html/using_localization_backends.html */
