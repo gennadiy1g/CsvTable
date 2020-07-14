@@ -115,6 +115,7 @@ void FileLines::getPositionsOfSampleLines()
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << "Cancelled by user" << FUNCTION_FILE_LINE;
                     mIsCancelled_ = true;
                     mApproxNumLines = calculateApproxNumLines();
+                    BOOST_LOG_SEV(gLogger, bltrivial::trace) << "mApproxNumLines=" << mApproxNumLines << FUNCTION_FILE_LINE;
                     break;
                 }
                 prevTimePoint = timePoint;
