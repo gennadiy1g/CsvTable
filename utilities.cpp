@@ -13,8 +13,14 @@ using namespace std::literals::string_literals;
 void initLocalization()
 {
 #ifdef __WIN64__
-    // Get global backend, and select winapi backend as default for all categories
-    blocale::localization_backend_manager::global().select("winapi");
+    // Get global backend
+    /*static*/ auto bm = blocale::localization_backend_manager::global();
+
+    // Select winapi backend as default for all categories
+    bm.select("winapi");
+
+    // Set this backend globally
+    blocale::localization_backend_manager::global(bm);
 #endif
 
     /* Create and install global locale. Non UTF-8 encodings are not supported by winapi backend.
