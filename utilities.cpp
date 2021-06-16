@@ -68,8 +68,9 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
     std::wstring line { L"" };
     {
         bfs::wifstream fileStream(filePath);
-        if (!fileStream) {
-            throw std::runtime_error("Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
+        if(!fileStream) {
+            throw std::runtime_error(
+                "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" for reading!"s);
         }
 
         std::getline(fileStream, line);
@@ -77,20 +78,20 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
     }
     boost::trim(line);
 
-    if (line.length()) {
+    if(line.length()) {
         // Detect separator
-        if (line.find(L'\t') != std::wstring::npos) {
+        if(line.find(L'\t') != std::wstring::npos) {
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
             separator = L'\t';
         } else {
             auto ambiguous { false };
-            for (auto& ch : line) {
-                if (ch == L'|' || ch == L';' || ch == L',') {
-                    if (!separator) {
+            for(auto& ch : line) {
+                if(ch == L'|' || ch == L';' || ch == L',') {
+                    if(!separator) {
                         BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
                         separator = ch;
                     } else {
-                        if (separator.value() != ch) {
+                        if(separator.value() != ch) {
                             // Ambiguous situation - multiple separators found
                             BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
                             ambiguous = true;
@@ -100,8 +101,8 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
                     }
                 }
             }
-            if (!ambiguous && !separator) {
-                if (line.find(L' ') != std::wstring::npos) {
+            if(!ambiguous && !separator) {
+                if(line.find(L' ') != std::wstring::npos) {
                     BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
                     separator = L' ';
                 }
@@ -109,15 +110,15 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
         }
 
         // Detect quote
-        if (line.front() == L'\"' || line.back() == L'\"') {
+        if(line.front() == L'\"' || line.back() == L'\"') {
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
             quote = L'\"';
-        } else if (line.front() == L'\'' || line.back() == L'\'') {
+        } else if(line.front() == L'\'' || line.back() == L'\'') {
             BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
             quote = L'\'';
         }
 
-        if (separator && !quote) {
+        if(separator && !quote) {
             auto match = [](std::wstring_view line, wchar_t separator, wchar_t quote) {
                 std::wstring patternLeft {};
                 patternLeft += separator;
@@ -128,10 +129,10 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
                 return line.find(patternLeft) != std::wstring::npos && line.find(patternRight) != std::wstring::npos;
             };
 
-            if (match(line, separator.value(), L'\"')) {
+            if(match(line, separator.value(), L'\"')) {
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
                 quote = L'\"';
-            } else if (match(line, separator.value(), L'\'')) {
+            } else if(match(line, separator.value(), L'\'')) {
                 BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
                 quote = L'\'';
             }
