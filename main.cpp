@@ -31,12 +31,12 @@ struct GlobalFixture {
         initLogging();
 
         auto& gLogger = GlobalLogger::get();
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "->" << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltriv::trace) << "->" << FUNCTION_FILE_LINE;
 
         auto backends = blocale::localization_backend_manager::global().get_all_backends();
         std::string backendsList = std::accumulate(backends.cbegin(), backends.cend(), ""s,
             [](const std::string& a, const std::string& b) { return a + (a == "" ? "" : ", ") + b; });
-        BOOST_LOG_SEV(gLogger, bltrivial::debug) << "Localization backends: " << backendsList << '.';
+        BOOST_LOG_SEV(gLogger, bltriv::debug) << "Localization backends: " << backendsList << '.';
     }
 
     void teardown() {}

@@ -50,7 +50,7 @@ void initLogging()
 #endif
 
     blkeywords::format = (blexpr::stream
-        << blexpr::attr<unsigned int>("LineID") << ' ' << bltrivial::severity << ' '
+        << blexpr::attr<unsigned int>("LineID") << ' ' << bltriv::severity << ' '
         << blexpr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
         << blexpr::attr<blog::thread_id>("ThreadID") << ' ' << blexpr::message),
 
@@ -59,14 +59,14 @@ void initLogging()
     blog::add_common_attributes();
 
 #ifndef DEBUG
-    blog::core::get()->set_filter(bltrivial::severity >= bltrivial::info);
+    blog::core::get()->set_filter(bltriv::severity >= bltriv::info);
 #endif
 }
 
 void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separator, std::optional<wchar_t>& quote)
 {
     auto& gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
 
     separator = std::nullopt;
     quote = std::nullopt;
@@ -80,26 +80,26 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
         }
 
         std::getline(fileStream, line);
-        BOOST_LOG_SEV(gLogger, bltrivial::trace) << "line=" << line.substr(0, 50) << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << line.substr(0, 50) << FUNCTION_FILE_LINE;
     }
     boost::trim(line);
 
     if(line.length()) {
         // Detect separator
         if(line.find(L'\t') != std::wstring::npos) {
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
             separator = L'\t';
         } else {
             auto ambiguous { false };
             for(auto& ch : line) {
                 if(ch == L'|' || ch == L';' || ch == L',') {
                     if(!separator) {
-                        BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                        BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
                         separator = ch;
                     } else {
                         if(separator.value() != ch) {
                             // Ambiguous situation - multiple separators found
-                            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                            BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
                             ambiguous = true;
                             separator = std::nullopt;
                             break;
@@ -109,7 +109,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
             }
             if(!ambiguous && !separator) {
                 if(line.find(L' ') != std::wstring::npos) {
-                    BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
                     separator = L' ';
                 }
             }
@@ -117,10 +117,10 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
 
         // Detect quote
         if(line.front() == L'\"' || line.back() == L'\"') {
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
             quote = L'\"';
         } else if(line.front() == L'\'' || line.back() == L'\'') {
-            BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
             quote = L'\'';
         }
 
@@ -136,10 +136,10 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
             };
 
             if(match(line, separator.value(), L'\"')) {
-                BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
                 quote = L'\"';
             } else if(match(line, separator.value(), L'\'')) {
-                BOOST_LOG_SEV(gLogger, bltrivial::trace) << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
                 quote = L'\'';
             }
         }
