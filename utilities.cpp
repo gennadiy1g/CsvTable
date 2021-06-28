@@ -49,10 +49,10 @@ void initLogging()
         blkeywords::target_file_name = "trace.log",
 #endif
 
-    blkeywords::format = (blexpressions::stream
-        << blexpressions::attr<unsigned int>("LineID") << ' ' << bltrivial::severity << ' '
-        << blexpressions::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
-        << blexpressions::attr<blog::thread_id>("ThreadID") << ' ' << blexpressions::message),
+    blkeywords::format = (blexpr::stream
+        << blexpr::attr<unsigned int>("LineID") << ' ' << bltrivial::severity << ' '
+        << blexpr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
+        << blexpr::attr<blog::thread_id>("ThreadID") << ' ' << blexpr::message),
 
     blkeywords::auto_flush = true);
     // clang-format on
