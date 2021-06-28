@@ -42,19 +42,19 @@ void initLogging()
     // clang-format off
     blog::add_file_log(
 #ifndef DEBUG
-        blkeywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
-        blkeywords::target_file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
+        blkw::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
+        blkw::target_file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
 #else
-        blkeywords::file_name = "trace.log",
-        blkeywords::target_file_name = "trace.log",
+        blkw::file_name = "trace.log",
+        blkw::target_file_name = "trace.log",
 #endif
 
-    blkeywords::format = (blexpr::stream
+    blkw::format = (blexpr::stream
         << blexpr::attr<unsigned int>("LineID") << ' ' << bltriv::severity << ' '
         << blexpr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
         << blexpr::attr<blog::thread_id>("ThreadID") << ' ' << blexpr::message),
 
-    blkeywords::auto_flush = true);
+    blkw::auto_flush = true);
     // clang-format on
     blog::add_common_attributes();
 

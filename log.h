@@ -9,7 +9,7 @@
 
 namespace bltriv = boost::log::trivial;
 namespace blog = boost::log;
-namespace blkeywords = boost::log::keywords;
+namespace blkw = boost::log::keywords;
 namespace blexpr = boost::log::expressions;
 
 BOOST_LOG_INLINE_GLOBAL_LOGGER_DEFAULT(GlobalLogger, boost::log::sources::wseverity_logger_mt<bltriv::severity_level>)
