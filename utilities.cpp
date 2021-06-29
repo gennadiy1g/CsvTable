@@ -52,11 +52,14 @@ void initLogging()
     blkw::format = (blexpr::stream
         << blexpr::attr<unsigned int>("LineID") << ' ' << bltriv::severity << ' '
         << blexpr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
-        << blexpr::attr<blog::thread_id>("ThreadID") << ' ' << blexpr::message),
+        << blexpr::attr<blog::thread_id>("ThreadID") << ' ' 
+        << blexpr::format_named_scope("Scope", blkw::format = "%n (%f:%l)") << ' '
+        << blexpr::message),
 
     blkw::auto_flush = true);
     // clang-format on
     blog::add_common_attributes();
+    blog::core::get()->add_global_attribute("Scope", blattr::named_scope());
 
 #ifndef DEBUG
     blog::core::get()->set_filter(bltriv::severity >= bltriv::info);
