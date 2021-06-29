@@ -20,9 +20,13 @@ const auto kTestDataDir = LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test da
 #endif
 
 struct GlobalFixture {
-    GlobalFixture() {}
+    GlobalFixture()
+    {
+    }
 
-    ~GlobalFixture() {}
+    ~GlobalFixture()
+    {
+    }
 
     void setup()
     {
@@ -38,14 +42,19 @@ struct GlobalFixture {
         BOOST_LOG_SEV(gLogger, bltriv::debug) << " Localization backends: " << backendsList << '.';
     }
 
-    void teardown() {}
+    void teardown()
+    {
+    }
 };
 
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
 
 BOOST_AUTO_TEST_SUITE(FileLines_tests);
 
-BOOST_AUTO_TEST_CASE(non_existing_file) { BOOST_REQUIRE_THROW(FileLines(LR"^(non_existing_file)^"), std::runtime_error); }
+BOOST_AUTO_TEST_CASE(non_existing_file)
+{
+    BOOST_REQUIRE_THROW(FileLines(LR"^(non_existing_file)^"), std::runtime_error);
+}
 
 BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
 {
@@ -77,7 +86,7 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
 {
     FileLines fileLines(kTestDataDir + LR"^(Hits.csv)^");
     BOOST_TEST(fileLines.numLines() == 38044);
-    for (auto i = 0; i < 2; ++i) {
+    for(auto i = 0; i < 2; ++i) {
         BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
         BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"14702501,"));
         BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"141188302,"));
@@ -96,28 +105,29 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
 {
     FileLines fileLines(kTestDataDir + LR"^(web complex data with target variable.csv)^");
     BOOST_TEST(fileLines.numLines() == 1035808);
-    for (auto i = 0; i < 2; ++i) {
-        BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"id,parent_id,cluster,program_id,offer_id,affiliate_id,"));
+    for(auto i = 0; i < 2; ++i) {
         BOOST_CHECK(
-            boost::starts_with(fileLines.getLine(1), L"328090022,\\N,22,1,9656,43608,firstsub,secondsub,496940,\\N,53479,11,Mozilla/5.0 "));
-        BOOST_CHECK(
-            boost::starts_with(fileLines.getLine(2), L"328375080,\\N,22,1,9656,43608,firstsub,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
-        BOOST_CHECK(
-            boost::starts_with(fileLines.getLine(3), L"328436381,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/4.0 "));
-        BOOST_CHECK(
-            boost::starts_with(fileLines.getLine(4), L"328588235,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
-        BOOST_CHECK(
-            boost::starts_with(fileLines.getLine(5), L"328636022,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+            boost::starts_with(fileLines.getLine(0), L"id,parent_id,cluster,program_id,offer_id,affiliate_id,"));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(1),
+            L"328090022,\\N,22,1,9656,43608,firstsub,secondsub,496940,\\N,53479,11,Mozilla/5.0 "));
         BOOST_CHECK(boost::starts_with(
-            fileLines.getLine(1035807), L"934804528,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+            fileLines.getLine(2), L"328375080,\\N,22,1,9656,43608,firstsub,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
         BOOST_CHECK(boost::starts_with(
-            fileLines.getLine(1035806), L"934802516,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+            fileLines.getLine(3), L"328436381,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/4.0 "));
         BOOST_CHECK(boost::starts_with(
-            fileLines.getLine(1035805), L"934802243,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,\"Mozilla/5.0 "));
+            fileLines.getLine(4), L"328588235,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
         BOOST_CHECK(boost::starts_with(
-            fileLines.getLine(1035804), L"934801910,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
-        BOOST_CHECK(boost::starts_with(
-            fileLines.getLine(1035803), L"934801729,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+            fileLines.getLine(5), L"328636022,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(1035807),
+            L"934804528,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(1035806),
+            L"934802516,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(1035805),
+            L"934802243,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,\"Mozilla/5.0 "));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(1035804),
+            L"934801910,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+        BOOST_CHECK(boost::starts_with(fileLines.getLine(1035803),
+            L"934801729,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
     }
 }
 
@@ -131,7 +141,7 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
     BOOST_TEST(tokenizedFileLines.numLines() == 38044);
     BOOST_TEST(tokenizedFileLines.numColumns() == 7);
 
-    for (auto i = 0; i < 2; ++i) {
+    for(auto i = 0; i < 2; ++i) {
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"enrolid");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"TKR1yr_predicted");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"model_number");
@@ -164,7 +174,7 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
     BOOST_TEST(tokenizedFileLines.numLines() == 11);
     BOOST_TEST(tokenizedFileLines.numColumns() == 4);
 
-    for (auto i = 0; i < 2; ++i) {
+    for(auto i = 0; i < 2; ++i) {
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"идентификатор");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"переменная1");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"переменная2");
@@ -188,7 +198,7 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
     BOOST_TEST(tokenizedFileLines.numLines() == 1035808);
     BOOST_TEST(tokenizedFileLines.numColumns() == 65);
 
-    for (auto i = 0; i < 2; ++i) {
+    for(auto i = 0; i < 2; ++i) {
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(0) == L"id");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(1) == L"parent_id");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0).at(2) == L"cluster");
@@ -211,8 +221,8 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(4) == L"9656");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(5) == L"43608");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(6) == L"firstsub");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(12)
-            == L"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(12) ==
+            L"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(13) == L"67.226.150.5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(14) == L"http://www.scottbrooks.ca/epic/");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1).at(15) == L"\\N");
@@ -227,8 +237,8 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(2).at(4) == L"9656");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(2).at(5) == L"43608");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(2).at(6) == L"firstsub");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(2).at(12)
-            == L"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(2).at(12) ==
+            L"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(2).at(13) == L"67.226.150.5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(2).at(14) == L"http://www.scottbrooks.ca/epic/");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(2).at(15) == L"\\N");
@@ -243,8 +253,8 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(3).at(4) == L"9656");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(3).at(5) == L"43608");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(3).at(6) == L"zone10059");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(3).at(12)
-            == L"Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB6.3; .NET CLR 1.1.4322)");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(3).at(12) ==
+            L"Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB6.3; .NET CLR 1.1.4322)");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(3).at(13) == L"72.39.10.16");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(3).at(14) == L"http://www5.azoogleads.com/rocky.html");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(3).at(15) == L"\\N");
@@ -259,8 +269,8 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(4).at(4) == L"9656");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(4).at(5) == L"43608");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(4).at(6) == L"zone10059");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(4).at(12)
-            == L"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(4).at(12) ==
+            L"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(4).at(13) == L"67.226.150.5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(4).at(14) == L"http://www5.azoogleads.com/rocky.html");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(4).at(15) == L"\\N");
@@ -275,8 +285,8 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(5).at(4) == L"9656");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(5).at(5) == L"43608");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(5).at(6) == L"zone10059");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(5).at(12)
-            == L"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(5).at(12) ==
+            L"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(5).at(13) == L"67.226.150.5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(5).at(14) == L"http://www5.azoogleads.com/rocky.html");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(5).at(15) == L"\\N");
@@ -291,16 +301,19 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(4) == L"9656");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(5) == L"43608");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(6) == L"zone10061");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(12)
-            == L"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET "
-               L"CLR 3.0.4506.2152; .NET CLR 3.5.30729; InfoPath.2; MS-RTC LM 8)");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(12) ==
+            L"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322; .NET CLR "
+            L"2.0.50727; .NET "
+            L"CLR 3.0.4506.2152; .NET CLR 3.5.30729; InfoPath.2; MS-RTC LM 8)");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(13) == L"192.206.119.3");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(14)
-            == L"http://ad.yieldmanager.com/"
-               L"iframe3?"
-               L"01QAADxWDABeQkIAAAAAAPiTEQAAAAAAAgAEAAIAAAAAAP8AAAACCRHDGAAAAAAAIKAIAAAAAACEURgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-               L"AAAAAAAAAAAAAAAABFEAMAAAAAAAIAAwAAAAAAmpmZmZmZ4T-amZmZmZnhPwAAAAAAAOw.AAAAAAAA7D8AAAAAAAD0PwAAAAAA");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(15) == L"http://www.sendspace.com/defaults/framer.html?zone=1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(14) ==
+            L"http://ad.yieldmanager.com/"
+            L"iframe3?"
+            L"01QAADxWDABeQkIAAAAAAPiTEQAAAAAAAgAEAAIAAAAAAP8AAAACCRHDGAAAAAAAIKAIAAAAAACEURgAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            L"AAAAAAAAAAAAAAAAA"
+            L"AAAAAAAAAAAAAAAABFEAMAAAAAAAIAAwAAAAAAmpmZmZmZ4T-amZmZmZnhPwAAAAAAAOw.AAAAAAAA7D8AAAAAAAD0PwAAAAAA");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(15) ==
+            L"http://www.sendspace.com/defaults/framer.html?zone=1");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(62) == L"31");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(63) == L"5");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035807).at(64) == L"2");
@@ -312,16 +325,19 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(4) == L"9656");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(5) == L"43608");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(6) == L"zone10061");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(12)
-            == L"Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR "
-               L"3.5.30729)");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(12) ==
+            L"Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR "
+            L"3.0.4506.2152; .NET CLR "
+            L"3.5.30729)");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(13) == L"24.220.244.242");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(14)
-            == L"http://ad.yieldmanager.com/"
-               L"iframe3?"
-               L"01QAADxWDABeQkIAAAAAAPiTEQAAAAAAAgAAAAIAAAAAAP8AAAACCRHDGAAAAAAAIKAIAAAAAACEURgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-               L"AAAAAAAAAAAAAAAABFEAMAAAAAAAIAAwAAAAAAmpmZmZmZ4T-amZmZmZnhPwAAAAAAAOw.AAAAAAAA7D8AAAAAAAD0PwAAAAAA");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(15) == L"http://www.sendspace.com/defaults/framer.html?zone=1");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(14) ==
+            L"http://ad.yieldmanager.com/"
+            L"iframe3?"
+            L"01QAADxWDABeQkIAAAAAAPiTEQAAAAAAAgAAAAIAAAAAAP8AAAACCRHDGAAAAAAAIKAIAAAAAACEURgAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            L"AAAAAAAAAAAAAAAAA"
+            L"AAAAAAAAAAAAAAAABFEAMAAAAAAAIAAwAAAAAAmpmZmZmZ4T-amZmZmZnhPwAAAAAAAOw.AAAAAAAA7D8AAAAAAAD0PwAAAAAA");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(15) ==
+            L"http://www.sendspace.com/defaults/framer.html?zone=1");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(62) == L"4");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(63) == L"20");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035806).at(64) == L"2");
@@ -333,17 +349,19 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(4) == L"9656");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(5) == L"43608");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(6) == L"zone10061");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(12)
-            == L"Mozilla/5.0 (Linux; U; Android 1.1; en-us; dream) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile "
-               L"Safari/523.12.2");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(12) ==
+            L"Mozilla/5.0 (Linux; U; Android 1.1; en-us; dream) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 "
+            L"Mobile "
+            L"Safari/523.12.2");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(13) == L"208.54.87.49");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(14)
-            == L"http://ad.yieldmanager.com/"
-               L"iframe3?"
-               L"p4tAANm8CwBeQkIAAAAAAPiTEQAAAAAAAgAAAAIAAAAAAP8AAAACCreyFQAAAAAAWt8VAAAAAACEURgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-               L"AAAAAAAAAAAAAAAAACEgYAAAAAAAIAAwAAAAAAmpmZmZmZ4z-amZmZmZnjPwAAAAAAAOw.AAAAAAAA7D8AAAAAAAD0PwAAAAAA");
-        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(15)
-            == L"http://ad.adperium.com/st?ad_type=iframe&ad_size=300x250&section=769241");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(14) ==
+            L"http://ad.yieldmanager.com/"
+            L"iframe3?"
+            L"p4tAANm8CwBeQkIAAAAAAPiTEQAAAAAAAgAAAAIAAAAAAP8AAAACCreyFQAAAAAAWt8VAAAAAACEURgAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            L"AAAAAAAAAAAAAAAAA"
+            L"AAAAAAAAAAAAAAAAACEgYAAAAAAAIAAwAAAAAAmpmZmZmZ4z-amZmZmZnjPwAAAAAAAOw.AAAAAAAA7D8AAAAAAAD0PwAAAAAA");
+        BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(15) ==
+            L"http://ad.adperium.com/st?ad_type=iframe&ad_size=300x250&section=769241");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(62) == L"4");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(63) == L"4");
         BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1035805).at(64) == L"2");
