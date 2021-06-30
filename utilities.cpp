@@ -50,9 +50,10 @@ void initLogging()
 #endif
 
     blkw::format = (blexpr::stream
-        << blexpr::attr<unsigned int>("LineID") << ' ' << bltriv::severity << ' '
         << blexpr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
+//        << blexpr::attr<unsigned int>("LineID") << ' ' 
         << blexpr::attr<blog::thread_id>("ThreadID") << ' ' 
+        << bltriv::severity << ' '
         << blexpr::format_named_scope("Scope", blkw::format = "%n (%f:%l)") << ' '
         << blexpr::message),
 
