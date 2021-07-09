@@ -25,10 +25,6 @@ public:
     FileLines(const FileLines& src) = delete;
     FileLines& operator=(const FileLines& rhs) = delete;
 
-    // Explicitly default move constructor and move assignment operator.
-    FileLines(FileLines&& src) = default;
-    FileLines& operator=(FileLines&& rhs) = default;
-
     std::size_t numLines() const { return mNumLines; };
     std::size_t approxNumLines() const { return mApproxNumLines; };
     bool isNumLinesLimitReached() const { return mIsNumLinesLimitReached; }
@@ -83,10 +79,6 @@ public:
     // Disallow assignment and pass-by-value.
     TokenizedFileLines(const TokenizedFileLines& src) = delete;
     TokenizedFileLines& operator=(const TokenizedFileLines& rhs) = delete;
-
-    // Explicitly default move constructor and move assignment operator.
-    TokenizedFileLines(TokenizedFileLines&& src) = default;
-    TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = default;
 
     void setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote);
     std::size_t numLines() const { return mFileLines.numLines(); };
