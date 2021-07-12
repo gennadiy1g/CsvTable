@@ -51,8 +51,8 @@ void initLogging()
 
     blkw::format = (blexpr::stream
         << blexpr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
-//        << blexpr::attr<unsigned int>("LineID") << ' ' 
-        << blexpr::attr<blog::thread_id>("ThreadID") << ' ' 
+//        << blexpr::attr<unsigned int>("LineID") << ' '
+        << blexpr::attr<blog::thread_id>("ThreadID") << ' '
         << bltriv::severity << ' '
         << blexpr::format_named_scope("Scope", blkw::format = "%n (%f:%l)") << ' '
         << blexpr::message),
@@ -69,14 +69,15 @@ void initLogging()
 
 void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separator, std::optional<wchar_t>& quote)
 {
+    BOOST_LOG_FUNCTION();
     auto& gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
 
     separator = std::nullopt;
     quote = std::nullopt;
 
     std::wstring line { L"" };
     {
+        BOOST_LOG_NAMED_SCOPE("read 1st line");
         bfs::wifstream fileStream(filePath);
         if(!fileStream) {
             throw std::runtime_error(
@@ -84,7 +85,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
         }
 
         std::getline(fileStream, line);
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << line.substr(0, 50) << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << line;
     }
     boost::trim(line);
 
