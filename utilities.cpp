@@ -87,8 +87,8 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
         std::getline(fileStream, line);
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << line;
     }
-    boost::trim(line);
 
+    boost::trim(line);
     if(line.length()) {
         // Detect separator
         if(line.find(L'\t') != std::wstring::npos) {
