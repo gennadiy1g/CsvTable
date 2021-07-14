@@ -106,7 +106,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
                         } else {
                             if(separator.value() != ch) {
                                 // Ambiguous situation - multiple separators found
-                                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Ambiguous! Another separator is " << ch;
                                 ambiguous = true;
                                 separator = std::nullopt;
                                 break;
