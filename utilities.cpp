@@ -77,7 +77,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
 
     std::wstring line { L"" };
     {
-        BOOST_LOG_NAMED_SCOPE("read 1st line");
+        BOOST_LOG_NAMED_SCOPE("Read 1st line");
         bfs::wifstream fileStream(filePath);
         if(!fileStream) {
             throw std::runtime_error(
