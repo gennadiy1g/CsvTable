@@ -127,10 +127,10 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
             // Detect quote
             BOOST_LOG_NAMED_SCOPE("Detect quote");
             if(line.front() == L'\"' || line.back() == L'\"') {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "quote=\"";
                 quote = L'\"';
             } else if(line.front() == L'\'' || line.back() == L'\'') {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "quote=\'";
                 quote = L'\'';
             }
         }
