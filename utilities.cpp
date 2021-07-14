@@ -97,7 +97,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
                 separator = L'\t';
             } else {
-                auto ambiguous { false };
+                bool ambiguous { false };
                 for(auto const& ch : line) {
                     if(ch == L'|' || ch == L';' || ch == L',') {
                         if(!separator) {
