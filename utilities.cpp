@@ -133,25 +133,26 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "quote=\'";
                 quote = L'\'';
             }
-        }
 
-        if(separator && !quote) {
-            auto match = [](std::wstring_view line, wchar_t separator, wchar_t quote) {
-                std::wstring patternLeft {};
-                patternLeft += separator;
-                patternLeft += quote;
-                std::wstring patternRight {};
-                patternRight += quote;
-                patternRight += separator;
-                return line.find(patternLeft) != std::wstring::npos && line.find(patternRight) != std::wstring::npos;
-            };
+            if(separator && !quote) {
+                auto match = [](std::wstring_view line, wchar_t separator, wchar_t quote) {
+                    std::wstring patternLeft {};
+                    patternLeft += separator;
+                    patternLeft += quote;
+                    std::wstring patternRight {};
+                    patternRight += quote;
+                    patternRight += separator;
+                    return line.find(patternLeft) != std::wstring::npos &&
+                        line.find(patternRight) != std::wstring::npos;
+                };
 
-            if(match(line, separator.value(), L'\"')) {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-                quote = L'\"';
-            } else if(match(line, separator.value(), L'\'')) {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-                quote = L'\'';
+                if(match(line, separator.value(), L'\"')) {
+                    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                    quote = L'\"';
+                } else if(match(line, separator.value(), L'\'')) {
+                    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                    quote = L'\'';
+                }
             }
         }
     }
