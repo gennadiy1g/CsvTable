@@ -94,19 +94,19 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
             // Detect separator
             BOOST_LOG_NAMED_SCOPE("Detect separator");
             if(line.find(L'\t') != std::wstring::npos) {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << R"(separator is \t)";
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << R"(separator=\t)";
                 separator = L'\t';
             } else {
                 bool ambiguous { false };
                 for(auto const& ch : line) {
                     if(ch == L'|' || ch == L';' || ch == L',') {
                         if(!separator) {
-                            BOOST_LOG_SEV(gLogger, bltriv::trace) << "separator is " << ch;
+                            BOOST_LOG_SEV(gLogger, bltriv::trace) << "separator=" << ch;
                             separator = ch;
                         } else {
                             if(separator.value() != ch) {
                                 // Ambiguous situation - multiple separators found
-                                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Ambiguous! Another separator is " << ch;
+                                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Ambiguous! Another separator=" << ch;
                                 ambiguous = true;
                                 separator = std::nullopt;
                                 break;
