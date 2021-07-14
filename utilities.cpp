@@ -101,7 +101,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
                 for(auto const& ch : line) {
                     if(ch == L'|' || ch == L';' || ch == L',') {
                         if(!separator) {
-                            BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                            BOOST_LOG_SEV(gLogger, bltriv::trace) << "separator is " << ch;
                             separator = ch;
                         } else {
                             if(separator.value() != ch) {
