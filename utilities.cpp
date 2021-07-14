@@ -123,13 +123,16 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
             }
         }
 
-        // Detect quote
-        if(line.front() == L'\"' || line.back() == L'\"') {
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-            quote = L'\"';
-        } else if(line.front() == L'\'' || line.back() == L'\'') {
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-            quote = L'\'';
+        {
+            // Detect quote
+            BOOST_LOG_NAMED_SCOPE("Detect quote");
+            if(line.front() == L'\"' || line.back() == L'\"') {
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                quote = L'\"';
+            } else if(line.front() == L'\'' || line.back() == L'\'') {
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                quote = L'\'';
+            }
         }
 
         if(separator && !quote) {
