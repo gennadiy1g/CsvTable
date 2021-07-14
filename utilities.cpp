@@ -116,7 +116,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
                 }
                 if(!ambiguous && !separator) {
                     if(line.find(L' ') != std::wstring::npos) {
-                        BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                        BOOST_LOG_SEV(gLogger, bltriv::trace) << "separator=' '";
                         separator = L' ';
                     }
                 }
