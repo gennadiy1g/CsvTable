@@ -90,32 +90,35 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
 
     boost::trim(line);
     if(line.length()) {
-        // Detect separator
-        if(line.find(L'\t') != std::wstring::npos) {
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-            separator = L'\t';
-        } else {
-            auto ambiguous { false };
-            for(auto const& ch : line) {
-                if(ch == L'|' || ch == L';' || ch == L',') {
-                    if(!separator) {
-                        BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-                        separator = ch;
-                    } else {
-                        if(separator.value() != ch) {
-                            // Ambiguous situation - multiple separators found
+        {
+            // Detect separator
+            BOOST_LOG_NAMED_SCOPE("Detect separator");
+            if(line.find(L'\t') != std::wstring::npos) {
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                separator = L'\t';
+            } else {
+                auto ambiguous { false };
+                for(auto const& ch : line) {
+                    if(ch == L'|' || ch == L';' || ch == L',') {
+                        if(!separator) {
                             BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-                            ambiguous = true;
-                            separator = std::nullopt;
-                            break;
+                            separator = ch;
+                        } else {
+                            if(separator.value() != ch) {
+                                // Ambiguous situation - multiple separators found
+                                BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                                ambiguous = true;
+                                separator = std::nullopt;
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            if(!ambiguous && !separator) {
-                if(line.find(L' ') != std::wstring::npos) {
-                    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-                    separator = L' ';
+                if(!ambiguous && !separator) {
+                    if(line.find(L' ') != std::wstring::npos) {
+                        BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+                        separator = L' ';
+                    }
                 }
             }
         }
