@@ -94,7 +94,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
             // Detect separator
             BOOST_LOG_NAMED_SCOPE("Detect separator");
             if(line.find(L'\t') != std::wstring::npos) {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << R"(separator=\t)";
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "separator=\\t";
                 separator = L'\t';
             } else {
                 bool ambiguous { false };
