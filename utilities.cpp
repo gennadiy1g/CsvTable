@@ -135,11 +135,11 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t>& separat
             }
 
             if(separator && !quote) {
-                auto match = [](std::wstring_view line, wchar_t separator, wchar_t quote) {
-                    std::wstring patternLeft {};
+                auto match = [](const std::wstring& line, wchar_t separator, wchar_t quote) {
+                    std::wstring patternLeft;
                     patternLeft += separator;
                     patternLeft += quote;
-                    std::wstring patternRight {};
+                    std::wstring patternRight;
                     patternRight += quote;
                     patternRight += separator;
                     return line.find(patternLeft) != std::wstring::npos &&
