@@ -37,8 +37,7 @@ FileLines::FileLines(const bfs::path& filePath, std::size_t linesToPreview)
 
 void FileLines::constructorHelper(const bfs::path& filePath)
 {
-    auto& gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "mFilePath=" << mFilePath << FUNCTION_FILE_LINE;
+    BOOST_LOG_FUNCTION();
 
     checkInputFile();
 
