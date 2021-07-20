@@ -76,7 +76,7 @@ void FileLines::getPositionsOfSampleLines()
     constexpr std::size_t kMaxNumSamples { 10'000 }; // maximum number of sample lines, excluding headers' line
 
     auto& gLogger = GlobalLogger::get();
-    std::string line { "" };
+    std::string line;
     int prevPercent { -1 }, percent { 0 };
     auto prevTimePoint = std::chrono::system_clock::now();
 
