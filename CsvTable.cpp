@@ -132,8 +132,8 @@ void FileLines::getPositionsOfSampleLines()
             break;
         }
 
-        // Read at least that many lines, excluding headers' line, before trying to evaluate the number of lines in the
-        // file
+        /* Read at least that many lines, excluding headers' line, before trying to evaluate the number of lines in the
+         * file */
         constexpr std::size_t kMinNumLines { 100 };
 
         if(!mPreviewMode && mNumLines == kMinNumLines) {
