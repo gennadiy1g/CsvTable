@@ -71,6 +71,8 @@ void FileLines::checkInputFile()
 
 void FileLines::getPositionsOfSampleLines()
 {
+    BOOST_LOG_FUNCTION();
+
     constexpr std::size_t kMaxNumSamples { 10'000 }; // maximum number of sample lines, excluding headers' line
 
     auto& gLogger = GlobalLogger::get();
