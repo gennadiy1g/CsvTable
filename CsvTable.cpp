@@ -118,11 +118,10 @@ void FileLines::getPositionsOfSampleLines()
             if(std::chrono::duration<float, std::milli>(timePoint - prevTimePoint).count() > 100) {
                 if(mIsCancelled()) {
                     // Cancelled by user
-                    BOOST_LOG_SEV(gLogger, bltriv::trace) << "Cancelled by user" << FUNCTION_FILE_LINE;
+                    BOOST_LOG_SEV(gLogger, bltriv::trace) << "Cancelled by user";
                     mIsCancelled_ = true;
                     mApproxNumLines = calculateApproxNumLines();
-                    BOOST_LOG_SEV(gLogger, bltriv::trace)
-                        << "mApproxNumLines=" << mApproxNumLines << FUNCTION_FILE_LINE;
+                    BOOST_LOG_SEV(gLogger, bltriv::trace) << "mApproxNumLines=" << mApproxNumLines;
                     break;
                 }
                 prevTimePoint = timePoint;
