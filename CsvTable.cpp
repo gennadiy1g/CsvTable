@@ -137,7 +137,7 @@ void FileLines::getPositionsOfSampleLines()
         constexpr std::size_t kMinNumLines { 100 };
 
         if(!mPreviewMode && mNumLines == kMinNumLines) {
-            // Evaluate number of lines, excluding headers' line, in the file
+            // Evaluate number of lines in the file, excluding headers' line
             assert(mFileStream && mFileStream.tellg() > 0);
             mApproxNumLines = calculateApproxNumLines();
             BOOST_LOG_SEV(gLogger, bltriv::trace)
