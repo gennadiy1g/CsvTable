@@ -141,13 +141,12 @@ void FileLines::getPositionsOfSampleLines()
             assert(mFileStream && mFileStream.tellg() > 0);
             mApproxNumLines = calculateApproxNumLines();
             BOOST_LOG_SEV(gLogger, bltriv::trace)
-                << "file_size=" << mFileSize << ", mApproxNumLines=" << mApproxNumLines << FUNCTION_FILE_LINE;
+                << "file_size=" << mFileSize << ", mApproxNumLines=" << mApproxNumLines;
             assert(mApproxNumLines > 0);
 
             // Calculate the number of lines between successive samples
             mNumLinesBetweenSamples = std::max(std::lround(static_cast<float>(mApproxNumLines) / kMaxNumSamples), 1l);
-            BOOST_LOG_SEV(gLogger, bltriv::trace)
-                << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltriv::trace) << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples;
 
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
             if(mNumLinesBetweenSamples > 1) {
@@ -164,7 +163,7 @@ void FileLines::getPositionsOfSampleLines()
 
         ++mNumLines; // mNumLines now includes headers' line
     }
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+    BOOST_LOG_SEV(gLogger, bltriv::trace) << "tellg()=" << mFileStream.tellg();
 
     if(!mFileStream.eof() && !mIsNumLinesLimitReached && !mIsCancelled_ && !mPreviewMode) {
         std::stringstream message;
