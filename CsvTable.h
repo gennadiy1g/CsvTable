@@ -64,7 +64,7 @@ private:
      * scanned.
      */
     bool mPreviewMode { false };
-    std::optional<std::size_t> mLinesToPreview {};
+    std::optional<std::size_t> mLinesToPreview;
 
     std::size_t mNumLines { 0 };                         // Number of lines in the file
     std::size_t mApproxNumLines { 0 };                   // Approximate number of lines in the file

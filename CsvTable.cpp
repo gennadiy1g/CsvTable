@@ -19,7 +19,6 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancell
     : mFilePath(filePath)
     , mFileStream(filePath, std::ios_base::binary)
     , mPreviewMode(false)
-    , mLinesToPreview({})
     , mOnProgress(onProgress)
     , mIsCancelled(isCancelled)
 {
