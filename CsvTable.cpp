@@ -46,6 +46,7 @@ void FileLines::constructorHelper(const bfs::path& filePath)
     }
 
     mFileSize = bfs::file_size(mFilePath);
+    assert(mFileSize);
     getPositionsOfSampleLines();
 }
 
@@ -103,7 +104,6 @@ void FileLines::getPositionsOfSampleLines()
                 << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1);
         }
 
-        assert(mFileSize);
         if(mOnProgress) {
             percent = static_cast<int>(std::round(static_cast<float>(mFileStream.tellg()) / mFileSize * 100));
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent << FUNCTION_FILE_LINE;
