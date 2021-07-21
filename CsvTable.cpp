@@ -80,6 +80,8 @@ void FileLines::getPositionsOfSampleLines()
     auto prevTimePoint = std::chrono::system_clock::now();
 
     while(mFileStream) {
+        BOOST_LOG_NAMED_SCOPE("Reading the file");
+
         if(mPreviewMode && mNumLines == mLinesToPreview.value()) {
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPreviewMode=" << mPreviewMode << ", mNumLines=" << mNumLines
                                                   << ", mLinesToPreview=" << mLinesToPreview.value();
@@ -98,7 +100,7 @@ void FileLines::getPositionsOfSampleLines()
             mPosSampleLine.push_back(mFileStream.tellg());
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "mNumLines=" << mNumLines << ", mPosSampleLine[" << mPosSampleLine.size() - 1
-                << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1) << FUNCTION_FILE_LINE;
+                << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1);
         }
 
         assert(mFileSize);
