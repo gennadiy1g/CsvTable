@@ -190,7 +190,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     if(mNumLinesBetweenSamples == 1) {
         assert(lineNum < mPosSampleLine.size());
         auto pos = mPosSampleLine.at(lineNum);
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum << ", pos=" << pos << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum << ", pos=" << pos;
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
