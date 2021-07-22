@@ -141,7 +141,7 @@ void FileLines::getPositionsOfSampleLines()
             assert(mFileStream && mFileStream.tellg() > 0);
             mApproxNumLines = calculateApproxNumLines();
             BOOST_LOG_SEV(gLogger, bltriv::trace)
-                << "mFileSize=" << mFileSize << ", mApproxNumLines=" << mApproxNumLines;
+                << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", mApproxNumLines=" << mApproxNumLines;
             assert(mApproxNumLines > 0);
 
             // Calculate the number of lines between successive samples
