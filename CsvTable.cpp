@@ -200,7 +200,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         auto sampleNum = lineNum / mNumLinesBetweenSamples; // line number of the nearest sample
         auto rem = lineNum % mNumLinesBetweenSamples;
         BOOST_LOG_SEV(gLogger, bltriv::trace)
-            << "lineNum=" << lineNum << ", sampleNum=" << sampleNum << ", rem=" << rem << FUNCTION_FILE_LINE;
+            << "lineNum=" << lineNum << ", sampleNum=" << sampleNum << ", rem=" << rem;
         assert(sampleNum < mPosSampleLine.size());
 
         if(mPrevSampleNum != sampleNum) {
