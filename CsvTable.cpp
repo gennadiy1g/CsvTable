@@ -182,6 +182,7 @@ void FileLines::getPositionsOfSampleLines()
 
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
+    BOOST_LOG_FUNCTION();
     assert(lineNum < mNumLines);
     std::string line;
 
