@@ -72,7 +72,7 @@ private:
     std::size_t mNumLinesBetweenSamples { 1 };           // Number of lines between successive sample lines
     bool mIsNumLinesLimitReached { false };
 
-    std::vector<bfs::ifstream::pos_type> mPosBetweenSamples; // Positions of lines between sample lines
+    decltype(mPosSampleLine) mPosBetweenSamples; // Positions of lines between sample lines
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
 
     OnProgress mOnProgress;
