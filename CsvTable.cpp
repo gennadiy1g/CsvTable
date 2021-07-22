@@ -150,7 +150,7 @@ void FileLines::getPositionsOfSampleLines()
 
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
             if(mNumLinesBetweenSamples > 1) {
-                std::vector<bfs::ifstream::pos_type> keep;
+                decltype(mPosSampleLine) keep;
                 for(std::size_t i = 0; i < mPosSampleLine.size(); i += mNumLinesBetweenSamples) {
                     keep.push_back(mPosSampleLine[i]);
                 }
