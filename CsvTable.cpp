@@ -194,7 +194,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
-                                              << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+                                              << ", mFileStream.tellg()=" << mFileStream.tellg();
     } else {
         auto sampleNum = lineNum / mNumLinesBetweenSamples; // line number of the nearest sample
         auto rem = lineNum % mNumLinesBetweenSamples;
