@@ -188,6 +188,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
 
     auto& gLogger = GlobalLogger::get();
     if(mNumLinesBetweenSamples == 1) {
+        BOOST_LOG_NAMED_SCOPE("mNumLinesBetweenSamples == 1");
         assert(lineNum < mPosSampleLine.size());
         auto pos = mPosSampleLine.at(lineNum);
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum << ", pos=" << pos;
@@ -197,6 +198,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
             << ", mFileStream.tellg()=" << mFileStream.tellg();
     } else {
+        BOOST_LOG_NAMED_SCOPE("mNumLinesBetweenSamples != 1");
         auto sampleNum = lineNum / mNumLinesBetweenSamples; // line number of the nearest sample
         auto rem = lineNum % mNumLinesBetweenSamples;
         BOOST_LOG_SEV(gLogger, bltriv::trace)
@@ -204,6 +206,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         assert(sampleNum < mPosSampleLine.size());
 
         if(mPrevSampleNum != sampleNum) {
+            BOOST_LOG_NAMED_SCOPE("mPrevSampleNum != sampleNum");
             mPosBetweenSamples.clear();
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "Cleared mPosBetweenSamples";
             mPrevSampleNum = sampleNum;
@@ -215,12 +218,14 @@ std::wstring FileLines::getLine(std::size_t lineNum)
 
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size();
         if(!mPosBetweenSamples.size()) {
+            BOOST_LOG_NAMED_SCOPE("!mPosBetweenSamples.size()");
             auto pos = mPosSampleLine.at(sampleNum);
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
             mFileStream.seekg(pos);
             std::getline(mFileStream, line);
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
-                                                  << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+            BOOST_LOG_SEV(gLogger, bltriv::trace)
+                << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
+                << ", mFileStream.tellg()=" << mFileStream.tellg();
             if(morePosBetweenSamples()) {
                 mPosBetweenSamples.push_back(mFileStream.tellg());
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
