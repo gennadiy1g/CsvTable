@@ -244,6 +244,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 }
             }
         } else {
+            BOOST_LOG_NAMED_SCOPE("mPosBetweenSamples.size()");
             assert(mPosBetweenSamples.size() <= mNumLinesBetweenSamples - 1);
             if(!rem) {
                 auto pos = mPosSampleLine.at(sampleNum);
