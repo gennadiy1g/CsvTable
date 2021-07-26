@@ -228,8 +228,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 << ", mFileStream.tellg()=" << mFileStream.tellg();
             if(morePosBetweenSamples()) {
                 mPosBetweenSamples.push_back(mFileStream.tellg());
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                                                      << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltriv::trace)
+                    << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back();
             }
 
             for(std::size_t i = 0; i < rem; ++i) {
