@@ -262,7 +262,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 mFileStream.seekg(pos);
                 std::getline(mFileStream, line);
                 BOOST_LOG_SEV(gLogger, bltriv::trace)
-                    << "line.substr=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
+                    << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
                     << ", mFileStream.tellg()=" << mFileStream.tellg();
                 if(rem == mPosBetweenSamples.size() && morePosBetweenSamples()) {
                     mPosBetweenSamples.push_back(mFileStream.tellg());
@@ -280,7 +280,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 for(std::size_t i = 0; i < reps; ++i) {
                     std::getline(mFileStream, line);
                     BOOST_LOG_SEV(gLogger, bltriv::trace)
-                        << "line.substr=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
+                        << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
                         << ", mFileStream.tellg()=" << mFileStream.tellg();
                     if(morePosBetweenSamples()) {
                         mPosBetweenSamples.push_back(mFileStream.tellg()); // changes size of mPosBetweenSamples!
