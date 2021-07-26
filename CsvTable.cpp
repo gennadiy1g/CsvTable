@@ -270,9 +270,9 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                         << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back();
                 }
             } else {
-                BOOST_LOG_NAMED_SCOPE("")
+                BOOST_LOG_NAMED_SCOPE("rem > mPosBetweenSamples.size()")
                 auto pos = mPosBetweenSamples.back();
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
                 mFileStream.seekg(pos);
                 auto reps = rem - mPosBetweenSamples.size() + 1; /* The last pos in mPosBetweenSamples is for the line
                   that has not been read yet, hence plus one. Do not eliminate varible reps by putting the expression
@@ -280,13 +280,12 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                 for(std::size_t i = 0; i < reps; ++i) {
                     std::getline(mFileStream, line);
                     BOOST_LOG_SEV(gLogger, bltriv::trace)
-                        << "line=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
-                        << ", tellg()=" << mFileStream.tellg() << FUNCTION_FILE_LINE;
+                        << "line.substr=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
+                        << ", mFileStream.tellg()=" << mFileStream.tellg();
                     if(morePosBetweenSamples()) {
                         mPosBetweenSamples.push_back(mFileStream.tellg()); // changes size of mPosBetweenSamples!
-                        BOOST_LOG_SEV(gLogger, bltriv::trace)
-                            << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                            << "]=" << mPosBetweenSamples.back() << FUNCTION_FILE_LINE;
+                        BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
+                                                              << "]=" << mPosBetweenSamples.back();
                     }
                 }
             }
