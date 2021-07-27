@@ -281,9 +281,9 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                     auto pos = mPosBetweenSamples.back();
                     BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
                     mFileStream.seekg(pos);
-                    /* The last pos in mPosBetweenSamples is for the line that has not been read yet, hence plus one. Do
-                    not eliminate varible reps by putting the expression directly into the loop's condition, because
-                    size of mPosBetweenSamples changes in the loop's body.  */
+                    /* The last pos in mPosBetweenSamples is for the line that has not been read yet, hence plus one.
+                     * Do not eliminate varible reps by putting the expression directly into the loop's condition,
+                     * because size of mPosBetweenSamples changes in the loop's body. */
                     auto reps = rem - mPosBetweenSamples.size() + 1;
                     for(std::size_t i = 0; i < reps; ++i) {
                         std::getline(mFileStream, line);
