@@ -306,11 +306,11 @@ std::wstring FileLines::getLine(std::size_t lineNum)
 
 void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote)
 {
+    BOOST_LOG_FUNCTION();
     auto& gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
 
     if(separator != mSeparator || quote != mQuote || escape != mEscape) {
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltriv::trace) << "mTokenizedLines.clear()";
         mTokenizedLines.clear();
     }
 
@@ -318,8 +318,6 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t separator, w
     mEscape = escape;
     mSeparator = separator;
     mQuote = quote;
-
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
 }
 
 const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
