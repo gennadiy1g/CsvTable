@@ -217,8 +217,9 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         };
 
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size();
-        if(!mPosBetweenSamples.size()) {
-            BOOST_LOG_NAMED_SCOPE("!mPosBetweenSamples.size()");
+
+        if(!rem) {
+            BOOST_LOG_NAMED_SCOPE("!rem")
             auto pos = mPosSampleLine.at(sampleNum);
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
             mFileStream.seekg(pos);
@@ -226,13 +227,17 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
                 << ", mFileStream.tellg()=" << mFileStream.tellg();
-            if(morePosBetweenSamples()) {
+            if(!mPosBetweenSamples.size() && morePosBetweenSamples()) {
                 mPosBetweenSamples.push_back(mFileStream.tellg());
                 BOOST_LOG_SEV(gLogger, bltriv::trace)
                     << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back();
             }
-
-            for(std::size_t i = 0; i < rem; ++i) {
+        } else {
+            if(!mPosBetweenSamples.size()) {
+                BOOST_LOG_NAMED_SCOPE("!mPosBetweenSamples.size()");
+                auto pos = mPosSampleLine.at(sampleNum);
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
+                mFileStream.seekg(pos);
                 std::getline(mFileStream, line);
                 BOOST_LOG_SEV(gLogger, bltriv::trace)
                     << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
@@ -242,50 +247,55 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                     BOOST_LOG_SEV(gLogger, bltriv::trace)
                         << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back();
                 }
-            }
-        } else {
-            BOOST_LOG_NAMED_SCOPE("mPosBetweenSamples.size()");
-            assert(mPosBetweenSamples.size() <= mNumLinesBetweenSamples - 1);
-            if(!rem) {
-                BOOST_LOG_NAMED_SCOPE("!rem")
-                auto pos = mPosSampleLine.at(sampleNum);
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
-                mFileStream.seekg(pos);
-                std::getline(mFileStream, line);
-                BOOST_LOG_SEV(gLogger, bltriv::trace)
-                    << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
-                    << ", mFileStream.tellg()=" << mFileStream.tellg();
-            } else if(rem <= mPosBetweenSamples.size()) {
-                BOOST_LOG_NAMED_SCOPE("rem <= mPosBetweenSamples.size()")
-                auto pos = mPosBetweenSamples.at(rem - 1);
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
-                mFileStream.seekg(pos);
-                std::getline(mFileStream, line);
-                BOOST_LOG_SEV(gLogger, bltriv::trace)
-                    << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
-                    << ", mFileStream.tellg()=" << mFileStream.tellg();
-                if(rem == mPosBetweenSamples.size() && morePosBetweenSamples()) {
-                    mPosBetweenSamples.push_back(mFileStream.tellg());
-                    BOOST_LOG_SEV(gLogger, bltriv::trace)
-                        << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back();
-                }
-            } else {
-                BOOST_LOG_NAMED_SCOPE("rem > mPosBetweenSamples.size()")
-                auto pos = mPosBetweenSamples.back();
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
-                mFileStream.seekg(pos);
-                auto reps = rem - mPosBetweenSamples.size() + 1; /* The last pos in mPosBetweenSamples is for the line
-                  that has not been read yet, hence plus one. Do not eliminate varible reps by putting the expression
-                  directly into the loop's condition, because size of mPosBetweenSamples changes in the loop's body.  */
-                for(std::size_t i = 0; i < reps; ++i) {
+
+                for(std::size_t i = 0; i < rem; ++i) {
                     std::getline(mFileStream, line);
                     BOOST_LOG_SEV(gLogger, bltriv::trace)
                         << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
                         << ", mFileStream.tellg()=" << mFileStream.tellg();
                     if(morePosBetweenSamples()) {
-                        mPosBetweenSamples.push_back(mFileStream.tellg()); // changes size of mPosBetweenSamples!
+                        mPosBetweenSamples.push_back(mFileStream.tellg());
                         BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                               << "]=" << mPosBetweenSamples.back();
+                    }
+                }
+            } else {
+                BOOST_LOG_NAMED_SCOPE("mPosBetweenSamples.size()");
+                assert(mPosBetweenSamples.size() <= mNumLinesBetweenSamples - 1);
+                if(rem <= mPosBetweenSamples.size()) {
+                    BOOST_LOG_NAMED_SCOPE("rem <= mPosBetweenSamples.size()")
+                    auto pos = mPosBetweenSamples.at(rem - 1);
+                    BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
+                    mFileStream.seekg(pos);
+                    std::getline(mFileStream, line);
+                    BOOST_LOG_SEV(gLogger, bltriv::trace)
+                        << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
+                        << ", mFileStream.tellg()=" << mFileStream.tellg();
+                    if(rem == mPosBetweenSamples.size() && morePosBetweenSamples()) {
+                        mPosBetweenSamples.push_back(mFileStream.tellg());
+                        BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
+                                                              << "]=" << mPosBetweenSamples.back();
+                    }
+                } else {
+                    BOOST_LOG_NAMED_SCOPE("rem > mPosBetweenSamples.size()")
+                    auto pos = mPosBetweenSamples.back();
+                    BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
+                    mFileStream.seekg(pos);
+                    /* The last pos in mPosBetweenSamples is for the line that has not been read yet, hence plus one. Do
+                    not eliminate varible reps by putting the expression directly into the loop's condition, because
+                    size of mPosBetweenSamples changes in the loop's body.  */
+                    auto reps = rem - mPosBetweenSamples.size() + 1;
+                    for(std::size_t i = 0; i < reps; ++i) {
+                        std::getline(mFileStream, line);
+                        BOOST_LOG_SEV(gLogger, bltriv::trace)
+                            << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)
+                            << ", mFileStream.tellg()=" << mFileStream.tellg();
+                        if(morePosBetweenSamples()) {
+                            mPosBetweenSamples.push_back(mFileStream.tellg()); // changes size of mPosBetweenSamples!
+                            BOOST_LOG_SEV(gLogger, bltriv::trace)
+                                << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
+                                << "]=" << mPosBetweenSamples.back();
+                        }
                     }
                 }
             }
