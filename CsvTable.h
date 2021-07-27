@@ -121,8 +121,6 @@ public:
         return mFileLines.isCancelled();
     };
 
-    void clear();
-
 private:
     FileLines mFileLines;
     EscapedListSeparator mEscapedListSeparator { L'\0', L',', L'\"' };

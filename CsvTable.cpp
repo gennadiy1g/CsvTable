@@ -311,7 +311,7 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t separator, w
 
     if(separator != mSeparator || quote != mQuote || escape != mEscape) {
         BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-        clear();
+        mTokenizedLines.clear();
     }
 
     mEscapedListSeparator = EscapedListSeparator(escape, separator, quote);
@@ -368,11 +368,4 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "Inserted line #" << lineNum << FUNCTION_FILE_LINE;
         return it->second;
     }
-}
-
-void TokenizedFileLines::clear()
-{
-    auto& gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
-    mTokenizedLines.clear();
 }
