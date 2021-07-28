@@ -207,8 +207,8 @@ std::wstring FileLines::getLine(std::size_t lineNum)
 
         if(mPrevSampleNum != sampleNum) {
             BOOST_LOG_NAMED_SCOPE("mPrevSampleNum != sampleNum");
+            BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples.clear()";
             mPosBetweenSamples.clear();
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << "Cleared mPosBetweenSamples";
             mPrevSampleNum = sampleNum;
         }
 
