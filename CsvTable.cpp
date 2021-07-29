@@ -322,15 +322,16 @@ void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t separator, w
 
 const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
 {
+    BOOST_LOG_FUNCTION();
     auto& gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum << FUNCTION_FILE_LINE;
+    BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum;
 
     auto search = mTokenizedLines.find(lineNum);
     if(search != mTokenizedLines.end()) {
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+        BOOST_LOG_NAMED_SCOPE("search != mTokenizedLines.end()");
         return search->second;
     } else {
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << FUNCTION_FILE_LINE;
+        BOOST_LOG_NAMED_SCOPE("search == mTokenizedLines.end()");
         if(mTokenizedLines.size() == kMaxSize) {
             /* The size of the map is at maximum. Remove one element from the map - the element
              * that is furthest away from lineNum. */
