@@ -333,6 +333,7 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
     } else {
         BOOST_LOG_NAMED_SCOPE("search == mTokenizedLines.end()");
         if(mTokenizedLines.size() == kMaxSize) {
+            BOOST_LOG_NAMED_SCOPE("mTokenizedLines.size() == kMaxSize");
             /* The size of the map is at maximum. Remove one element from the map - the element
              * that is furthest away from lineNum. */
             assert(
@@ -345,18 +346,18 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
             auto itLast = mTokenizedLines.rbegin();
 
             BOOST_LOG_SEV(gLogger, bltriv::trace)
-                << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first << FUNCTION_FILE_LINE;
+                << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first;
             if(std::imaxabs(lineNum - itFirst->first) > std::imaxabs(lineNum - itLast->first)) {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing line #" << itFirst->first << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing line #" << itFirst->first;
                 mTokenizedLines.erase(itFirst);
             } else {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing line #" << itLast->first << FUNCTION_FILE_LINE;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing line #" << itLast->first;
                 mTokenizedLines.erase(itLast->first);
             }
         }
 
         auto line = mFileLines.getLine(lineNum);
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << line.substr(0, 50) << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltriv::trace) << "line.substr()=" << line.substr(0, 50);
         LineTokenizer tok(line, mEscapedListSeparator);
         std::vector<std::wstring> tokenizedLine;
         for(auto beg = tok.begin(); beg != tok.end(); ++beg) {
@@ -364,7 +365,7 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
         }
         const auto [it, success] = mTokenizedLines.insert({ lineNum, std::move(tokenizedLine) });
         assert(success);
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "Inserted line #" << lineNum << FUNCTION_FILE_LINE;
+        BOOST_LOG_SEV(gLogger, bltriv::trace) << "Inserted line #" << lineNum;
         return it->second;
     }
 }
