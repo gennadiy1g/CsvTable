@@ -14,5 +14,3 @@ namespace blexpr = boost::log::expressions;
 namespace blattr = boost::log::attributes;
 
 BOOST_LOG_INLINE_GLOBAL_LOGGER_DEFAULT(GlobalLogger, boost::log::sources::wseverity_logger_mt<bltriv::severity_level>)
-
-#define FUNCTION_FILE_LINE " (" << __FUNCTION__ << " " << __FILE__ << ":" << __LINE__ << ")"
