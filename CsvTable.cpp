@@ -3,7 +3,6 @@
 #include <boost/locale.hpp>
 #include <cassert>
 #include <chrono>
-#include <cinttypes>
 #include <cmath>
 #include <ratio>
 #include <stdexcept>
@@ -347,7 +346,10 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
 
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first;
-            if(std::imaxabs(lineNum - itFirst->first) > std::imaxabs(lineNum - itLast->first)) {
+
+            auto distToFirst = lineNum - itFirst->first;
+            auto distToLast = itLast->first - lineNum;
+            if((distToFirst >= 0 ? distToFirst : -distToFirst) > (distToLast >= 0 ? distToLast : -distToLast)) {
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itFirst->first #" << itFirst->first;
                 mTokenizedLines.erase(itFirst);
             } else {
