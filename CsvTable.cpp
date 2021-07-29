@@ -350,7 +350,7 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
             auto distToFirst = lineNum - itFirst->first;
             auto distToLast = itLast->first - lineNum;
             if((distToFirst >= 0 ? distToFirst : -distToFirst) > (distToLast >= 0 ? distToLast : -distToLast)) {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itFirst->first #" << itFirst->first;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itFirst #" << itFirst->first;
                 mTokenizedLines.erase(itFirst);
             } else {
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itLast->first #" << itLast->first;
