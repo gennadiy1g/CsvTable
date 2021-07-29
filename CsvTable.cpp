@@ -338,12 +338,12 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
              * that is furthest away from lineNum. */
             assert(
                 mTokenizedLines.size() > 4); // the logic below works only if there are more than 4 elements in the map
-            auto itFirst = mTokenizedLines.begin();
+            auto itFirst = mTokenizedLines.cbegin();
             if(itFirst->first == 0) {
                 // Always keep the line #0 because it contains columns' names
                 ++itFirst;
             }
-            auto itLast = mTokenizedLines.rbegin();
+            auto itLast = mTokenizedLines.crbegin();
 
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first;
