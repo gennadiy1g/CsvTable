@@ -348,10 +348,10 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first;
             if(std::imaxabs(lineNum - itFirst->first) > std::imaxabs(lineNum - itLast->first)) {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing line #" << itFirst->first;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itFirst->first #" << itFirst->first;
                 mTokenizedLines.erase(itFirst);
             } else {
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing line #" << itLast->first;
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itLast->first #" << itLast->first;
                 mTokenizedLines.erase(itLast->first);
             }
         }
