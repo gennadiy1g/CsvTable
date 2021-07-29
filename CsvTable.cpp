@@ -347,9 +347,9 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first;
 
-            auto distToFirst = lineNum - itFirst->first;
-            auto distToLast = itLast->first - lineNum;
-            if((distToFirst >= 0 ? distToFirst : -distToFirst) > (distToLast >= 0 ? distToLast : -distToLast)) {
+            std::size_t distToFirst = lineNum >= itFirst->first ? lineNum - itFirst->first : itFirst->first - lineNum;
+            std::size_t distToLast = itLast->first >= lineNum ? itLast->first - lineNum : lineNum - itLast->first;
+            if(distToFirst >= distToLast) {
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itFirst #" << itFirst->first;
                 mTokenizedLines.erase(itFirst);
             } else {
