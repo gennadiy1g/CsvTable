@@ -27,6 +27,11 @@ public:
     FileLines(const FileLines& src) = delete;
     FileLines& operator=(const FileLines& rhs) = delete;
 
+    /* No move operations because field mFileStream has inaccessible move constructor and
+     * move assignement operator */
+    FileLines(FileLines&& src) = delete;
+    FileLines& operator=(FileLines&& rhs) = delete;
+
     std::size_t numLines() const
     {
         return mNumLines;
@@ -97,6 +102,11 @@ public:
     // Disallow assignment and pass-by-value.
     TokenizedFileLines(const TokenizedFileLines& src) = delete;
     TokenizedFileLines& operator=(const TokenizedFileLines& rhs) = delete;
+
+    /* No move operations because field mFileLines has deleted move constructor and
+     * move assignement operator */
+    TokenizedFileLines(TokenizedFileLines&& src) = delete;
+    TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = delete;
 
     void setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote);
     std::size_t numLines() const
