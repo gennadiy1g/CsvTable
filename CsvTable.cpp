@@ -325,8 +325,7 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum;
 
-    auto search = mTokenizedLines.find(lineNum);
-    if(search != mTokenizedLines.end()) {
+    if(auto search = mTokenizedLines.find(lineNum); search != mTokenizedLines.end()) {
         BOOST_LOG_NAMED_SCOPE("search != mTokenizedLines.end()");
         return search->second;
     } else {
