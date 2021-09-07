@@ -51,7 +51,7 @@ void FileLines::constructorHelper(const bfs::path& filePath)
 
 void FileLines::checkInputFile()
 {
-    bfs::file_status inputFileStatus = bfs::status(mFilePath);
+    auto inputFileStatus = bfs::status(mFilePath);
 
     if(!bfs::exists(inputFileStatus)) {
         throw std::runtime_error(
