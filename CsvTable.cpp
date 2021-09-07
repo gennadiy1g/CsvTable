@@ -51,20 +51,22 @@ void FileLines::constructorHelper(const bfs::path& filePath)
 
 void FileLines::checkInputFile()
 {
+    auto errorMessage = [](bfs::path const& filePath) {
+        return "File \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" ";
+    };
+
     auto inputFileStatus = bfs::status(mFilePath);
 
     if(!bfs::exists(inputFileStatus)) {
-        throw std::runtime_error(
-            "File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" does not exist!"s);
+        throw std::runtime_error(errorMessage(mFilePath) + "does not exist!"s);
     }
 
     if(!bfs::is_regular_file(inputFileStatus)) {
-        throw std::runtime_error(
-            "File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" is not a regular file!"s);
+        throw std::runtime_error(errorMessage(mFilePath) + "is not a regular file!"s);
     }
 
     if(bfs::file_size(mFilePath) == 0) {
-        throw std::runtime_error("File \""s + blocale::conv::utf_to_utf<char>(mFilePath.native()) + "\" is empty!"s);
+        throw std::runtime_error(errorMessage(mFilePath) + "is empty!"s);
     }
 }
 
