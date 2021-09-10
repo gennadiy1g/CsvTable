@@ -166,10 +166,16 @@ void FileLines::getPositionsOfSampleLines()
     }
     BOOST_LOG_SEV(gLogger, bltriv::trace) << "mFileStream.tellg()=" << mFileStream.tellg();
 
-    if(!mFileStream.eof() && !mIsNumLinesLimitReached && !mIsCancelled_ && !mPreviewMode) {
+    if(!mFileStream.eof() && mFileStream.fail()) {
         std::stringstream message;
-        message << "Character set conversion error! File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native())
-                << "\", line: " << mNumLines + 1
+
+        if(mFileStream.bad()) {
+            message << "Irrecoverable stream error!";
+        } else {
+            message << "Input/output operation failed (formatting or extraction error)!";
+        }
+
+        message << " File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native()) << "\", line: " << mNumLines + 1
                 << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
