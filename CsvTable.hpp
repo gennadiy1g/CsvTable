@@ -1,9 +1,9 @@
 #pragma once
 
+#include <atomic>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/tokenizer.hpp>
-#include <atomic>
 #include <functional>
 #include <limits>
 #include <map>
@@ -13,14 +13,12 @@
 namespace bfs = boost::filesystem;
 
 using OnProgress = std::function<void(int)>;
-using IsCancelled = std::function<bool()>;
 
 class FileLines
 {
 public:
     explicit FileLines(const bfs::path& filePath,
-        OnProgress onProgress = OnProgress(),
-        IsCancelled isCancelled = IsCancelled()); // Constructor
+        OnProgress onProgress = OnProgress()); // Constructor
     FileLines(const bfs::path& filePath, std::size_t linesToPreview);
     virtual ~FileLines() = default; // Defaulted virtual destructor
 
@@ -82,7 +80,6 @@ private:
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
 
     OnProgress mOnProgress;
-    IsCancelled mIsCancelled;
     bool mIsCancelled_ { false };
 };
 
@@ -92,10 +89,8 @@ using LineTokenizer = boost::tokenizer<EscapedListSeparator, std::wstring::const
 class TokenizedFileLines
 {
 public:
-    explicit TokenizedFileLines(const bfs::path& filePath,
-        OnProgress onProgress = OnProgress(),
-        IsCancelled isCancelled = IsCancelled())
-        : mFileLines(filePath, onProgress, isCancelled) {}; // Constructor
+    explicit TokenizedFileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress())
+        : mFileLines(filePath, onProgress) {}; // Constructor
     TokenizedFileLines(const bfs::path& filePath, std::size_t linesToPreview)
         : mFileLines(filePath, linesToPreview) {}; // Constructor
     virtual ~TokenizedFileLines() = default;       // Defaulted virtual destructor

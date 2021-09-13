@@ -14,12 +14,11 @@ namespace blocale = boost::locale;
 
 using namespace std::literals::string_literals;
 
-FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress, IsCancelled isCancelled)
+FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
     : mFilePath(filePath)
     , mFileStream(filePath, std::ios_base::binary)
     , mPreviewMode(false)
     , mOnProgress(onProgress)
-    , mIsCancelled(isCancelled)
 {
     constructorHelper(filePath);
 }
@@ -114,19 +113,17 @@ void FileLines::getPositionsOfSampleLines()
             }
         }
 
-        if(mIsCancelled && mApproxNumLines) {
-            const auto timePoint = std::chrono::system_clock::now();
-            if(std::chrono::duration<float, std::milli>(timePoint - prevTimePoint).count() > 100) {
-                if(mIsCancelled()) {
-                    // Cancelled by user
-                    BOOST_LOG_SEV(gLogger, bltriv::trace) << "Cancelled by user";
-                    mIsCancelled_ = true;
-                    mApproxNumLines = calculateApproxNumLines();
-                    BOOST_LOG_SEV(gLogger, bltriv::trace) << "mApproxNumLines=" << mApproxNumLines;
-                    break;
-                }
-                prevTimePoint = timePoint;
+        const auto timePoint = std::chrono::system_clock::now();
+        if(std::chrono::duration<float, std::milli>(timePoint - prevTimePoint).count() > 100) {
+            if(mIsCancelled_) {
+                // Cancelled by user
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Cancelled by user";
+                mIsCancelled_ = true;
+                mApproxNumLines = calculateApproxNumLines();
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "mApproxNumLines=" << mApproxNumLines;
+                break;
             }
+            prevTimePoint = timePoint;
         }
 
         if(!std::getline(mFileStream, line)) {
