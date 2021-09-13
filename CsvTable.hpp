@@ -3,6 +3,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/tokenizer.hpp>
+#include <atomic>
 #include <functional>
 #include <limits>
 #include <map>
@@ -71,7 +72,7 @@ private:
     bool mPreviewMode { false };
     std::optional<std::size_t> mLinesToPreview;
 
-    std::size_t mNumLines { 0 };                         // Number of lines in the file
+    std::atomic_size_t mNumLines { 0 };                  // Number of lines in the file
     std::size_t mApproxNumLines { 0 };                   // Approximate number of lines in the file
     std::vector<bfs::ifstream::pos_type> mPosSampleLine; // Positions of sample lines
     std::size_t mNumLinesBetweenSamples { 1 };           // Number of lines between successive sample lines
