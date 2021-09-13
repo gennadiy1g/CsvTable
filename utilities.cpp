@@ -3,8 +3,8 @@
 #include <string>
 #include <string_view>
 
-#include "log.h"
-#include "utilities.h"
+#include "log.hpp"
+#include "utilities.hpp"
 
 namespace blocale = boost::locale;
 

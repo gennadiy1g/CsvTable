@@ -3,11 +3,11 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <File Name="utilities.h"/>
+    <File Name="utilities.hpp"/>
+    <File Name="log.hpp"/>
+    <File Name="CsvTable.hpp"/>
     <File Name="utilities.cpp"/>
-    <File Name="log.h"/>
     <File Name="CsvTable.cpp"/>
-    <File Name="CsvTable.h"/>
     <File Name="main.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">

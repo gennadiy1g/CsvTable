@@ -7,8 +7,8 @@
 #include <ratio>
 #include <stdexcept>
 
-#include "CsvTable.h"
-#include "log.h"
+#include "CsvTable.hpp"
+#include "log.hpp"
 
 namespace blocale = boost::locale;
 

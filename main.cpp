@@ -5,9 +5,9 @@
 #include <boost/test/unit_test.hpp>
 #include <numeric>
 
-#include "CsvTable.h"
-#include "log.h"
-#include "utilities.h"
+#include "CsvTable.hpp"
+#include "log.hpp"
+#include "utilities.hpp"
 
 namespace blocale = boost::locale;
 
