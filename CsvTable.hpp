@@ -46,7 +46,7 @@ public:
     std::wstring getLine(std::size_t lineNum);
     bool isCancelled() const
     {
-        return mIsCancelled_;
+        return mIsCancelled;
     };
 
 private:
@@ -80,7 +80,7 @@ private:
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
 
     OnProgress mOnProgress;
-    bool mIsCancelled_ { false };
+    bool mIsCancelled { false };
 };
 
 using EscapedListSeparator = boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>>;
