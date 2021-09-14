@@ -17,17 +17,7 @@ using namespace std::literals::string_literals;
 FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
     : mFilePath(filePath)
     , mFileStream(filePath, std::ios_base::binary)
-    , mPreviewMode(false)
     , mOnProgress(onProgress)
-{
-    constructorHelper(filePath);
-}
-
-FileLines::FileLines(const bfs::path& filePath, std::size_t linesToPreview)
-    : mFilePath(filePath)
-    , mFileStream(filePath, std::ios_base::binary)
-    , mPreviewMode(true)
-    , mLinesToPreview(linesToPreview)
 {
     constructorHelper(filePath);
 }
@@ -83,12 +73,6 @@ void FileLines::getPositionsOfSampleLines()
     while(mFileStream.good()) {
         BOOST_LOG_NAMED_SCOPE("Reading the file");
 
-        if(mPreviewMode && mNumLines == mLinesToPreview.value()) {
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPreviewMode=" << mPreviewMode << ", mNumLines=" << mNumLines
-                                                  << ", mLinesToPreview=" << mLinesToPreview.value();
-            break;
-        };
-
         /* Class wxGrid uses int for number of rows. See int wxGridTableBase::GetRowsCount() const and virtual int
          * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
          * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
@@ -134,7 +118,7 @@ void FileLines::getPositionsOfSampleLines()
          * file */
         constexpr std::size_t kMinNumLines { 100 };
 
-        if(!mPreviewMode && mNumLines == kMinNumLines) {
+        if(mNumLines == kMinNumLines) {
             // Evaluate number of lines in the file, excluding headers' line
             assert(mFileStream && mFileStream.tellg() > 0);
             mApproxNumLines = calculateApproxNumLines();
