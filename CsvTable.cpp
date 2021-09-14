@@ -108,7 +108,7 @@ void FileLines::getPositionsOfSampleLines()
             percent = static_cast<int>(std::round(static_cast<float>(mFileStream.tellg()) / mFileSize * 100));
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
             if(percent - prevPercent >= 1) {
-                mOnProgress(percent);
+                mOnProgress(mNumLines, percent);
                 prevPercent = percent;
             }
         }
@@ -180,7 +180,7 @@ void FileLines::getPositionsOfSampleLines()
     mFileStream.clear();
 
     if(mOnProgress && percent < 100) {
-        mOnProgress(100);
+        mOnProgress(mNumLines, 100);
     }
 }
 
