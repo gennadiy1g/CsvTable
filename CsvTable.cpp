@@ -62,8 +62,9 @@ void FileLines::getPositionsOfSampleLines()
 
     auto& gLogger = GlobalLogger::get();
     std::string line;
-    int prevPercent { -1 }, percent { 0 };
+    int percent { 0 };
     auto prevTimePointC = std::chrono::system_clock::now();
+    auto prevTimePointP = std::chrono::system_clock::now();
 
     while(mFileStream.good()) {
         BOOST_LOG_NAMED_SCOPE("Reading the file");
@@ -83,16 +84,7 @@ void FileLines::getPositionsOfSampleLines()
                 << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1);
         }
 
-        if(mOnProgress) {
-            percent = static_cast<int>(std::round(static_cast<float>(mFileStream.tellg()) / mFileSize * 100));
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
-            if(percent - prevPercent >= 1) {
-                mOnProgress(mNumLines, percent);
-                prevPercent = percent;
-            }
-        }
-
-        const auto timePoint = std::chrono::system_clock::now();
+        auto timePoint = std::chrono::system_clock::now();
         if(std::chrono::duration<float, std::milli>(timePoint - prevTimePointC).count() > 100) {
             if(mIsCancelled) {
                 // Cancelled by user
@@ -136,6 +128,16 @@ void FileLines::getPositionsOfSampleLines()
         }
 
         ++mNumLines; // mNumLines now includes headers' line
+
+        if(mOnProgress) {
+            timePoint = std::chrono::system_clock::now();
+            if(std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) {
+                percent = static_cast<int>(std::round(static_cast<float>(mFileStream.tellg()) / mFileSize * 100));
+                BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
+                mOnProgress(mNumLines, percent);
+                prevTimePointP = timePoint;
+            }
+        }
     }
     BOOST_LOG_SEV(gLogger, bltriv::trace) << "mFileStream.tellg()=" << mFileStream.tellg();
 
@@ -155,7 +157,7 @@ void FileLines::getPositionsOfSampleLines()
 
     mFileStream.clear();
 
-    if(mOnProgress && percent < 100) {
+    if(mOnProgress) {
         mOnProgress(mNumLines, 100);
     }
 }
