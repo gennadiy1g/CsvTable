@@ -63,7 +63,7 @@ void FileLines::getPositionsOfSampleLines()
     auto& gLogger = GlobalLogger::get();
     std::string line;
     int prevPercent { -1 }, percent { 0 };
-    auto prevTimePoint = std::chrono::system_clock::now();
+    auto prevTimePointC = std::chrono::system_clock::now();
 
     while(mFileStream.good()) {
         BOOST_LOG_NAMED_SCOPE("Reading the file");
@@ -93,13 +93,13 @@ void FileLines::getPositionsOfSampleLines()
         }
 
         const auto timePoint = std::chrono::system_clock::now();
-        if(std::chrono::duration<float, std::milli>(timePoint - prevTimePoint).count() > 100) {
+        if(std::chrono::duration<float, std::milli>(timePoint - prevTimePointC).count() > 100) {
             if(mIsCancelled) {
                 // Cancelled by user
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "Cancelled by user";
                 break;
             }
-            prevTimePoint = timePoint;
+            prevTimePointC = timePoint;
         }
 
         if(!std::getline(mFileStream, line)) {
