@@ -80,7 +80,7 @@ private:
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
 
     OnProgress mOnProgress;
-    bool mIsCancelled { false };
+    std::atomic_bool mIsCancelled { false };
 };
 
 using EscapedListSeparator = boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>>;
