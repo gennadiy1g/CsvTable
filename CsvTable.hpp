@@ -49,7 +49,6 @@ public:
     };
 
 private:
-    void constructorHelper(const bfs::path& filePath);
     void checkInputFile();
     void getPositionsOfSampleLines();
     std::size_t calculateApproxNumLines()

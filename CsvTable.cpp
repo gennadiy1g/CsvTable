@@ -19,11 +19,6 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
     , mFileStream(filePath, std::ios_base::binary)
     , mOnProgress(onProgress)
 {
-    constructorHelper(filePath);
-}
-
-void FileLines::constructorHelper(const bfs::path& filePath)
-{
     BOOST_LOG_FUNCTION();
 
     checkInputFile();
