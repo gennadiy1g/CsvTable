@@ -17,9 +17,8 @@ using OnProgress = std::function<void(int, int)>;
 class FileLines
 {
 public:
-    explicit FileLines(const bfs::path& filePath,
-        OnProgress onProgress = OnProgress()); // Constructor
-    virtual ~FileLines() = default;            // Defaulted virtual destructor
+    explicit FileLines(const bfs::path& filePath, OnProgress onProgress = OnProgress()); // Constructor
+    virtual ~FileLines() = default;                                                      // Defaulted virtual destructor
 
     // Disallow assignment and pass-by-value.
     FileLines(const FileLines& src) = delete;
@@ -34,14 +33,17 @@ public:
     {
         return mNumLines;
     };
+
     std::size_t approxNumLines() const
     {
         return mApproxNumLines;
     };
+
     bool isNumLinesLimitReached() const
     {
         return mIsNumLinesLimitReached;
     }
+
     std::wstring getLine(std::size_t lineNum);
 
     void stopReading()
@@ -95,22 +97,27 @@ public:
     TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = delete;
 
     void setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote);
+
     std::size_t numLines() const
     {
         return mFileLines.numLines();
     };
+
     std::size_t approxNumLines() const
     {
         return mFileLines.approxNumLines();
     };
+
     bool isNumLinesLimitReached() const
     {
         return mFileLines.isNumLinesLimitReached();
     }
+
     std::size_t numColumns()
     {
         return getTokenizedLine(0).size();
     };
+
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
 
 private:
