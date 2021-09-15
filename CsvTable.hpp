@@ -54,10 +54,6 @@ public:
 private:
     void checkInputFile();
     void getPositionsOfSampleLines();
-    std::size_t calculateApproxNumLines()
-    {
-        return mNumLines * (mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1));
-    };
 
     // The file
     bfs::path mFilePath;
