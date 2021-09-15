@@ -43,10 +43,6 @@ public:
         return mIsNumLinesLimitReached;
     }
     std::wstring getLine(std::size_t lineNum);
-    bool isCancelled() const
-    {
-        return mIsCancelled;
-    };
 
 private:
     void checkInputFile();
@@ -111,10 +107,6 @@ public:
         return getTokenizedLine(0).size();
     };
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
-    bool isCancelled() const
-    {
-        return mFileLines.isCancelled();
-    };
 
 private:
     FileLines mFileLines;
