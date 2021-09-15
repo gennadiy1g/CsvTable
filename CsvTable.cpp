@@ -140,6 +140,7 @@ void FileLines::getPositionsOfSampleLines()
 
         if(mOnProgress) {
             timePoint = std::chrono::system_clock::now();
+            // TODO Call mOnProgress after first 50 or so lines so that the user can see them.
             if(std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) {
                 percent = static_cast<int>(std::round(static_cast<float>(mFileStream.tellg()) / mFileSize * 100));
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
