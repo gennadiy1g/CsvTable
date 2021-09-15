@@ -44,6 +44,11 @@ public:
     }
     std::wstring getLine(std::size_t lineNum);
 
+    void stopReading()
+    {
+        mIsCancelled = true;
+    };
+
 private:
     void checkInputFile();
     void getPositionsOfSampleLines();
