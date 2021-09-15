@@ -106,7 +106,7 @@ void FileLines::getPositionsOfSampleLines()
 
         if(mNumLines == kMinNumLines) {
             // Evaluate number of lines in the file, excluding headers' line
-            assert(mFileStream && mFileStream.tellg() > 0);
+            assert(mFileStream && (mFileStream.tellg() - mPosSampleLine.at(1)) > 0);
             auto approxNumLines = mNumLines *
                 (static_cast<float>(mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1)));
             if(approxNumLines > static_cast<float>(kMaxInt)) {
