@@ -59,6 +59,7 @@ void FileLines::getPositionsOfSampleLines()
     BOOST_LOG_FUNCTION();
 
     constexpr std::size_t kMaxNumSamples { 10'000 }; // maximum number of sample lines, excluding headers' line
+    constexpr std::size_t kMaxInt = static_cast<std::size_t>(std::numeric_limits<int>::max());
 
     auto& gLogger = GlobalLogger::get();
     std::string line;
@@ -72,7 +73,7 @@ void FileLines::getPositionsOfSampleLines()
         /* Class wxGrid uses int for number of rows. See int wxGridTableBase::GetRowsCount() const and virtual int
          * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
          * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
-        if(mNumLines == static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+        if(mNumLines == kMaxInt) {
             mIsNumLinesLimitReached = true;
             break;
         }
@@ -106,8 +107,13 @@ void FileLines::getPositionsOfSampleLines()
         if(mNumLines == kMinNumLines) {
             // Evaluate number of lines in the file, excluding headers' line
             assert(mFileStream && mFileStream.tellg() > 0);
-            mApproxNumLines =
-                mNumLines * ((mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1)));
+            auto approxNumLines = mNumLines *
+                (static_cast<float>(mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1)));
+            if(approxNumLines > static_cast<float>(kMaxInt)) {
+                mApproxNumLines = kMaxInt;
+            } else {
+                mApproxNumLines = static_cast<std::size_t>(std::lround(approxNumLines));
+            }
 
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", mApproxNumLines=" << mApproxNumLines;
