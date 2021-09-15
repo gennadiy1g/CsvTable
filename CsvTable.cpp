@@ -156,7 +156,7 @@ void FileLines::getPositionsOfSampleLines()
         if(mFileStream.bad()) {
             message << "Irrecoverable stream error!";
         } else {
-            message << "Input/output operation failed (formatting or extraction error)!";
+            message << "Input operation failed (extraction error)!";
         }
 
         message << " File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native()) << "\", line: " << mNumLines + 1
