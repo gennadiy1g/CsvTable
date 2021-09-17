@@ -69,7 +69,7 @@ void FileLines::getPositionsOfSampleLines()
     bfs::ifstream fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
     assert(fileStream.is_open());
 
-    while(mFileStream.good()) {
+    while(fileStream.good()) {
         BOOST_LOG_NAMED_SCOPE("Reading the file");
 
         /* Class wxGrid uses int for number of rows. See int wxGridTableBase::GetRowsCount() const and virtual int
