@@ -16,7 +16,7 @@ using namespace std::literals::string_literals;
 
 FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
     : mFilePath(filePath)
-    , mFileStream(filePath, std::ios_base::binary)
+    , mFileStream(filePath, std::ios_base::in | std::ios_base::binary)
     , mOnProgress(onProgress)
 {
     BOOST_LOG_FUNCTION();
