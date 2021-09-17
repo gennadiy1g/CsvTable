@@ -66,6 +66,8 @@ void FileLines::getPositionsOfSampleLines()
     int percent { 0 };
     auto prevTimePointC = std::chrono::system_clock::now();
     auto prevTimePointP = prevTimePointC;
+    bfs::ifstream fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
+    assert(fileStream.is_open());
 
     while(mFileStream.good()) {
         BOOST_LOG_NAMED_SCOPE("Reading the file");
@@ -79,7 +81,7 @@ void FileLines::getPositionsOfSampleLines()
         }
 
         if(!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
-            mPosSampleLine.push_back(mFileStream.tellg());
+            mPosSampleLine.push_back(fileStream.tellg());
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "mNumLines=" << mNumLines << ", mPosSampleLine[" << mPosSampleLine.size() - 1
                 << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1);
@@ -95,7 +97,7 @@ void FileLines::getPositionsOfSampleLines()
             prevTimePointC = timePoint;
         }
 
-        if(!std::getline(mFileStream, line)) {
+        if(!std::getline(fileStream, line)) {
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "Error detected!";
             break;
         }
@@ -106,9 +108,9 @@ void FileLines::getPositionsOfSampleLines()
 
         if(mNumLines == kMinNumLines) {
             // Evaluate number of lines in the file, excluding headers' line
-            assert(mFileStream && (mFileStream.tellg() - mPosSampleLine.at(1)) > 0);
+            assert(fileStream && (fileStream.tellg() - mPosSampleLine.at(1)) > 0);
             auto approxNumLines = mNumLines *
-                (static_cast<float>(mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1)));
+                (static_cast<float>(mFileSize - mPosSampleLine.at(1)) / (fileStream.tellg() - mPosSampleLine.at(1)));
             BOOST_LOG_SEV(gLogger, bltriv::trace)
                 << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", approxNumLines=" << approxNumLines;
 
@@ -136,19 +138,19 @@ void FileLines::getPositionsOfSampleLines()
             constexpr std::size_t kScreenNumLines { 50 };
             if(auto timePoint = std::chrono::system_clock::now(); mNumLines == kScreenNumLines ||
                 (std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500)) {
-                percent = static_cast<int>(std::round(static_cast<float>(mFileStream.tellg()) / mFileSize * 100));
+                percent = static_cast<int>(std::round(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
                 mOnProgress(mNumLines, percent);
                 prevTimePointP = timePoint;
             }
         }
     }
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "mFileStream.tellg()=" << mFileStream.tellg();
+    BOOST_LOG_SEV(gLogger, bltriv::trace) << "fileStream.tellg()=" << fileStream.tellg();
 
-    if(!mFileStream.eof() && mFileStream.fail()) {
+    if(!fileStream.eof() && fileStream.fail()) {
         std::stringstream message;
 
-        if(mFileStream.bad()) {
+        if(fileStream.bad()) {
             message << "Irrecoverable stream error!";
         } else {
             message << "Input operation failed (extraction error)!";
@@ -158,8 +160,6 @@ void FileLines::getPositionsOfSampleLines()
                 << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
         throw std::runtime_error(message.str());
     }
-
-    mFileStream.clear();
 
     if(mOnProgress) {
         mOnProgress(mNumLines, 100);
