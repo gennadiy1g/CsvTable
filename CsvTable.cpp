@@ -139,9 +139,10 @@ void FileLines::getPositionsOfSampleLines()
         ++mNumLines; // mNumLines now includes headers' line
 
         if(mOnProgress) {
-            // TODO Call mOnProgress after first 50 or so lines so that the user can see them.
-            if(auto timePoint = std::chrono::system_clock::now();
-                std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) {
+            // Number of grid lines that fit on one screen
+            constexpr std::size_t kScreenNumLines { 50 };
+            if(auto timePoint = std::chrono::system_clock::now(); mNumLines == kScreenNumLines ||
+                (std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500)) {
                 percent = static_cast<int>(std::round(static_cast<float>(mFileStream.tellg()) / mFileSize * 100));
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
                 mOnProgress(mNumLines, percent);
