@@ -109,18 +109,11 @@ void FileLines::getPositionsOfSampleLines()
             assert(mFileStream && (mFileStream.tellg() - mPosSampleLine.at(1)) > 0);
             auto approxNumLines = mNumLines *
                 (static_cast<float>(mFileSize - mPosSampleLine.at(1)) / (mFileStream.tellg() - mPosSampleLine.at(1)));
-            if(approxNumLines > static_cast<float>(kMaxInt)) {
-                mApproxNumLines = kMaxInt;
-            } else {
-                mApproxNumLines = static_cast<std::size_t>(std::lround(approxNumLines));
-            }
-
             BOOST_LOG_SEV(gLogger, bltriv::trace)
-                << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", mApproxNumLines=" << mApproxNumLines;
-            assert(mApproxNumLines > 0);
+                << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", approxNumLines=" << approxNumLines;
 
             // Calculate the number of lines between successive samples
-            mNumLinesBetweenSamples = std::max(std::lround(static_cast<float>(mApproxNumLines) / kMaxNumSamples), 1l);
+            mNumLinesBetweenSamples = std::max(std::lround(approxNumLines / kMaxNumSamples), 1l);
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples;
 
             // Keep positions only for line numbers divisible by mNumLinesBetweenSamples

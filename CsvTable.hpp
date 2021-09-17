@@ -34,11 +34,6 @@ public:
         return mNumLines;
     };
 
-    std::size_t approxNumLines() const
-    {
-        return mApproxNumLines;
-    };
-
     bool isNumLinesLimitReached() const
     {
         return mIsNumLinesLimitReached;
@@ -61,7 +56,6 @@ private:
     bfs::ifstream::pos_type mFileSize { 0 };
 
     std::atomic_size_t mNumLines { 0 };                  // Number of lines in the file
-    std::size_t mApproxNumLines { 0 };                   // Approximate number of lines in the file
     std::vector<bfs::ifstream::pos_type> mPosSampleLine; // Positions of sample lines
     std::atomic_size_t mNumLinesBetweenSamples { 1 };    // Number of lines between successive sample lines
     bool mIsNumLinesLimitReached { false };
@@ -97,11 +91,6 @@ public:
     std::size_t numLines() const
     {
         return mFileLines.numLines();
-    };
-
-    std::size_t approxNumLines() const
-    {
-        return mFileLines.approxNumLines();
     };
 
     bool isNumLinesLimitReached() const
