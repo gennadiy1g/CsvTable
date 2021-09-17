@@ -65,7 +65,7 @@ void FileLines::getPositionsOfSampleLines()
     std::string line;
     int percent { 0 };
     auto prevTimePointC = std::chrono::system_clock::now();
-    auto prevTimePointP = std::chrono::system_clock::now();
+    auto prevTimePointP = prevTimePointC;
 
     while(mFileStream.good()) {
         BOOST_LOG_NAMED_SCOPE("Reading the file");
