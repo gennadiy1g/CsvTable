@@ -1,6 +1,5 @@
 #pragma once
 
-#include <atomic>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/tokenizer.hpp>
@@ -55,10 +54,10 @@ private:
     bfs::ifstream mFileStream;
     bfs::ifstream::pos_type mFileSize { 0 };
 
-    std::atomic_size_t mNumLines { 0 };                  // Number of lines in the file
+    std::size_t mNumLines { 0 };                         // Number of lines in the file
     std::vector<bfs::ifstream::pos_type> mPosSampleLine; // Positions of sample lines
-    std::atomic_size_t mNumLinesBetweenSamples { 1 };    // Number of lines between successive sample lines
-    std::atomic_bool mIsNumLinesLimitReached { false };
+    std::size_t mNumLinesBetweenSamples { 1 };           // Number of lines between successive sample lines
+    bool mIsNumLinesLimitReached { false };
 
     decltype(mPosSampleLine) mPosBetweenSamples; // Positions of lines between sample lines
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
