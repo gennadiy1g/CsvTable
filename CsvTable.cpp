@@ -72,14 +72,6 @@ void FileLines::getPositionsOfSampleLines()
     while(fileStream.good()) {
         BOOST_LOG_NAMED_SCOPE("Reading the file");
 
-        /* Class wxGrid uses int for number of rows. See int wxGridTableBase::GetRowsCount() const and virtual int
-         * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
-         * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
-        if(mNumLines == kMaxInt) {
-            mIsNumLinesLimitReached = true;
-            break;
-        }
-
         if(!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
             mPosSampleLine.push_back(fileStream.tellg());
             BOOST_LOG_SEV(gLogger, bltriv::trace)
@@ -143,6 +135,14 @@ void FileLines::getPositionsOfSampleLines()
                 mOnProgress(mNumLines, percent);
                 prevTimePointP = timePoint;
             }
+        }
+
+        /* Class wxGrid uses int for number of rows. See int wxGridTableBase::GetRowsCount() const and virtual int
+         * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
+         * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
+        if(mNumLines == kMaxInt) {
+            mIsNumLinesLimitReached = true;
+            break;
         }
     }
     BOOST_LOG_SEV(gLogger, bltriv::trace) << "fileStream.tellg()=" << fileStream.tellg();
