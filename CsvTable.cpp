@@ -4,6 +4,8 @@
 #include <cassert>
 #include <chrono>
 #include <cmath>
+#include <cstddef>
+#include <iterator>
 #include <ratio>
 #include <stdexcept>
 
@@ -66,6 +68,7 @@ void FileLines::getPositionsOfSampleLines()
     int percent { 0 };
     auto prevTimePointC = std::chrono::system_clock::now();
     auto prevTimePointP = prevTimePointC;
+    decltype(mPosSampleLine) buffer;
     bfs::ifstream fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
     assert(fileStream.is_open());
 
@@ -73,10 +76,9 @@ void FileLines::getPositionsOfSampleLines()
         BOOST_LOG_NAMED_SCOPE("Reading the file");
 
         if(!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
-            mPosSampleLine.push_back(fileStream.tellg());
-            BOOST_LOG_SEV(gLogger, bltriv::trace)
-                << "mNumLines=" << mNumLines << ", mPosSampleLine[" << mPosSampleLine.size() - 1
-                << "]=" << mPosSampleLine.at(mPosSampleLine.size() - 1);
+            buffer.push_back(fileStream.tellg());
+            BOOST_LOG_SEV(gLogger, bltriv::trace) << "mNumLines=" << mNumLines << ", buffer[" << buffer.size() - 1
+                                                  << "]=" << buffer.at(buffer.size() - 1);
         }
 
         if(auto timePoint = std::chrono::system_clock::now();
@@ -107,29 +109,50 @@ void FileLines::getPositionsOfSampleLines()
                 << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", approxNumLines=" << approxNumLines;
 
             // Calculate the number of lines between successive samples
-            mNumLinesBetweenSamples = std::max(std::lround(approxNumLines / kMaxNumSamples), 1l);
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << "mNumLinesBetweenSamples=" << mNumLinesBetweenSamples;
+            auto numLinesBetweenSamples = std::max(std::lround(approxNumLines / kMaxNumSamples), 1l);
+            BOOST_LOG_SEV(gLogger, bltriv::trace) << "numLinesBetweenSamples=" << numLinesBetweenSamples;
 
-            // Keep positions only for line numbers divisible by mNumLinesBetweenSamples
-            if(mNumLinesBetweenSamples > 1) {
+            // Keep positions only for line numbers divisible by numLinesBetweenSamples
+            if(numLinesBetweenSamples > 1) {
+                {
+                    const std::lock_guard<std::mutex> lock(mMutex);
+                    std::copy(buffer.cbegin(), buffer.cend(), std::back_inserter(mPosSampleLine));
+                }
+                buffer.clear();
+
                 decltype(mPosSampleLine) keep;
-                for(std::size_t i = 0; i < mPosSampleLine.size(); i += mNumLinesBetweenSamples) {
+                for(std::size_t i = 0; i < mPosSampleLine.size(); i += numLinesBetweenSamples) {
                     keep.push_back(mPosSampleLine[i]);
                 }
-                std::swap(mPosSampleLine, keep);
-                mPosSampleLine.reserve(kMaxNumSamples + 1); // kMaxNumSamples data lines plus headers' line
-                assert(mPosSampleLine.at(0) == 0);
-                mPosBetweenSamples.reserve(mNumLinesBetweenSamples - 1);
+
+                {
+                    const std::lock_guard<std::mutex> lock(mMutex);
+                    std::swap(mPosSampleLine, keep);
+                    mPosSampleLine.reserve(kMaxNumSamples + 1); // kMaxNumSamples data lines plus headers' line
+                    assert(mPosSampleLine.at(0) == 0);
+                    mNumLinesBetweenSamples = numLinesBetweenSamples;
+                    mPosBetweenSamples.reserve(numLinesBetweenSamples - 1);
+                }
             }
         }
 
         ++mNumLines; // mNumLines now includes headers' line
 
+        constexpr std::size_t kMaxBufferSize { 100 };
+        if(buffer.size() == kMaxBufferSize) {
+            {
+                const std::lock_guard<std::mutex> lock(mMutex);
+                std::copy(buffer.cbegin(), buffer.cend(), std::back_inserter(mPosSampleLine));
+            }
+            buffer.clear();
+        }
+
         if(mOnProgress) {
             // Number of grid lines that fit on one screen
             constexpr std::size_t kScreenNumLines { 50 };
-            if(auto timePoint = std::chrono::system_clock::now(); mNumLines == kScreenNumLines ||
-                (std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500)) {
+            if(auto timePoint = std::chrono::system_clock::now();
+                (std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) ||
+                (mNumLines == kScreenNumLines)) {
                 percent = static_cast<int>(std::round(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
                 mOnProgress(mNumLines, percent);
@@ -146,6 +169,14 @@ void FileLines::getPositionsOfSampleLines()
         }
     }
     BOOST_LOG_SEV(gLogger, bltriv::trace) << "fileStream.tellg()=" << fileStream.tellg();
+
+    if(buffer.size()) {
+        {
+            const std::lock_guard<std::mutex> lock(mMutex);
+            std::copy(buffer.cbegin(), buffer.cend(), std::back_inserter(mPosSampleLine));
+        }
+        buffer.clear();
+    }
 
     if(!fileStream.eof() && fileStream.fail()) {
         std::stringstream message;
@@ -169,7 +200,6 @@ void FileLines::getPositionsOfSampleLines()
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
     BOOST_LOG_FUNCTION();
-    assert(lineNum < mNumLines);
     std::string line;
 
     auto& gLogger = GlobalLogger::get();

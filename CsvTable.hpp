@@ -49,21 +49,25 @@ private:
     void checkInputFile();
     void getPositionsOfSampleLines();
 
-    // The file
     bfs::path mFilePath;
+    std::size_t mNumLines { 0 }; // Number of lines in the file
     bfs::ifstream mFileStream;
-    bfs::ifstream::pos_type mFileSize { 0 };
-
-    std::size_t mNumLines { 0 };                         // Number of lines in the file
-    std::vector<bfs::ifstream::pos_type> mPosSampleLine; // Positions of sample lines
-    std::size_t mNumLinesBetweenSamples { 1 };           // Number of lines between successive sample lines
-    bool mIsNumLinesLimitReached { false };
-
-    decltype(mPosSampleLine) mPosBetweenSamples; // Positions of lines between sample lines
+    OnProgress mOnProgress;
     std::size_t mPrevSampleNum { std::numeric_limits<std::size_t>::max() };
 
-    OnProgress mOnProgress;
+    // Shared between this class and GUI
     std::atomic_bool mIsCancelled { false };
+    std::atomic_bool mIsNumLinesLimitReached { false };
+
+    // Shared between getPositionsOfSampleLines() and getLine(); read only by both.
+    bfs::ifstream::pos_type mFileSize { 0 };
+
+    // Shared between getPositionsOfSampleLines() and getLine(); written by at least one.
+    std::vector<bfs::ifstream::pos_type> mPosSampleLine; // Positions of sample lines
+    std::size_t mNumLinesBetweenSamples { 1 };           // Number of lines between successive sample lines
+    decltype(mPosSampleLine) mPosBetweenSamples;         // Positions of lines between sample lines
+
+    std::mutex mMutex;
 };
 
 using EscapedListSeparator = boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>>;
