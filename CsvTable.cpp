@@ -114,11 +114,7 @@ void FileLines::getPositionsOfSampleLines()
 
             // Keep positions only for line numbers divisible by numLinesBetweenSamples
             if(numLinesBetweenSamples > 1) {
-                {
-                    const std::lock_guard<std::mutex> lock(mMutex);
-                    std::copy(buffer.cbegin(), buffer.cend(), std::back_inserter(mPosSampleLine));
-                }
-                buffer.clear();
+                flushBuffer(buffer);
 
                 decltype(mPosSampleLine) keep;
                 for(std::size_t i = 0; i < mPosSampleLine.size(); i += numLinesBetweenSamples) {
@@ -140,11 +136,7 @@ void FileLines::getPositionsOfSampleLines()
 
         constexpr std::size_t kMaxBufferSize { 100 };
         if(buffer.size() == kMaxBufferSize) {
-            {
-                const std::lock_guard<std::mutex> lock(mMutex);
-                std::copy(buffer.cbegin(), buffer.cend(), std::back_inserter(mPosSampleLine));
-            }
-            buffer.clear();
+            flushBuffer(buffer);
         }
 
         if(mOnProgress) {
@@ -155,6 +147,7 @@ void FileLines::getPositionsOfSampleLines()
                 (mNumLines == kScreenNumLines)) {
                 percent = static_cast<int>(std::round(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
                 BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
+                flushBuffer(buffer);
                 mOnProgress(mNumLines, percent);
                 prevTimePointP = timePoint;
             }
@@ -164,19 +157,12 @@ void FileLines::getPositionsOfSampleLines()
          * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
          * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
         if(mNumLines == kMaxInt) {
+            BOOST_LOG_SEV(gLogger, bltriv::trace) << "Maximum number of rows that wxGrid can display has been reached!";
             mIsNumLinesLimitReached = true;
             break;
         }
     }
     BOOST_LOG_SEV(gLogger, bltriv::trace) << "fileStream.tellg()=" << fileStream.tellg();
-
-    if(buffer.size()) {
-        {
-            const std::lock_guard<std::mutex> lock(mMutex);
-            std::copy(buffer.cbegin(), buffer.cend(), std::back_inserter(mPosSampleLine));
-        }
-        buffer.clear();
-    }
 
     if(!fileStream.eof() && fileStream.fail()) {
         std::stringstream message;
@@ -192,6 +178,7 @@ void FileLines::getPositionsOfSampleLines()
         throw std::runtime_error(message.str());
     }
 
+    flushBuffer(buffer);
     if(mOnProgress) {
         mOnProgress(mNumLines, 100);
     }
