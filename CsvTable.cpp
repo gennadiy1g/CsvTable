@@ -72,6 +72,16 @@ void FileLines::getPositionsOfSampleLines()
     bfs::ifstream fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
     assert(fileStream.is_open());
 
+    auto flushBuffer = [this](std::vector<bfs::ifstream::pos_type>& buffer) {
+        if(buffer.size()) {
+            {
+                const std::lock_guard<std::mutex> lock(mMutex);
+                std::copy(buffer.cbegin(), buffer.cend(), std::back_inserter(mPosSampleLine));
+            }
+            buffer.clear();
+        }
+    };
+
     while(fileStream.good()) {
         BOOST_LOG_NAMED_SCOPE("Reading the file");
 
