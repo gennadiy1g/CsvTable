@@ -247,6 +247,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                     << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back();
             }
         } else {
+            BOOST_LOG_NAMED_SCOPE("rem")
             if(!mPosBetweenSamples.size()) {
                 BOOST_LOG_NAMED_SCOPE("!mPosBetweenSamples.size()");
                 auto pos = mPosSampleLine.at(sampleNum);
