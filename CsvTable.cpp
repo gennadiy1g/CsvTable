@@ -230,7 +230,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
         }
 
         auto morePosBetweenSamples = [this]() {
-            return mPosBetweenSamples.size() < (mNumLinesBetweenSamples - 1) && (mFileStream.tellg() < mFileSize);
+            return (mPosBetweenSamples.size() < (mNumLinesBetweenSamples - 1)) && (mFileStream.tellg() < mFileSize);
         };
 
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size();
