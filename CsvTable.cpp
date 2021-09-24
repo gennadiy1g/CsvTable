@@ -278,7 +278,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                     mFileStream.seekg(pos);
                     std::getline(mFileStream, line);
                     LOG_LINE_AND_POS;
-                    if(rem == mPosBetweenSamples.size() && morePosBetweenSamples()) {
+                    if((rem == mPosBetweenSamples.size()) && morePosBetweenSamples()) {
                         mPosBetweenSamples.push_back(mFileStream.tellg());
                         BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
                                                               << "]=" << mPosBetweenSamples.back();
