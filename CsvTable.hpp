@@ -6,7 +6,9 @@
 #include <functional>
 #include <limits>
 #include <map>
+#include <memory>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace bfs = boost::filesystem;
@@ -68,6 +70,7 @@ private:
     decltype(mPosSampleLine) mPosBetweenSamples;         // Positions of lines between sample lines
 
     std::mutex mMutex;
+    std::unique_ptr<std::thread> mThread;
 };
 
 using EscapedListSeparator = boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>>;

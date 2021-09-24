@@ -32,7 +32,9 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
 
     mFileSize = bfs::file_size(mFilePath);
     assert(mFileSize);
-    getPositionsOfSampleLines();
+
+    std::unique_ptr<std::thread> t(new std::thread(&FileLines::getPositionsOfSampleLines, this));
+    mThread = std::move(t);
 }
 
 void FileLines::checkInputFile()
