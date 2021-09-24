@@ -222,7 +222,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
             << "lineNum=" << lineNum << ", sampleNum=" << sampleNum << ", rem=" << rem;
         assert(sampleNum < mPosSampleLine.size());
 
-        if(mPrevSampleNum != sampleNum) {
+        if(sampleNum != mPrevSampleNum) {
             BOOST_LOG_NAMED_SCOPE("mPrevSampleNum != sampleNum");
             BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples.clear()";
             mPosBetweenSamples.clear();
