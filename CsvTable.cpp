@@ -280,8 +280,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                     LOG_LINE_AND_POS;
                     if((rem == mPosBetweenSamples.size()) && morePosBetweenSamples()) {
                         mPosBetweenSamples.push_back(mFileStream.tellg());
-                        BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                                                              << "]=" << mPosBetweenSamples.back();
+                        LOG_POS_BETWEEN_SAMPLES;
                     }
                 } else {
                     BOOST_LOG_NAMED_SCOPE("rem > mPosBetweenSamples.size()")
@@ -297,9 +296,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
                         LOG_LINE_AND_POS;
                         if(morePosBetweenSamples()) {
                             mPosBetweenSamples.push_back(mFileStream.tellg()); // changes size of mPosBetweenSamples!
-                            BOOST_LOG_SEV(gLogger, bltriv::trace)
-                                << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1
-                                << "]=" << mPosBetweenSamples.back();
+                            LOG_POS_BETWEEN_SAMPLES;
                         }
                     }
                 }
