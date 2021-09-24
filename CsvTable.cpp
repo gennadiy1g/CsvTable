@@ -194,10 +194,13 @@ void FileLines::getPositionsOfSampleLines()
     }
 }
 
-// clang-format off
-#define LOG_LINE_AND_POS BOOST_LOG_SEV(gLogger, bltriv::trace) << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50) << ", mFileStream.tellg()=" << mFileStream.tellg()
-#define LOG_POS_BETWEEN_SAMPLES BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back()
-// clang-format on
+#define LOG_LINE_AND_POS                                                                \
+    BOOST_LOG_SEV(gLogger, bltriv::trace)                                               \
+        << "line.substr()=" << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50) \
+        << ", mFileStream.tellg()=" << mFileStream.tellg()
+#define LOG_POS_BETWEEN_SAMPLES           \
+    BOOST_LOG_SEV(gLogger, bltriv::trace) \
+        << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1 << "]=" << mPosBetweenSamples.back()
 
 std::wstring FileLines::getLine(std::size_t lineNum)
 {
