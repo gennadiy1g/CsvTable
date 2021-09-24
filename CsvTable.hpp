@@ -47,6 +47,11 @@ public:
         mIsCancelled = true;
     };
 
+    void finishReading()
+    {
+        mThread.join();
+    }
+
 private:
     void checkInputFile();
     void getPositionsOfSampleLines();
