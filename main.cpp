@@ -59,6 +59,7 @@ BOOST_AUTO_TEST_CASE(non_existing_file)
 BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
 {
     FileLines fileLines(kTestDataDir + LR"^(ZX0training_UTF-8.csv)^"s);
+    fileLines.finishReading();
     BOOST_TEST(fileLines.numLines() == 7438);
     BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"customer Id2,"));
     BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"499962071,"));
@@ -72,6 +73,7 @@ BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv)
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
 {
     FileLines fileLines(kTestDataDir + LR"^(russian_UTF-8_2.csv)^");
+    fileLines.finishReading();
     BOOST_TEST(fileLines.numLines() == 11);
     BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"идентификатор,"));
     BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"строка1,"));
@@ -85,6 +87,7 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
 BOOST_AUTO_TEST_CASE(Hits_csv)
 {
     FileLines fileLines(kTestDataDir + LR"^(Hits.csv)^");
+    fileLines.finishReading();
     BOOST_TEST(fileLines.numLines() == 38044);
     for(auto i = 0; i < 2; ++i) {
         BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
@@ -104,6 +107,7 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
 BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
 {
     FileLines fileLines(kTestDataDir + LR"^(web complex data with target variable.csv)^");
+    fileLines.finishReading();
     BOOST_TEST(fileLines.numLines() == 1035808);
     for(auto i = 0; i < 2; ++i) {
         BOOST_CHECK(
@@ -138,6 +142,7 @@ BOOST_AUTO_TEST_SUITE(TokenizedFileLines_tests);
 BOOST_AUTO_TEST_CASE(Hits_csv)
 {
     TokenizedFileLines tokenizedFileLines(kTestDataDir + LR"^(Hits.csv)^");
+    tokenizedFileLines.finishReading();
     BOOST_TEST(tokenizedFileLines.numLines() == 38044);
     BOOST_TEST(tokenizedFileLines.numColumns() == 7);
 
@@ -171,6 +176,7 @@ BOOST_AUTO_TEST_CASE(Hits_csv)
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
 {
     TokenizedFileLines tokenizedFileLines(kTestDataDir + LR"^(russian_UTF-8_2.csv)^");
+    tokenizedFileLines.finishReading();
     BOOST_TEST(tokenizedFileLines.numLines() == 11);
     BOOST_TEST(tokenizedFileLines.numColumns() == 4);
 
@@ -195,6 +201,7 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv)
 BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv)
 {
     TokenizedFileLines tokenizedFileLines(kTestDataDir + LR"^(web complex data with target variable.csv)^");
+    tokenizedFileLines.finishReading();
     BOOST_TEST(tokenizedFileLines.numLines() == 1035808);
     BOOST_TEST(tokenizedFileLines.numColumns() == 65);
 
