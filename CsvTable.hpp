@@ -116,6 +116,16 @@ public:
 
     const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
 
+    void stopReading()
+    {
+        mFileLines.stopReading();
+    };
+
+    void finishReading()
+    {
+        mFileLines.finishReading();
+    }
+
 private:
     FileLines mFileLines;
     EscapedListSeparator mEscapedListSeparator { L'\0', L',', L'\"' };
