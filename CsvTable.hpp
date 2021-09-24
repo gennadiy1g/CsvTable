@@ -70,7 +70,7 @@ private:
     decltype(mPosSampleLine) mPosBetweenSamples;         // Positions of lines between sample lines
 
     std::mutex mMutex;
-    std::unique_ptr<std::thread> mThread;
+    std::thread mThread;
 };
 
 using EscapedListSeparator = boost::escaped_list_separator<wchar_t, std::char_traits<wchar_t>>;

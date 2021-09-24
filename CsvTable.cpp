@@ -35,7 +35,7 @@ FileLines::FileLines(const bfs::path& filePath, OnProgress onProgress)
 
     auto& gLogger = GlobalLogger::get();
     BOOST_LOG_SEV(gLogger, bltriv::trace) << "Starting FileLines::getPositionsOfSampleLines on a new thread";
-    std::unique_ptr<std::thread> t(new std::thread(&FileLines::getPositionsOfSampleLines, this));
+    std::thread t(&FileLines::getPositionsOfSampleLines, this);
     mThread = std::move(t);
 }
 
