@@ -3,10 +3,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/tokenizer.hpp>
-#include <functional>
 #include <limits>
 #include <map>
-#include <memory>
 #include <mutex>
 #include <string>
 #include <thread>

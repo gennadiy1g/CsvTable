@@ -1,13 +1,6 @@
-#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
-#include <cassert>
 #include <chrono>
-#include <cmath>
-#include <cstddef>
-#include <iterator>
-#include <ratio>
-#include <stdexcept>
 
 #include "CsvTable.hpp"
 #include "log.hpp"
