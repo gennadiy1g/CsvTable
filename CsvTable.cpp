@@ -306,7 +306,7 @@ std::wstring FileLines::getLine(std::size_t lineNum)
     return boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line));
 }
 
-void TokenizedFileLines::setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote)
+void TokenizedFileLines::setTokenFuncParams(wchar_t escape, wchar_t separator, wchar_t quote)
 {
     BOOST_LOG_FUNCTION();
     auto& gLogger = GlobalLogger::get();

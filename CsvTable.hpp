@@ -96,7 +96,8 @@ public:
     TokenizedFileLines(TokenizedFileLines&& src) = delete;
     TokenizedFileLines& operator=(TokenizedFileLines&& rhs) = delete;
 
-    void setTokenizerParams(wchar_t escape, wchar_t separator, wchar_t quote);
+    // Set TokenizerFunction's paremeters
+    void setTokenFuncParams(wchar_t escape, wchar_t separator, wchar_t quote);
 
     std::size_t numLines() const
     {
