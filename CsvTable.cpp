@@ -334,11 +334,11 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
     } else {
         BOOST_LOG_NAMED_SCOPE("search == mTokenizedLines.end()");
         if(mTokenizedLines.size() == kMaxSize) {
-            BOOST_LOG_NAMED_SCOPE("mTokenizedLines.size() == kMaxSize");
-            /* The size of the map is at maximum. Remove one element from the map - the element
+            /* The size of the map is at the maximum. Remove one element from the map - the element
              * that is furthest away from lineNum. */
-            assert(
-                mTokenizedLines.size() > 4); // the logic below works only if there are more than 4 elements in the map
+            BOOST_LOG_NAMED_SCOPE("mTokenizedLines.size() == kMaxSize");
+            // The logic below works only if there are more than 4 elements in the map
+            assert(mTokenizedLines.size() > 4);
             auto itFirst = mTokenizedLines.cbegin();
             if(itFirst->first == 0) {
                 // Always keep the line #0 because it contains columns' names
