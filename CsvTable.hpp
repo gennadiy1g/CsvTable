@@ -111,10 +111,10 @@ public:
 
     std::size_t numColumns()
     {
-        return getTokenizedLine(0).size();
+        return getTokenizedLine(0)->size();
     };
 
-    const std::vector<std::wstring>& getTokenizedLine(std::size_t lineNum);
+    const std::vector<std::wstring>* getTokenizedLine(std::size_t lineNum);
 
     void stopReading()
     {

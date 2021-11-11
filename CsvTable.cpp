@@ -322,7 +322,7 @@ void TokenizedFileLines::setTokenFuncParams(wchar_t escape, wchar_t separator, w
     mQuote = quote;
 }
 
-const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
+const std::vector<std::wstring>* TokenizedFileLines::getTokenizedLine(std::size_t lineNum)
 {
     BOOST_LOG_FUNCTION();
     auto& gLogger = GlobalLogger::get();
@@ -330,7 +330,7 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
 
     if(auto search = mTokenizedLines.find(lineNum); search != mTokenizedLines.end()) {
         BOOST_LOG_NAMED_SCOPE("search != mTokenizedLines.end()");
-        return search->second;
+        return &search->second;
     } else {
         BOOST_LOG_NAMED_SCOPE("search == mTokenizedLines.end()");
         if(mTokenizedLines.size() == kMaxSize) {
@@ -370,6 +370,6 @@ const std::vector<std::wstring>& TokenizedFileLines::getTokenizedLine(std::size_
         const auto [it, success] = mTokenizedLines.insert({ lineNum, std::move(tokenizedLine) });
         assert(success);
         BOOST_LOG_SEV(gLogger, bltriv::trace) << "Inserted line #" << lineNum;
-        return it->second;
+        return &it->second;
     }
 }
