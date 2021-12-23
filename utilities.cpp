@@ -41,7 +41,7 @@ void initLogging()
 {
     // clang-format off
     blog::add_file_log(
-#ifndef DEBUG
+#ifdef NDEBUG
         blkw::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
         blkw::target_file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
 #else
@@ -62,7 +62,7 @@ void initLogging()
     blog::add_common_attributes();
     blog::core::get()->add_global_attribute("Scope", blattr::named_scope());
 
-#ifndef DEBUG
+#ifdef NDEBUG
     blog::core::get()->set_filter(bltriv::severity >= bltriv::info);
 #endif
 }
