@@ -8,9 +8,5 @@
 #include <boost/log/utility/setup/file.hpp>
 
 namespace bltriv = boost::log::trivial;
-namespace blog = boost::log;
-namespace blkw = boost::log::keywords;
-namespace blexpr = boost::log::expressions;
-namespace blattr = boost::log::attributes;
 
 BOOST_LOG_INLINE_GLOBAL_LOGGER_DEFAULT(GlobalLogger, boost::log::sources::wseverity_logger_mt<bltriv::severity_level>)

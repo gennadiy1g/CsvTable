@@ -7,6 +7,10 @@
 #include "utilities.hpp"
 
 namespace blocale = boost::locale;
+namespace blog = boost::log;
+namespace blkw = boost::log::keywords;
+namespace blexpr = boost::log::expressions;
+namespace blattr = boost::log::attributes;
 
 using namespace std::literals::string_literals;
 
