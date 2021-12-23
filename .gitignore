@@ -1,9 +1,6 @@
-/CMakeLists.txt
-/compile_flags.txt
-/compile_commands.json
-.cache/
-/*.save
-/*.depend
-/bin
-/obj
-/*.layout
+bin
+obj
+.cache
+*.save
+*.depend
+*.layout
