@@ -14,9 +14,9 @@ namespace blocale = boost::locale;
 using namespace std::literals::string_literals;
 
 #if defined(__unix__)
-const auto kTestDataDir = LR"^(/home/gennadiy/Projects/BuckwheatCsv/test data/)^"s;
+const auto kTestDataDir = LR"^(/home/gennadiy/Projects/BuckwheatCsv2/test data/)^"s;
 #else
-const auto kTestDataDir = LR"^(C:\Users\genna_000\Documents\BuckwheatCsv\test data\)^"s;
+const auto kTestDataDir = LR"^(C:\Users\genna_000\Documents\BuckwheatCsv2\test data\)^"s;
 #endif
 
 struct GlobalFixture {
