@@ -53,26 +53,26 @@ BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv) {
   FileLines fileLines(kTestDataDir + LR"^(ZX0training_UTF-8.csv)^"s);
   fileLines.finishReading();
   BOOST_TEST(fileLines.numLines() == 7438);
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"customer Id2,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"499962071,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"499946553,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"499942149,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(7437), L"408339518,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(7436), L"408339882,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(7435), L"408339961,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(0), L"customer Id2,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(1), L"499962071,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(2), L"499946553,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(3), L"499942149,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(7437), L"408339518,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(7436), L"408339882,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(7435), L"408339961,"));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv) {
   FileLines fileLines(kTestDataDir + LR"^(russian_UTF-8_2.csv)^");
   fileLines.finishReading();
   BOOST_TEST(fileLines.numLines() == 11);
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"идентификатор,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"строка1,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"строка2,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"строка3,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(10), L"строка10,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(9), L"строка9,"));
-  BOOST_CHECK(boost::starts_with(fileLines.getLine(8), L"строка8,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(0), L"идентификатор,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(1), L"строка1,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(2), L"строка2,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(3), L"строка3,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(10), L"строка10,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(9), L"строка9,"));
+  BOOST_TEST(boost::starts_with(fileLines.getLine(8), L"строка8,"));
 }
 
 BOOST_AUTO_TEST_CASE(Hits_csv) {
@@ -80,17 +80,17 @@ BOOST_AUTO_TEST_CASE(Hits_csv) {
   fileLines.finishReading();
   BOOST_TEST(fileLines.numLines() == 38044);
   for (auto i = 0; i < 2; ++i) {
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(1), L"14702501,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(2), L"141188302,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(3), L"139747401,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(4), L"590641701,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(5), L"30347501,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38043), L"29392848001,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38042), L"28781773901,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38041), L"29391061301,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38040), L"29422758401,"));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(38039), L"1672082702,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(1), L"14702501,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(2), L"141188302,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(3), L"139747401,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(4), L"590641701,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(5), L"30347501,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(38043), L"29392848001,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(38042), L"28781773901,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(38041), L"29391061301,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(38040), L"29422758401,"));
+    BOOST_TEST(boost::starts_with(fileLines.getLine(38039), L"1672082702,"));
   }
 }
 
@@ -99,26 +99,26 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv) {
   fileLines.finishReading();
   BOOST_TEST(fileLines.numLines() == 1035808);
   for (auto i = 0; i < 2; ++i) {
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(0), L"id,parent_id,cluster,program_id,offer_id,affiliate_id,"));
-    BOOST_CHECK(boost::starts_with(
+    BOOST_TEST(boost::starts_with(fileLines.getLine(0), L"id,parent_id,cluster,program_id,offer_id,affiliate_id,"));
+    BOOST_TEST(boost::starts_with(
         fileLines.getLine(1), L"328090022,\\N,22,1,9656,43608,firstsub,secondsub,496940,\\N,53479,11,Mozilla/5.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(2),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(2),
                                    L"328375080,\\N,22,1,9656,43608,firstsub,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(3),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(3),
                                    L"328436381,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/4.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(4),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(4),
                                    L"328588235,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(5),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(5),
                                    L"328636022,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035807),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(1035807),
                                    L"934804528,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035806),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(1035806),
                                    L"934802516,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035805),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(1035805),
                                    L"934802243,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,\"Mozilla/5.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035804),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(1035804),
                                    L"934801910,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
-    BOOST_CHECK(boost::starts_with(fileLines.getLine(1035803),
+    BOOST_TEST(boost::starts_with(fileLines.getLine(1035803),
                                    L"934801729,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
   }
 }
@@ -373,80 +373,80 @@ BOOST_AUTO_TEST_CASE(Hits_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L',');
-  BOOST_CHECK(!quote);
+  BOOST_TEST((separator && separator.value() == L','));
+  BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Semicolon_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Semicolon.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L';');
-  BOOST_CHECK(!quote);
+  BOOST_TEST((separator && separator.value() == L';'));
+  BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Space_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Space.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L' ');
-  BOOST_CHECK(!quote);
+  BOOST_TEST((separator && separator.value() == L' '));
+  BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Tab_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_TAB.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L'\t');
-  BOOST_CHECK(!quote);
+  BOOST_TEST((separator && separator.value() == L'\t'));
+  BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_VerticalBar_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_VerticalBar.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L'|');
-  BOOST_CHECK(!quote);
+  BOOST_TEST((separator && separator.value() == L'|'));
+  BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_DoubleQuote_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_DoubleQuote.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L',');
-  BOOST_CHECK(quote && quote.value() == L'\"');
+  BOOST_TEST((separator && separator.value() == L','));
+  BOOST_TEST((quote && quote.value() == L'\"'));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_SingleQuote_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_SingleQuote.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L',');
-  BOOST_CHECK(quote && quote.value() == L'\'');
+  BOOST_TEST((separator && separator.value() == L','));
+  BOOST_TEST((quote && quote.value() == L'\''));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L'\t');
-  BOOST_CHECK(quote && quote.value() == L'\'');
+  BOOST_TEST((separator && separator.value() == L'\t'));
+  BOOST_TEST((quote && quote.value() == L'\''));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_2_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote_2.csv)^", separator, quote);
-  BOOST_CHECK(separator && separator.value() == L'\t');
-  BOOST_CHECK(quote && quote.value() == L'\'');
+  BOOST_TEST((separator && separator.value() == L'\t'));
+  BOOST_TEST((quote && quote.value() == L'\''));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Ambiguous_csv) {
   std::optional<wchar_t> separator;
   std::optional<wchar_t> quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Ambiguous.csv)^", separator, quote);
-  BOOST_CHECK(!separator);
-  BOOST_CHECK(!quote);
+  BOOST_TEST((!separator));
+  BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
