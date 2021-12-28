@@ -7,10 +7,10 @@
 #include "utilities.hpp"
 
 namespace blocale = boost::locale;
-namespace blog = boost::log;
-namespace blkw = boost::log::keywords;
-namespace blexpr = boost::log::expressions;
-namespace blattr = boost::log::attributes;
+namespace logging = boost::log;
+namespace keywords = boost::log::keywords;
+namespace expr = boost::log::expressions;
+namespace attrs = boost::log::attributes;
 
 using namespace std::literals::string_literals;
 
@@ -42,30 +42,30 @@ void initLocalization() {
 
 void initLogging() {
   // clang-format off
-    blog::add_file_log(
+    logging::add_file_log(
 #ifdef NDEBUG
-        blkw::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
-        blkw::target_file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
+        keywords::file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
+        keywords::target_file_name = bfs::path(bfs::temp_directory_path() / "BuckwheatCsv.log"),
 #else
-        blkw::file_name = "trace.log",
-        blkw::target_file_name = "trace.log",
+        keywords::file_name = "trace.log",
+        keywords::target_file_name = "trace.log",
 #endif
 
-    blkw::format = (blexpr::stream
-        << blexpr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
-//        << blexpr::attr<unsigned int>("LineID") << ' '
-        << blexpr::attr<blog::thread_id>("ThreadID") << ' '
+    keywords::format = (expr::stream
+        << expr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
+//        << expr::attr<unsigned int>("LineID") << ' '
+        << expr::attr<logging::thread_id>("ThreadID") << ' '
         << bltriv::severity << ' '
-        << blexpr::format_named_scope("Scope", blkw::format = "%n (%f:%l)") << ' '
-        << blexpr::message),
+        << expr::format_named_scope("Scope", keywords::format = "%n (%f:%l)") << ' '
+        << expr::message),
 
-    blkw::auto_flush = true);
+    keywords::auto_flush = true);
   // clang-format on
-  blog::add_common_attributes();
-  blog::core::get()->add_global_attribute("Scope", blattr::named_scope());
+  logging::add_common_attributes();
+  logging::core::get()->add_global_attribute("Scope", attrs::named_scope());
 
 #ifdef NDEBUG
-  blog::core::get()->set_filter(bltriv::severity >= bltriv::info);
+  logging::core::get()->set_filter(bltriv::severity >= bltriv::info);
 #endif
 }
 
