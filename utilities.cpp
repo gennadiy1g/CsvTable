@@ -55,7 +55,7 @@ void initLogging() {
         << expr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
 //        << expr::attr<unsigned int>("LineID") << ' '
         << expr::attr<logging::thread_id>("ThreadID") << ' '
-        << bltriv::severity << ' '
+        << trivial::severity << ' '
         << expr::format_named_scope("Scope", keywords::format = "%n (%f:%l)") << ' '
         << expr::message),
 
@@ -65,7 +65,7 @@ void initLogging() {
   logging::core::get()->add_global_attribute("Scope", attrs::named_scope());
 
 #ifdef NDEBUG
-  logging::core::get()->set_filter(bltriv::severity >= bltriv::info);
+  logging::core::get()->set_filter(trivial::severity >= trivial::info);
 #endif
 }
 
@@ -86,7 +86,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
     }
 
     std::getline(fileStream, line);
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "line=" << line;
+    BOOST_LOG_SEV(gLogger, trivial::trace) << "line=" << line;
   }
 
   boost::trim(line);
@@ -97,19 +97,19 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
       // Detect separator
       BOOST_LOG_NAMED_SCOPE("Detect separator");
       if (line.find(kTab) != std::wstring::npos) {
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "separator=\\t";
+        BOOST_LOG_SEV(gLogger, trivial::trace) << "separator=\\t";
         separator = kTab;
       } else {
         bool ambiguous{false};
         for (auto const &ch : line) {
           if (ch == kPipe || ch == kSemicolon || ch == kComma) {
             if (!separator) {
-              BOOST_LOG_SEV(gLogger, bltriv::trace) << "separator=" << ch;
+              BOOST_LOG_SEV(gLogger, trivial::trace) << "separator=" << ch;
               separator = ch;
             } else {
               if (separator.value() != ch) {
                 // Ambiguous situation - multiple separators found
-                BOOST_LOG_SEV(gLogger, bltriv::trace) << "Ambiguous! Another separator=" << ch;
+                BOOST_LOG_SEV(gLogger, trivial::trace) << "Ambiguous! Another separator=" << ch;
                 ambiguous = true;
                 separator = std::nullopt;
                 break;
@@ -119,7 +119,7 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
         }
         if (!ambiguous && !separator) {
           if (line.find(kSpace) != std::wstring::npos) {
-            BOOST_LOG_SEV(gLogger, bltriv::trace) << "separator=' '";
+            BOOST_LOG_SEV(gLogger, trivial::trace) << "separator=' '";
             separator = kSpace;
           }
         }
@@ -130,10 +130,10 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
       // Detect quote
       BOOST_LOG_NAMED_SCOPE("Detect quote");
       if (line.front() == kDoubleQuote || line.back() == kDoubleQuote) {
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "quote=" << kDoubleQuote;
+        BOOST_LOG_SEV(gLogger, trivial::trace) << "quote=" << kDoubleQuote;
         quote = kDoubleQuote;
       } else if (line.front() == kSingleQuote || line.back() == kSingleQuote) {
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "quote=" << kSingleQuote;
+        BOOST_LOG_SEV(gLogger, trivial::trace) << "quote=" << kSingleQuote;
         quote = kSingleQuote;
       }
 
@@ -145,10 +145,10 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
         };
 
         if (match(line, separator.value(), kDoubleQuote)) {
-          BOOST_LOG_SEV(gLogger, bltriv::trace) << "quote=" << kDoubleQuote;
+          BOOST_LOG_SEV(gLogger, trivial::trace) << "quote=" << kDoubleQuote;
           quote = kDoubleQuote;
         } else if (match(line, separator.value(), kSingleQuote)) {
-          BOOST_LOG_SEV(gLogger, bltriv::trace) << "quote=" << kSingleQuote;
+          BOOST_LOG_SEV(gLogger, trivial::trace) << "quote=" << kSingleQuote;
           quote = kSingleQuote;
         }
       }

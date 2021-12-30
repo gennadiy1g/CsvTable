@@ -24,7 +24,7 @@ FileLines::FileLines(const bfs::path &filePath, OnProgress onProgress)
   assert(mFileSize);
 
   auto &gLogger = GlobalLogger::get();
-  BOOST_LOG_SEV(gLogger, bltriv::trace) << "Starting FileLines::getPositionsOfSampleLines on a new thread";
+  BOOST_LOG_SEV(gLogger, trivial::trace) << "Starting FileLines::getPositionsOfSampleLines on a new thread";
   std::thread t(&FileLines::getPositionsOfSampleLines, this);
   mThread = std::move(t);
 }
@@ -79,7 +79,7 @@ void FileLines::getPositionsOfSampleLines() {
 
     if (!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
       buffer.push_back(fileStream.tellg());
-      BOOST_LOG_SEV(gLogger, bltriv::trace)
+      BOOST_LOG_SEV(gLogger, trivial::trace)
           << "mNumLines=" << mNumLines << ", buffer[" << buffer.size() - 1 << "]=" << buffer.at(buffer.size() - 1);
     }
 
@@ -87,14 +87,14 @@ void FileLines::getPositionsOfSampleLines() {
         std::chrono::duration<float, std::milli>(timePoint - prevTimePointC).count() > 100) {
       if (mIsCancelled) {
         // Cancelled by user
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "Cancelled by user";
+        BOOST_LOG_SEV(gLogger, trivial::trace) << "Cancelled by user";
         break;
       }
       prevTimePointC = timePoint;
     }
 
     if (!std::getline(fileStream, line)) {
-      BOOST_LOG_SEV(gLogger, bltriv::trace) << "Error detected!";
+      BOOST_LOG_SEV(gLogger, trivial::trace) << "Error detected!";
       break;
     }
 
@@ -107,12 +107,12 @@ void FileLines::getPositionsOfSampleLines() {
       assert(fileStream && (fileStream.tellg() - mPosSampleLine.at(1)) > 0);
       auto approxNumLines = mNumLines * (static_cast<float>(mFileSize - mPosSampleLine.at(1)) /
                                          (fileStream.tellg() - mPosSampleLine.at(1)));
-      BOOST_LOG_SEV(gLogger, bltriv::trace)
+      BOOST_LOG_SEV(gLogger, trivial::trace)
           << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", approxNumLines=" << approxNumLines;
 
       // Calculate the number of lines between successive samples
       auto numLinesBetweenSamples = std::max(std::lround(approxNumLines / kMaxNumSamples), 1l);
-      BOOST_LOG_SEV(gLogger, bltriv::trace) << "numLinesBetweenSamples=" << numLinesBetweenSamples;
+      BOOST_LOG_SEV(gLogger, trivial::trace) << "numLinesBetweenSamples=" << numLinesBetweenSamples;
 
       // Keep positions only for line numbers divisible by numLinesBetweenSamples
       if (numLinesBetweenSamples > 1) {
@@ -148,7 +148,7 @@ void FileLines::getPositionsOfSampleLines() {
           (std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) ||
           (mNumLines == kScreenNumLines)) {
         percent = static_cast<int>(std::round(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "percent=" << percent;
+        BOOST_LOG_SEV(gLogger, trivial::trace) << "percent=" << percent;
         flushBuffer(buffer);
         mOnProgress(mNumLines, percent);
         prevTimePointP = timePoint;
@@ -159,12 +159,12 @@ void FileLines::getPositionsOfSampleLines() {
      * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
      * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
     if (mNumLines == kMaxInt) {
-      BOOST_LOG_SEV(gLogger, bltriv::trace) << "Maximum number of rows that wxGrid can display has been reached!";
+      BOOST_LOG_SEV(gLogger, trivial::trace) << "Maximum number of rows that wxGrid can display has been reached!";
       mIsNumLinesLimitReached = true;
       break;
     }
   }
-  BOOST_LOG_SEV(gLogger, bltriv::trace) << "fileStream.tellg()=" << fileStream.tellg();
+  BOOST_LOG_SEV(gLogger, trivial::trace) << "fileStream.tellg()=" << fileStream.tellg();
 
   if (!fileStream.eof() && fileStream.fail()) {
     std::stringstream message;
@@ -187,11 +187,11 @@ void FileLines::getPositionsOfSampleLines() {
 }
 
 #define LOG_LINE_AND_POS                                                                                               \
-  BOOST_LOG_SEV(gLogger, bltriv::trace) << "line.substr()="                                                            \
+  BOOST_LOG_SEV(gLogger, trivial::trace) << "line.substr()="                                                            \
                                         << (blocale::conv::utf_to_utf<wchar_t>(line)).substr(0, 50)                    \
                                         << ", mFileStream.tellg()=" << mFileStream.tellg()
 #define LOG_POS_BETWEEN_SAMPLES                                                                                        \
-  BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1                      \
+  BOOST_LOG_SEV(gLogger, trivial::trace) << "mPosBetweenSamples[" << mPosBetweenSamples.size() - 1                      \
                                         << "]=" << mPosBetweenSamples.back()
 
 std::wstring FileLines::getLine(std::size_t lineNum) {
@@ -204,7 +204,7 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
     BOOST_LOG_NAMED_SCOPE("mNumLinesBetweenSamples == 1");
     assert(lineNum < mPosSampleLine.size());
     auto pos = mPosSampleLine.at(lineNum);
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum << ", pos=" << pos;
+    BOOST_LOG_SEV(gLogger, trivial::trace) << "lineNum=" << lineNum << ", pos=" << pos;
     mFileStream.seekg(pos);
     std::getline(mFileStream, line);
     LOG_LINE_AND_POS;
@@ -212,12 +212,12 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
     BOOST_LOG_NAMED_SCOPE("mNumLinesBetweenSamples != 1");
     auto sampleNum = lineNum / mNumLinesBetweenSamples; // line number of the nearest sample
     auto rem = lineNum % mNumLinesBetweenSamples;
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum << ", sampleNum=" << sampleNum << ", rem=" << rem;
+    BOOST_LOG_SEV(gLogger, trivial::trace) << "lineNum=" << lineNum << ", sampleNum=" << sampleNum << ", rem=" << rem;
     assert(sampleNum < mPosSampleLine.size());
 
     if (sampleNum != mPrevSampleNum) {
       BOOST_LOG_NAMED_SCOPE("mPrevSampleNum != sampleNum");
-      BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples.clear()";
+      BOOST_LOG_SEV(gLogger, trivial::trace) << "mPosBetweenSamples.clear()";
       mPosBetweenSamples.clear();
       mPrevSampleNum = sampleNum;
     }
@@ -226,12 +226,12 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
       return (mPosBetweenSamples.size() < (mNumLinesBetweenSamples - 1)) && (mFileStream.tellg() < mFileSize);
     };
 
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size();
+    BOOST_LOG_SEV(gLogger, trivial::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size();
 
     if (!rem) {
       BOOST_LOG_NAMED_SCOPE("!rem")
       auto pos = mPosSampleLine.at(sampleNum);
-      BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
+      BOOST_LOG_SEV(gLogger, trivial::trace) << "pos=" << pos;
       mFileStream.seekg(pos);
       std::getline(mFileStream, line);
       LOG_LINE_AND_POS;
@@ -244,7 +244,7 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
       if (!mPosBetweenSamples.size()) {
         BOOST_LOG_NAMED_SCOPE("!mPosBetweenSamples.size()");
         auto pos = mPosSampleLine.at(sampleNum);
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
+        BOOST_LOG_SEV(gLogger, trivial::trace) << "pos=" << pos;
         mFileStream.seekg(pos);
         std::getline(mFileStream, line);
         LOG_LINE_AND_POS;
@@ -267,7 +267,7 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
         if (rem <= mPosBetweenSamples.size()) {
           BOOST_LOG_NAMED_SCOPE("rem <= mPosBetweenSamples.size()")
           auto pos = mPosBetweenSamples.at(rem - 1);
-          BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
+          BOOST_LOG_SEV(gLogger, trivial::trace) << "pos=" << pos;
           mFileStream.seekg(pos);
           std::getline(mFileStream, line);
           LOG_LINE_AND_POS;
@@ -278,7 +278,7 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
         } else {
           BOOST_LOG_NAMED_SCOPE("rem > mPosBetweenSamples.size()")
           auto pos = mPosBetweenSamples.back();
-          BOOST_LOG_SEV(gLogger, bltriv::trace) << "pos=" << pos;
+          BOOST_LOG_SEV(gLogger, trivial::trace) << "pos=" << pos;
           mFileStream.seekg(pos);
           /* The last pos in mPosBetweenSamples is for the line that has not been read yet, hence plus one.
            * Do not eliminate varible reps by putting the expression directly into the loop's condition,
@@ -304,7 +304,7 @@ void TokenizedFileLines::setTokenFuncParams(wchar_t escape, wchar_t separator, w
   auto &gLogger = GlobalLogger::get();
 
   if (separator != mSeparator || quote != mQuote || escape != mEscape) {
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "mTokenizedLines.clear()";
+    BOOST_LOG_SEV(gLogger, trivial::trace) << "mTokenizedLines.clear()";
     mTokenizedLines.clear();
   }
 
@@ -317,7 +317,7 @@ void TokenizedFileLines::setTokenFuncParams(wchar_t escape, wchar_t separator, w
 const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_t lineNum) {
   BOOST_LOG_FUNCTION();
   auto &gLogger = GlobalLogger::get();
-  BOOST_LOG_SEV(gLogger, bltriv::trace) << "lineNum=" << lineNum;
+  BOOST_LOG_SEV(gLogger, trivial::trace) << "lineNum=" << lineNum;
 
   if (auto search = mTokenizedLines.find(lineNum); search != mTokenizedLines.end()) {
     BOOST_LOG_NAMED_SCOPE("search != mTokenizedLines.end()");
@@ -337,22 +337,22 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
       }
       auto itLast = mTokenizedLines.crbegin();
 
-      BOOST_LOG_SEV(gLogger, bltriv::trace)
+      BOOST_LOG_SEV(gLogger, trivial::trace)
           << "itFirst->first=" << itFirst->first << ", itLast->first=" << itLast->first;
 
       std::size_t distToFirst = lineNum >= itFirst->first ? lineNum - itFirst->first : itFirst->first - lineNum;
       std::size_t distToLast = itLast->first >= lineNum ? itLast->first - lineNum : lineNum - itLast->first;
       if (distToFirst >= distToLast) {
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itFirst line #" << itFirst->first;
+        BOOST_LOG_SEV(gLogger, trivial::trace) << "Erasing itFirst line #" << itFirst->first;
         mTokenizedLines.erase(itFirst);
       } else {
-        BOOST_LOG_SEV(gLogger, bltriv::trace) << "Erasing itLast->first line #" << itLast->first;
+        BOOST_LOG_SEV(gLogger, trivial::trace) << "Erasing itLast->first line #" << itLast->first;
         mTokenizedLines.erase(itLast->first);
       }
     }
 
     auto line = mFileLines.getLine(lineNum);
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "line.substr()=" << line.substr(0, 50);
+    BOOST_LOG_SEV(gLogger, trivial::trace) << "line.substr()=" << line.substr(0, 50);
     LineTokenizer tok(line, mEscapedListSeparator);
     std::vector<std::wstring> tokenizedLine;
     for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
@@ -360,7 +360,7 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
     }
     const auto [it, success] = mTokenizedLines.insert({lineNum, std::move(tokenizedLine)});
     assert(success);
-    BOOST_LOG_SEV(gLogger, bltriv::trace) << "Inserted line #" << lineNum;
+    BOOST_LOG_SEV(gLogger, trivial::trace) << "Inserted line #" << lineNum;
     return &it->second;
   }
 }

@@ -35,7 +35,7 @@ struct GlobalFixture {
         std::accumulate(backends.cbegin(), backends.cend(), ""s,
                         [](const std::string &a, const std::string &b) { return a + (a == "" ? "" : ", ") + b; });
     auto &gLogger = GlobalLogger::get();
-    BOOST_LOG_SEV(gLogger, bltriv::debug) << " Localization backends: " << backendsList << '.';
+    BOOST_LOG_SEV(gLogger, trivial::debug) << " Localization backends: " << backendsList << '.';
   }
 
   void teardown() {}
