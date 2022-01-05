@@ -50,13 +50,17 @@ void initLogging() {
         keywords::file_name = "trace.log",
         keywords::target_file_name = "trace.log",
 #endif
-
     keywords::format = (expr::stream
-        << expr::format_date_time<boost::posix_time::ptime>("TimeStamp", " %Y-%m-%d %H:%M:%S.%f ")
-//        << expr::attr<unsigned int>("LineID") << ' '
+#ifdef NDEBUG
+        << expr::attr<unsigned int>("LineID") << ' '
+        << expr::format_date_time<boost::posix_time::ptime>("TimeStamp", "%Y-%m-%d %H:%M:%S ")
+        << trivial::severity << ' '
+#else
+        << expr::format_date_time<boost::posix_time::ptime>("TimeStamp", "%H:%M:%S.%f ")
         << expr::attr<logging::thread_id>("ThreadID") << ' '
         << trivial::severity << ' '
-        << expr::format_named_scope("Scope", keywords::format = "%n (%f:%l)") << ' '
+        << expr::format_named_scope("Scope", keywords::format = "%n (%F:%l)") << ' '
+#endif
         << expr::message),
 
     keywords::auto_flush = true);
