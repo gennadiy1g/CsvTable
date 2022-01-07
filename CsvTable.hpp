@@ -39,7 +39,7 @@ public:
   void finishReading() { mThread.join(); }
 
 private:
-  void checkInputFile();
+  void checkInputFile() const;
   void getPositionsOfSampleLines();
 
   bfs::path mFilePath;

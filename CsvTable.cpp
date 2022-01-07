@@ -29,7 +29,7 @@ FileLines::FileLines(const bfs::path &filePath, OnProgress onProgress)
   mThread = std::move(t);
 }
 
-void FileLines::checkInputFile() {
+void FileLines::checkInputFile() const {
   auto errorMessage = [](bfs::path const &filePath) {
     return "File \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" ";
   };
