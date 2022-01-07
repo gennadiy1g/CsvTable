@@ -61,7 +61,7 @@ void FileLines::getPositionsOfSampleLines() {
   auto prevTimePointC = std::chrono::system_clock::now();
   auto prevTimePointP = prevTimePointC;
   decltype(mPosSampleLine) buffer;
-  bfs::ifstream fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
+  decltype(mFileStream) fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
   assert(fileStream.is_open());
 
   auto flushBuffer = [this](decltype(mPosSampleLine) &buffer) {
