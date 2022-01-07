@@ -64,7 +64,7 @@ void FileLines::getPositionsOfSampleLines() {
   bfs::ifstream fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
   assert(fileStream.is_open());
 
-  auto flushBuffer = [this](std::vector<bfs::ifstream::pos_type> &buffer) {
+  auto flushBuffer = [this](decltype(mPosSampleLine) &buffer) {
     if (buffer.size()) {
       {
         const std::lock_guard<std::mutex> lock(mMutex);
