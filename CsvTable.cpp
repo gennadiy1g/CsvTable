@@ -78,6 +78,10 @@ void FileLines::getPositionsOfSampleLines() {
   while (fileStream.good()) {
     BOOST_LOG_NAMED_SCOPE("In the loop");
 
+    if (fileStream.tellg() >= mFileSize) {
+      break; // do not store position after the last line
+    }
+
     if (!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
       buffer.push_back(fileStream.tellg());
       BOOST_LOG_SEV(gLogger, trivial::trace)
@@ -94,12 +98,7 @@ void FileLines::getPositionsOfSampleLines() {
       prevTimePointC = timePoint;
     }
 
-    if (!std::getline(fileStream, line)) {
-      BOOST_LOG_SEV(gLogger, trivial::trace)
-          << "fileStream.eof()=" << fileStream.eof() << ", fileStream.fail()=" << fileStream.fail()
-          << ", fileStream.bad()=" << fileStream.bad();
-      break;
-    }
+    std::getline(fileStream, line);
 
     /* Read at least that many lines, excluding headers' line, before trying to evaluate the number of lines in the
      * file */
