@@ -76,7 +76,7 @@ void FileLines::getPositionsOfSampleLines() {
   };
 
   while (fileStream.good()) {
-    BOOST_LOG_NAMED_SCOPE("Reading the file");
+    BOOST_LOG_NAMED_SCOPE("In the loop");
 
     if (!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
       buffer.push_back(fileStream.tellg());
@@ -167,7 +167,7 @@ void FileLines::getPositionsOfSampleLines() {
       break;
     }
   }
-  BOOST_LOG_SEV(gLogger, trivial::trace) << "fileStream.tellg()=" << fileStream.tellg();
+  BOOST_LOG_SEV(gLogger, trivial::trace) << "After the loop fileStream.tellg()=" << fileStream.tellg();
 
   if (!fileStream.eof() && fileStream.fail()) {
     std::stringstream message;
