@@ -95,7 +95,9 @@ void FileLines::getPositionsOfSampleLines() {
     }
 
     if (!std::getline(fileStream, line)) {
-      BOOST_LOG_SEV(gLogger, trivial::trace) << "Error detected!";
+      BOOST_LOG_SEV(gLogger, trivial::trace)
+          << "fileStream.eof()=" << fileStream.eof() << ", fileStream.fail()=" << fileStream.fail()
+          << ", fileStream.bad()=" << fileStream.bad();
       break;
     }
 
