@@ -12,6 +12,8 @@ using namespace std::literals::string_literals;
 FileLines::FileLines(const bfs::path &filePath, OnProgress onProgress)
     : mFilePath(filePath), mFileStream(filePath, std::ios_base::in | std::ios_base::binary), mOnProgress(onProgress) {
   BOOST_LOG_FUNCTION();
+  auto &gLogger = GlobalLogger::get();
+  BOOST_LOG_SEV(gLogger, trivial::trace) << filePath;
 
   checkInputFile();
 
@@ -23,7 +25,6 @@ FileLines::FileLines(const bfs::path &filePath, OnProgress onProgress)
   mFileSize = bfs::file_size(mFilePath);
   assert(mFileSize);
 
-  auto &gLogger = GlobalLogger::get();
   BOOST_LOG_SEV(gLogger, trivial::trace) << "Starting FileLines::getPositionsOfSampleLines on a new thread";
   std::thread t(&FileLines::getPositionsOfSampleLines, this);
   mThread = std::move(t);
