@@ -146,8 +146,7 @@ void FileLines::getPositionsOfSampleLines() {
     }
 
     if (mOnProgress) {
-      // Number of grid lines that fit on one screen
-      constexpr std::size_t kScreenNumLines{50};
+      constexpr std::size_t kScreenNumLines{50}; // number of grid lines that fit on one screen
       if (auto timePoint = std::chrono::system_clock::now();
           (std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) ||
           (mNumLines == kScreenNumLines)) {
