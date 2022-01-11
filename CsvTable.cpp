@@ -146,10 +146,8 @@ void FileLines::getPositionsOfSampleLines() {
     }
 
     if (mOnProgress) {
-      constexpr std::size_t kScreenNumLines{50}; // number of grid lines that fit on one screen
       if (auto timePoint = std::chrono::system_clock::now();
-          (std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) ||
-          (mNumLines == kScreenNumLines)) {
+          std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) {
         percent = static_cast<int>(std::round(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
         BOOST_LOG_SEV(gLogger, trivial::trace) << "percent=" << percent;
         flushBuffer();
