@@ -53,8 +53,6 @@ void FileLines::checkInputFile() const {
 void FileLines::getPositionsOfSampleLines() {
   BOOST_LOG_FUNCTION();
 
-  constexpr std::size_t kMaxNumSamples{10'000}; // maximum number of sample lines, excluding headers' line
-
   auto &gLogger = GlobalLogger::get();
   std::string line;
   int percent{0};
@@ -114,6 +112,7 @@ void FileLines::getPositionsOfSampleLines() {
           << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", approxNumLines=" << approxNumLines;
 
       // Calculate the number of lines between successive samples
+      constexpr std::size_t kMaxNumSamples{10'000}; // maximum number of sample lines, excluding headers' line
       auto numLinesBetweenSamples = std::max(std::lround(approxNumLines / kMaxNumSamples), 1l);
       BOOST_LOG_SEV(gLogger, trivial::trace) << "numLinesBetweenSamples=" << numLinesBetweenSamples;
 
