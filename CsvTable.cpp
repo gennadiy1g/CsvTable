@@ -54,7 +54,6 @@ void FileLines::getPositionsOfSampleLines() {
   BOOST_LOG_FUNCTION();
 
   constexpr std::size_t kMaxNumSamples{10'000}; // maximum number of sample lines, excluding headers' line
-  constexpr std::size_t kMaxInt = static_cast<std::size_t>(std::numeric_limits<int>::max());
 
   auto &gLogger = GlobalLogger::get();
   std::string line;
@@ -164,6 +163,7 @@ void FileLines::getPositionsOfSampleLines() {
     /* Class wxGrid uses int for number of rows. See int wxGridTableBase::GetRowsCount() const and virtual int
      * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
      * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
+    constexpr std::size_t kMaxInt = static_cast<std::size_t>(std::numeric_limits<int>::max());
     if (mNumLines == kMaxInt) {
       BOOST_LOG_SEV(gLogger, trivial::trace) << "Maximum number of rows that wxGrid can display has been reached!";
       mIsNumLinesLimitReached = true;
