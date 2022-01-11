@@ -62,7 +62,7 @@ void FileLines::getPositionsOfSampleLines() {
   decltype(mFileStream) fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
   assert(fileStream.is_open());
 
-  auto flushBuffer = [this](decltype(mPosSampleLine) &buffer) {
+  auto flushBuffer = [&buffer, this]() {
     if (buffer.size()) {
       {
         const std::lock_guard<std::mutex> lock(mMutex);
@@ -118,7 +118,7 @@ void FileLines::getPositionsOfSampleLines() {
 
       // Keep positions only for line numbers divisible by numLinesBetweenSamples
       if (numLinesBetweenSamples > 1) {
-        flushBuffer(buffer);
+        flushBuffer();
 
         decltype(mPosSampleLine) keep;
         for (std::size_t i = 0; i < mPosSampleLine.size(); i += numLinesBetweenSamples) {
@@ -142,7 +142,7 @@ void FileLines::getPositionsOfSampleLines() {
     // used above
     constexpr std::size_t kMaxBufferSize{kMinNumLines - 0};
     if (buffer.size() == kMaxBufferSize) {
-      flushBuffer(buffer);
+      flushBuffer();
     }
 
     if (mOnProgress) {
@@ -153,7 +153,7 @@ void FileLines::getPositionsOfSampleLines() {
           (mNumLines == kScreenNumLines)) {
         percent = static_cast<int>(std::round(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
         BOOST_LOG_SEV(gLogger, trivial::trace) << "percent=" << percent;
-        flushBuffer(buffer);
+        flushBuffer();
         mOnProgress(mNumLines, percent);
         prevTimePointP = timePoint;
       }
@@ -185,7 +185,7 @@ void FileLines::getPositionsOfSampleLines() {
     throw std::runtime_error(message.str());
   }
 
-  flushBuffer(buffer);
+  flushBuffer();
   if (mOnProgress) {
     mOnProgress(mNumLines, 100);
   }
