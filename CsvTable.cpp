@@ -139,7 +139,9 @@ void FileLines::getPositionsOfSampleLines() {
 
     ++mNumLines; // mNumLines now includes headers' line
 
-    constexpr std::size_t kMaxBufferSize{100};
+    // kMaxBufferSize must be less or equal than kMinNumLines so that the buffer is flushed before mPosSampleLine is
+    // used above
+    constexpr std::size_t kMaxBufferSize{kMinNumLines - 0};
     if (buffer.size() == kMaxBufferSize) {
       flushBuffer(buffer);
     }
