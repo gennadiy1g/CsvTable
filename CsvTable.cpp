@@ -108,6 +108,7 @@ void FileLines::getPositionsOfSampleLines() {
       // Evaluate number of lines in the file, excluding headers' line
       assert(mPosSampleLine.size() >= 2); // buffer must have been flushed
       assert(fileStream.tellg() - mPosSampleLine.at(1) > 0);
+      // mNumLines does not include headers' line yet
       auto approxNumLines = mNumLines * (static_cast<float>(mFileSize - mPosSampleLine.at(1)) /
                                          (fileStream.tellg() - mPosSampleLine.at(1)));
       BOOST_LOG_SEV(gLogger, trivial::trace)
