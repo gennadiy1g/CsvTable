@@ -172,9 +172,9 @@ void FileLines::getPositionsOfSampleLines() {
     std::stringstream message;
 
     if (fileStream.bad()) {
-      message << "Irrecoverable stream error!";
+      message << "Irrecoverable input error (badbit)!";
     } else {
-      message << "Input operation failed (extraction error)!";
+      message << "Logical/Extraction error (failbit)!";
     }
 
     message << " File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native()) << "\", line: " << mNumLines + 1
