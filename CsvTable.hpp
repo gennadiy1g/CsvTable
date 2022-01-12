@@ -17,7 +17,7 @@ using OnProgress = std::function<void(int, int)>;
 class FileLines {
 public:
   explicit FileLines(const bfs::path &filePath, OnProgress onProgress = OnProgress()); // Constructor
-  virtual ~FileLines() = default;                                                      // Defaulted virtual destructor
+  virtual ~FileLines() { assert(!mThread.joinable()); };
 
   // Disallow assignment and pass-by-value.
   FileLines(const FileLines &src) = delete;
