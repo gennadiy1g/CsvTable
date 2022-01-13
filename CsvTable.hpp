@@ -57,7 +57,7 @@ private:
 
   // Shared between getPositionsOfSampleLines() and getLine(); written by at least one.
   std::vector<bfs::ifstream::pos_type> mPosSampleLine; // Positions of sample lines
-  std::size_t mNumLinesBetweenSamples{1};              // Number of lines between successive sample lines
+  std::size_t mLinesSamplesRatio{1};              // lines to samples ratio
   decltype(mPosSampleLine) mPosBetweenSamples;         // Positions of lines between sample lines
 
   std::mutex mMutex;

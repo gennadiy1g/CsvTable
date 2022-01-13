@@ -82,7 +82,7 @@ void FileLines::getPositionsOfSampleLines() {
       break; // do not store position after the last line
     }
 
-    if (!(numLines % mNumLinesBetweenSamples)) { // numLines does not include headers' line yet
+    if (!(numLines % mLinesSamplesRatio)) { // numLines does not include headers' line yet
       buffer.push_back(fileStream.tellg());
       BOOST_LOG_SEV(gLogger, trivial::trace)
           << "numLines=" << numLines << ", buffer[" << buffer.size() - 1 << "]=" << buffer.at(buffer.size() - 1);
@@ -115,15 +115,15 @@ void FileLines::getPositionsOfSampleLines() {
 
       // Calculate the number of lines between successive samples
       constexpr std::size_t kMaxNumSamples{10'000}; // maximum number of sample lines, excluding headers' line
-      auto numLinesBetweenSamples = std::max(std::lround(approxNumLines / kMaxNumSamples), 1l);
-      BOOST_LOG_SEV(gLogger, trivial::trace) << "numLinesBetweenSamples=" << numLinesBetweenSamples;
+      auto linesSamplesRatio = std::max(std::lround(approxNumLines / kMaxNumSamples), 1l);
+      BOOST_LOG_SEV(gLogger, trivial::trace) << "numLinesBetweenSamples=" << linesSamplesRatio;
 
       // Keep positions only for line numbers divisible by numLinesBetweenSamples
-      if (numLinesBetweenSamples > 1) {
+      if (linesSamplesRatio > 1) {
         flushBuffer();
 
         decltype(mPosSampleLine) keep;
-        for (std::size_t i = 0; i < mPosSampleLine.size(); i += numLinesBetweenSamples) {
+        for (std::size_t i = 0; i < mPosSampleLine.size(); i += linesSamplesRatio) {
           keep.push_back(mPosSampleLine[i]);
         }
 
@@ -132,8 +132,8 @@ void FileLines::getPositionsOfSampleLines() {
           std::swap(mPosSampleLine, keep);
           mPosSampleLine.reserve(kMaxNumSamples + 1); // kMaxNumSamples data lines plus headers' line
           assert(mPosSampleLine.at(0) == 0);
-          mNumLinesBetweenSamples = numLinesBetweenSamples;
-          mPosBetweenSamples.reserve(numLinesBetweenSamples - 1);
+          mLinesSamplesRatio = linesSamplesRatio;
+          mPosBetweenSamples.reserve(linesSamplesRatio - 1);
         }
       }
     }
@@ -202,8 +202,8 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
   const std::lock_guard<std::mutex> lock(mMutex);
 
   auto &gLogger = GlobalLogger::get();
-  if (mNumLinesBetweenSamples == 1) {
-    BOOST_LOG_NAMED_SCOPE("mNumLinesBetweenSamples == 1");
+  if (mLinesSamplesRatio == 1) {
+    BOOST_LOG_NAMED_SCOPE("mLinesSamplesRatio == 1");
     assert(lineNum < mPosSampleLine.size());
     auto pos = mPosSampleLine.at(lineNum);
     BOOST_LOG_SEV(gLogger, trivial::trace) << "lineNum=" << lineNum << ", pos=" << pos;
@@ -211,9 +211,9 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
     std::getline(mFileStream, line);
     LOG_LINE_AND_POS;
   } else {
-    BOOST_LOG_NAMED_SCOPE("mNumLinesBetweenSamples != 1");
-    auto sampleNum = lineNum / mNumLinesBetweenSamples; // line number of the nearest sample
-    auto rem = lineNum % mNumLinesBetweenSamples;
+    BOOST_LOG_NAMED_SCOPE("mLinesSamplesRatio != 1");
+    auto sampleNum = lineNum / mLinesSamplesRatio; // line number of the nearest sample
+    auto rem = lineNum % mLinesSamplesRatio;
     BOOST_LOG_SEV(gLogger, trivial::trace) << "lineNum=" << lineNum << ", sampleNum=" << sampleNum << ", rem=" << rem;
     assert(sampleNum < mPosSampleLine.size());
 
@@ -225,7 +225,7 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
     }
 
     auto morePosBetweenSamples = [this]() {
-      return (mPosBetweenSamples.size() < (mNumLinesBetweenSamples - 1)) && (mFileStream.tellg() < mFileSize);
+      return (mPosBetweenSamples.size() < (mLinesSamplesRatio - 1)) && (mFileStream.tellg() < mFileSize);
     };
 
     BOOST_LOG_SEV(gLogger, trivial::trace) << "mPosBetweenSamples.size()=" << mPosBetweenSamples.size();
@@ -265,7 +265,7 @@ std::wstring FileLines::getLine(std::size_t lineNum) {
         }
       } else {
         BOOST_LOG_NAMED_SCOPE("mPosBetweenSamples.size()");
-        assert(mPosBetweenSamples.size() <= mNumLinesBetweenSamples - 1);
+        assert(mPosBetweenSamples.size() <= mLinesSamplesRatio - 1);
         if (rem <= mPosBetweenSamples.size()) {
           BOOST_LOG_NAMED_SCOPE("rem <= mPosBetweenSamples.size()")
           auto pos = mPosBetweenSamples.at(rem - 1);
