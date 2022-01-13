@@ -100,7 +100,6 @@ void FileLines::getPositionsOfSampleLines() {
     /* Read at least that many lines, excluding headers' line, before trying to evaluate the number of lines in the
      * file */
     constexpr std::size_t kMinNumLines{100};
-
     if (mNumLines == kMinNumLines) {
       // Evaluate number of lines in the file, excluding headers' line
       assert(mPosSampleLine.size() >= 2); // buffer must have been flushed
