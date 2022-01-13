@@ -43,12 +43,12 @@ private:
   void getPositionsOfSampleLines();
 
   bfs::path mFilePath;
-  std::size_t mNumLines{0}; // Number of lines in the file
   bfs::ifstream mFileStream;
   OnProgress mOnProgress;
   std::size_t mPrevSampleNum{std::numeric_limits<std::size_t>::max()};
 
   // Shared between this class and GUI
+  std::atomic_size_t mNumLines{0}; // Number of lines in the file
   std::atomic_bool mIsCancelled{false};
   std::atomic_bool mIsNumLinesLimitReached{false};
 
