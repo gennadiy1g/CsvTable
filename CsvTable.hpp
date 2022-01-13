@@ -56,9 +56,9 @@ private:
   bfs::ifstream::pos_type mFileSize{0};
 
   // Shared between getPositionsOfSampleLines() and getLine(); written by at least one.
-  std::vector<bfs::ifstream::pos_type> mPosSampleLine; // Positions of sample lines
-  std::size_t mLinesSamplesRatio{1};              // lines to samples ratio
-  decltype(mPosSampleLine) mPosBetweenSamples;         // Positions of lines between sample lines
+  std::vector<bfs::ifstream::pos_type> mPosSampleLine; // positions of sample lines
+  std::size_t mLinesSamplesRatio{1};                   // lines to samples ratio
+  decltype(mPosSampleLine) mPosBetweenSamples;         // positions of lines between sample lines
 
   std::mutex mMutex;
   std::thread mThread;
