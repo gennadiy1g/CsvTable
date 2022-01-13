@@ -1,6 +1,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
 #include <chrono>
+#include <cstddef>
 
 #include "CsvTable.hpp"
 #include "log.hpp"
@@ -55,6 +56,7 @@ void FileLines::getPositionsOfSampleLines() {
 
   auto &gLogger = GlobalLogger::get();
   std::string line;
+  std::size_t numLines{0};
   int percent{0};
   auto prevTimePointC = std::chrono::system_clock::now();
   auto prevTimePointP = prevTimePointC;
@@ -62,11 +64,12 @@ void FileLines::getPositionsOfSampleLines() {
   decltype(mFileStream) fileStream(mFilePath, std::ios_base::in | std::ios_base::binary);
   assert(fileStream.is_open());
 
-  auto flushBuffer = [&buffer, this]() {
+  auto flushBuffer = [&buffer, &numLines, this]() {
     if (buffer.size()) {
       {
         const std::lock_guard<std::mutex> lock(mMutex);
         std::copy(buffer.cbegin(), buffer.cend(), std::back_inserter(mPosSampleLine));
+        mNumLines = numLines;
       }
       buffer.clear();
     }
@@ -79,10 +82,10 @@ void FileLines::getPositionsOfSampleLines() {
       break; // do not store position after the last line
     }
 
-    if (!(mNumLines % mNumLinesBetweenSamples)) { // mNumLines does not include headers' line yet
+    if (!(numLines % mNumLinesBetweenSamples)) { // numLines does not include headers' line yet
       buffer.push_back(fileStream.tellg());
       BOOST_LOG_SEV(gLogger, trivial::trace)
-          << "mNumLines=" << mNumLines << ", buffer[" << buffer.size() - 1 << "]=" << buffer.at(buffer.size() - 1);
+          << "numLines=" << numLines << ", buffer[" << buffer.size() - 1 << "]=" << buffer.at(buffer.size() - 1);
     }
 
     if (auto timePoint = std::chrono::system_clock::now();
@@ -100,15 +103,15 @@ void FileLines::getPositionsOfSampleLines() {
     /* Read at least that many lines, excluding headers' line, before trying to evaluate the number of lines in the
      * file */
     constexpr std::size_t kMinNumLines{100};
-    if (mNumLines == kMinNumLines) {
+    if (numLines == kMinNumLines) {
       // Evaluate number of lines in the file, excluding headers' line
       assert(mPosSampleLine.size() >= 2); // buffer must have been flushed
       assert(fileStream.tellg() - mPosSampleLine.at(1) > 0);
-      // mNumLines does not include headers' line yet
-      auto approxNumLines = mNumLines * (static_cast<float>(mFileSize - mPosSampleLine.at(1)) /
-                                         (fileStream.tellg() - mPosSampleLine.at(1)));
+      // numLines does not include headers' line yet
+      auto approxNumLines = numLines * (static_cast<float>(mFileSize - mPosSampleLine.at(1)) /
+                                        (fileStream.tellg() - mPosSampleLine.at(1)));
       BOOST_LOG_SEV(gLogger, trivial::trace)
-          << "mNumLines=" << mNumLines << ", mFileSize=" << mFileSize << ", approxNumLines=" << approxNumLines;
+          << "numLines=" << numLines << ", mFileSize=" << mFileSize << ", approxNumLines=" << approxNumLines;
 
       // Calculate the number of lines between successive samples
       constexpr std::size_t kMaxNumSamples{10'000}; // maximum number of sample lines, excluding headers' line
@@ -135,7 +138,7 @@ void FileLines::getPositionsOfSampleLines() {
       }
     }
 
-    ++mNumLines; // mNumLines now includes headers' line
+    ++numLines; // numLines now includes headers' line
 
     constexpr std::size_t kMaxBufferSize{100};
     if (buffer.size() == kMaxBufferSize) {
@@ -148,7 +151,7 @@ void FileLines::getPositionsOfSampleLines() {
         percent = static_cast<int>(std::round(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
         BOOST_LOG_SEV(gLogger, trivial::trace) << "percent=" << percent;
         flushBuffer();
-        mOnProgress(mNumLines, percent);
+        mOnProgress(numLines, percent);
         prevTimePointP = timePoint;
       }
     }
@@ -157,7 +160,7 @@ void FileLines::getPositionsOfSampleLines() {
      * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
      * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
     constexpr std::size_t kMaxInt = static_cast<std::size_t>(std::numeric_limits<int>::max());
-    if (mNumLines == kMaxInt) {
+    if (numLines == kMaxInt) {
       BOOST_LOG_SEV(gLogger, trivial::trace) << "Maximum number of rows that wxGrid can display has been reached!";
       mIsNumLinesLimitReached = true;
       break;
@@ -174,14 +177,14 @@ void FileLines::getPositionsOfSampleLines() {
       message << "Logical/Extraction error (failbit)!";
     }
 
-    message << " File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native()) << "\", line: " << mNumLines + 1
+    message << " File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native()) << "\", line: " << numLines + 1
             << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
     throw std::runtime_error(message.str());
   }
 
   flushBuffer();
   if (mOnProgress) {
-    mOnProgress(mNumLines, 100);
+    mOnProgress(numLines, 100);
   }
 }
 
