@@ -148,7 +148,7 @@ void FileLines::getPositionsOfSampleLines() {
     if (mOnProgress) {
       if (auto timePoint = std::chrono::system_clock::now();
           std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) {
-        percent = static_cast<int>(std::round(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
+        percent = static_cast<int>(std::floor(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
         BOOST_LOG_SEV(gLogger, trivial::trace) << "percent=" << percent;
         flushBuffer();
         mOnProgress(numLines, percent);
