@@ -166,25 +166,28 @@ void FileLines::getPositionsOfSampleLines() {
       break;
     }
   }
-  BOOST_LOG_SEV(gLogger, trivial::trace) << "After the loop fileStream.tellg()=" << fileStream.tellg();
 
-  if (!fileStream.eof() && fileStream.fail()) {
-    std::stringstream message;
+  if (!mIsCancelled) {
+    BOOST_LOG_SEV(gLogger, trivial::trace) << "After the loop fileStream.tellg()=" << fileStream.tellg();
 
-    if (fileStream.bad()) {
-      message << "Irrecoverable input error (badbit)!";
-    } else {
-      message << "Logical/Extraction error (failbit)!";
+    if (!fileStream.eof() && fileStream.fail()) {
+      std::stringstream message;
+
+      if (fileStream.bad()) {
+        message << "Irrecoverable input error (badbit)!";
+      } else {
+        message << "Logical/Extraction error (failbit)!";
+      }
+
+      message << " File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native()) << "\", line: " << numLines + 1
+              << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
+      throw std::runtime_error(message.str());
     }
 
-    message << " File: \"" << blocale::conv::utf_to_utf<char>(mFilePath.native()) << "\", line: " << numLines + 1
-            << ", column: " << boost::trim_right_copy(blocale::conv::utf_to_utf<wchar_t>(line)).length() + 1 << '.';
-    throw std::runtime_error(message.str());
-  }
-
-  flushBuffer();
-  if (mOnProgress) {
-    mOnProgress(numLines, 100);
+    flushBuffer();
+    if (mOnProgress) {
+      mOnProgress(numLines, 100);
+    }
   }
 }
 
