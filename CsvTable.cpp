@@ -355,6 +355,7 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
         mTokenizedLines.erase(itLast->first);
       }
     }
+    assert(mTokenizedLines.size() < kMaxSize);
 
     auto line = mFileLines.getLine(lineNum);
     BOOST_LOG_SEV(gLogger, trivial::trace) << "line.substr()=" << line.substr(0, 50);
