@@ -324,11 +324,11 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
   auto &gLogger = GlobalLogger::get();
   BOOST_LOG_SEV(gLogger, trivial::trace) << "lineNum=" << lineNum;
 
-  if (const auto search = mTokenizedLines.find(lineNum); search != mTokenizedLines.end()) {
-    BOOST_LOG_NAMED_SCOPE("search != mTokenizedLines.end()");
-    return &search->second;
+  if (const auto it_find = mTokenizedLines.find(lineNum); it_find != mTokenizedLines.end()) {
+    BOOST_LOG_NAMED_SCOPE("it_find != mTokenizedLines.end()");
+    return &it_find->second;
   } else {
-    BOOST_LOG_NAMED_SCOPE("search == mTokenizedLines.end()");
+    BOOST_LOG_NAMED_SCOPE("it_find == mTokenizedLines.end()");
     if (mTokenizedLines.size() == kMaxSize) {
       /* The size of the map is at the maximum. Remove one element from the map - the element
        * that is furthest away from lineNum. */
@@ -363,9 +363,9 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
     for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
       tokenizedLine.push_back(*beg);
     }
-    const auto [it, success] = mTokenizedLines.insert({lineNum, std::move(tokenizedLine)});
+    const auto [it_ins, success] = mTokenizedLines.insert({lineNum, std::move(tokenizedLine)});
     assert(success);
     BOOST_LOG_SEV(gLogger, trivial::trace) << "Inserted line #" << lineNum;
-    return &it->second;
+    return &it_ins->second;
   }
 }
