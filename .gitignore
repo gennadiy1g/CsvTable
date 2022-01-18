@@ -4,3 +4,4 @@ obj
 *.save
 *.depend
 *.layout
+trace.log
