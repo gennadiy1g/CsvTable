@@ -361,9 +361,17 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
     BOOST_LOG_SEV(gLogger, trivial::trace) << "line.substr()=" << line.substr(0, 50);
     LineTokenizer tok(line, mEscapedListSeparator);
     std::vector<std::wstring> tokenizedLine;
+    thread_local std::size_t numTokens{0};
+    if (numTokens) {
+      tokenizedLine.reserve(numTokens);
+    }
     for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
       tokenizedLine.push_back(*beg);
     }
+    if (!numTokens && tokenizedLine.size()) {
+      numTokens = tokenizedLine.size();
+    }
+
     const auto [it_ins, success] = mTokenizedLines.insert({lineNum, std::move(tokenizedLine)});
     assert(success);
     BOOST_LOG_SEV(gLogger, trivial::trace) << "Inserted line #" << lineNum;
