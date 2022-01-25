@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(non_existing_file) {
 
 BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv) {
   FileLines fileLines(kTestDataDir + LR"^(ZX0training_UTF-8.csv)^"s);
-  fileLines.finishReading();
+  fileLines.waitForWorkerThread();
   BOOST_TEST(fileLines.numLines() == 7438);
   BOOST_TEST(boost::starts_with(fileLines.getLine(0), L"customer Id2,"));
   BOOST_TEST(boost::starts_with(fileLines.getLine(1), L"499962071,"));
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv) {
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv) {
   FileLines fileLines(kTestDataDir + LR"^(russian_UTF-8_2.csv)^");
-  fileLines.finishReading();
+  fileLines.waitForWorkerThread();
   BOOST_TEST(fileLines.numLines() == 11);
   BOOST_TEST(boost::starts_with(fileLines.getLine(0), L"идентификатор,"));
   BOOST_TEST(boost::starts_with(fileLines.getLine(1), L"строка1,"));
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv) {
 
 BOOST_AUTO_TEST_CASE(Hits_csv) {
   FileLines fileLines(kTestDataDir + LR"^(Hits.csv)^");
-  fileLines.finishReading();
+  fileLines.waitForWorkerThread();
   BOOST_TEST(fileLines.numLines() == 38044);
   for (auto i = 0; i < 2; ++i) {
     BOOST_TEST(boost::starts_with(fileLines.getLine(0), L"enrolid,"));
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(Hits_csv) {
 
 BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv) {
   FileLines fileLines(kTestDataDir + LR"^(web complex data with target variable.csv)^");
-  fileLines.finishReading();
+  fileLines.waitForWorkerThread();
   BOOST_TEST(fileLines.numLines() == 1035808);
   for (auto i = 0; i < 2; ++i) {
     BOOST_TEST(boost::starts_with(fileLines.getLine(0), L"id,parent_id,cluster,program_id,offer_id,affiliate_id,"));

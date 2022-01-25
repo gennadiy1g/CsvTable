@@ -34,9 +34,9 @@ public:
 
   std::wstring getLine(std::size_t lineNum);
 
-  void stopReading() { mIsCancelled = true; };
+  void cancelReading() { mIsCancelled = true; };
 
-  void finishReading() { mThread.join(); }
+  void waitForWorkerThread() { mThread.join(); }
 
 private:
   void checkInputFile() const;
@@ -93,9 +93,9 @@ public:
 
   const std::vector<std::wstring> *getTokenizedLine(std::size_t lineNum);
 
-  void stopReading() { mFileLines.stopReading(); };
+  void stopReading() { mFileLines.cancelReading(); };
 
-  void finishReading() { mFileLines.finishReading(); }
+  void finishReading() { mFileLines.waitForWorkerThread(); }
 
 private:
   FileLines mFileLines;
