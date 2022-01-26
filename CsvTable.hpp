@@ -12,10 +12,10 @@
 
 namespace bfs = boost::filesystem;
 
-using OnProgress = std::function<void(std::size_t, int)>;
-
 class FileLines {
 public:
+  using OnProgress = std::function<void(std::size_t, int)>;
+
   explicit FileLines(const bfs::path &filePath, OnProgress onProgress = OnProgress()); // Constructor
   virtual ~FileLines() { assert(!mThread.joinable()); };
 
@@ -69,7 +69,7 @@ using LineTokenizer = boost::tokenizer<EscapedListSeparator, std::wstring::const
 
 class TokenizedFileLines {
 public:
-  explicit TokenizedFileLines(const bfs::path &filePath, OnProgress onProgress = OnProgress())
+  explicit TokenizedFileLines(const bfs::path &filePath, FileLines::OnProgress onProgress = FileLines::OnProgress())
       : mFileLines(filePath, onProgress){}; // Constructor
   virtual ~TokenizedFileLines() = default;  // Defaulted virtual destructor
 
