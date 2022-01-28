@@ -17,7 +17,7 @@ public:
   using OnProgress = std::function<void(std::size_t, int)>;
 
   explicit FileLines(const bfs::path &filePath, OnProgress onProgress = OnProgress()); // Constructor
-  virtual ~FileLines() { assert(!mThread.joinable()); };
+  virtual ~FileLines();
 
   // Disallow assignment and pass-by-value.
   FileLines(const FileLines &src) = delete;
@@ -34,9 +34,9 @@ public:
 
   std::wstring getLine(std::size_t lineNum);
 
-  void stopReading() { mStopRequested = true; };
+  void stopReading();
 
-  void joinWorkerThread() { mThread.join(); }
+  void joinWorkerThread();
 
 private:
   void checkInputFile() const;
