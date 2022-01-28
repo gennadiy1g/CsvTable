@@ -34,7 +34,7 @@ public:
 
   std::wstring getLine(std::size_t lineNum);
 
-  void cancelReading() { mIsCancelled = true; };
+  void stopReading() { mStopRequested = true; };
 
   void joinWorkerThread() { mThread.join(); }
 
@@ -49,7 +49,7 @@ private:
 
   // Shared between this class and GUI
   std::atomic_size_t mNumLines{0}; // Number of lines in the file
-  std::atomic_bool mIsCancelled{false};
+  std::atomic_bool mStopRequested{false};
   std::atomic_bool mIsNumLinesLimitReached{false};
 
   // Shared between getPositionsOfSampleLines() and getLine(); read only by both.
@@ -93,7 +93,7 @@ public:
 
   const std::vector<std::wstring> *getTokenizedLine(std::size_t lineNum);
 
-  void stopReading() { mFileLines.cancelReading(); };
+  void stopReading() { mFileLines.stopReading(); };
 
   void joinWorkerThread() { mFileLines.joinWorkerThread(); }
 

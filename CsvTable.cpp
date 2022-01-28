@@ -90,7 +90,7 @@ void FileLines::getPositionsOfSampleLines() {
 
     if (auto timePoint = std::chrono::system_clock::now();
         std::chrono::duration<float, std::milli>(timePoint - prevTimePointC).count() > 100) {
-      if (mIsCancelled) {
+      if (mStopRequested) {
         // Cancelled by user
         BOOST_LOG_SEV(gLogger, trivial::trace) << "Cancelled by user";
         break;
@@ -167,7 +167,7 @@ void FileLines::getPositionsOfSampleLines() {
     }
   }
 
-  if (!mIsCancelled) {
+  if (!mStopRequested) {
     BOOST_LOG_SEV(gLogger, trivial::trace) << "After the loop fileStream.tellg()=" << fileStream.tellg();
 
     if (!fileStream.eof() && fileStream.fail()) {
