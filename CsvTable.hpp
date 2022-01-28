@@ -36,7 +36,7 @@ public:
 
   void cancelReading() { mIsCancelled = true; };
 
-  void waitForWorkerThread() { mThread.join(); }
+  void joinWorkerThread() { mThread.join(); }
 
 private:
   void checkInputFile() const;
@@ -95,7 +95,7 @@ public:
 
   void stopReading() { mFileLines.cancelReading(); };
 
-  void finishReading() { mFileLines.waitForWorkerThread(); }
+  void joinWorkerThread() { mFileLines.joinWorkerThread(); }
 
 private:
   FileLines mFileLines;
