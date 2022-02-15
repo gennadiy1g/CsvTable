@@ -69,8 +69,8 @@ void FileLines::getPositionsOfSampleLines() {
 
   auto &gLogger = GlobalLogger::get();
   std::string line;
-  std::size_t numLines{0};
-  int percent{0};
+  std::size_t numLines{};
+  int percent{};
   auto prevTimePointC = std::chrono::system_clock::now();
   auto prevTimePointP = prevTimePointC;
   decltype(mPosSampleLine) buffer;
@@ -374,7 +374,7 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
     BOOST_LOG_SEV(gLogger, trivial::trace) << "line.substr()=" << line.substr(0, 50);
     LineTokenizer tok(line, mEscapedListSeparator);
     std::vector<std::wstring> tokenizedLine;
-    thread_local std::size_t numTokens{0};
+    thread_local std::size_t numTokens{};
     if (numTokens) {
       tokenizedLine.reserve(numTokens);
     }

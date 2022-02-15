@@ -48,12 +48,12 @@ private:
   std::size_t mPrevSampleNum{std::numeric_limits<std::size_t>::max()};
 
   // Shared between this class and GUI
-  std::atomic_size_t mNumLines{0}; // Number of lines in the file
+  std::atomic_size_t mNumLines{}; // Number of lines in the file
   std::atomic_bool mStopRequested{false};
   std::atomic_bool mIsNumLinesLimitReached{false};
 
   // Shared between getPositionsOfSampleLines() and getLine(); read only by both.
-  bfs::ifstream::pos_type mFileSize{0};
+  bfs::ifstream::pos_type mFileSize{};
 
   // Shared between getPositionsOfSampleLines() and getLine(); written by at least one.
   std::vector<bfs::ifstream::pos_type> mPosSampleLine; // positions of sample lines
