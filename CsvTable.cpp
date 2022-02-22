@@ -34,8 +34,12 @@ FileLines::FileLines(const bfs::path &filePath, OnProgress onProgress)
 FileLines::~FileLines() { joinWorkerThread(); };
 
 void FileLines::stopReading() {
+  BOOST_LOG_FUNCTION();
+  auto &gLogger = GlobalLogger::get();
   mStopRequested = true;
+  BOOST_LOG_SEV(gLogger, trivial::trace) << "calling FileLines::joinWorkerThread()";
   joinWorkerThread();
+  BOOST_LOG_SEV(gLogger, trivial::trace) << "returned from FileLines::joinWorkerThread()";
 };
 
 void FileLines::joinWorkerThread() {
