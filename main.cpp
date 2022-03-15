@@ -103,23 +103,23 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv) {
     BOOST_TEST(boost::starts_with(
         fileLines.getLine(1), L"328090022,\\N,22,1,9656,43608,firstsub,secondsub,496940,\\N,53479,11,Mozilla/5.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(2),
-                                   L"328375080,\\N,22,1,9656,43608,firstsub,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+                                  L"328375080,\\N,22,1,9656,43608,firstsub,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(3),
-                                   L"328436381,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/4.0 "));
+                                  L"328436381,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/4.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(4),
-                                   L"328588235,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+                                  L"328588235,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(5),
-                                   L"328636022,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+                                  L"328636022,\\N,22,1,9656,43608,zone10059,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(1035807),
-                                   L"934804528,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+                                  L"934804528,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(1035806),
-                                   L"934802516,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
+                                  L"934802516,\\N,12,1,9656,43608,zone10061,\\N,496944,\\N,53479,11,Mozilla/4.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(1035805),
-                                   L"934802243,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,\"Mozilla/5.0 "));
+                                  L"934802243,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,\"Mozilla/5.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(1035804),
-                                   L"934801910,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+                                  L"934801910,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
     BOOST_TEST(boost::starts_with(fileLines.getLine(1035803),
-                                   L"934801729,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
+                                  L"934801729,\\N,12,1,9656,43608,zone10061,\\N,496940,\\N,53479,11,Mozilla/5.0 "));
   }
 }
 
@@ -370,81 +370,61 @@ BOOST_AUTO_TEST_SUITE_END();
 BOOST_AUTO_TEST_SUITE(detectSeparatorAndQuote_tests);
 
 BOOST_AUTO_TEST_CASE(Hits_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(Hits.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(Hits.csv)^");
   BOOST_TEST((separator && separator.value() == L','));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Semicolon_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Semicolon.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Semicolon.csv)^");
   BOOST_TEST((separator && separator.value() == L';'));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Space_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Space.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Space.csv)^");
   BOOST_TEST((separator && separator.value() == L' '));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Tab_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_TAB.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_TAB.csv)^");
   BOOST_TEST((separator && separator.value() == L'\t'));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_VerticalBar_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_VerticalBar.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_VerticalBar.csv)^");
   BOOST_TEST((separator && separator.value() == L'|'));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_DoubleQuote_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_DoubleQuote.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_DoubleQuote.csv)^");
   BOOST_TEST((separator && separator.value() == L','));
   BOOST_TEST((quote && quote.value() == L'\"'));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_SingleQuote_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_SingleQuote.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_SingleQuote.csv)^");
   BOOST_TEST((separator && separator.value() == L','));
   BOOST_TEST((quote && quote.value() == L'\''));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote.csv)^");
   BOOST_TEST((separator && separator.value() == L'\t'));
   BOOST_TEST((quote && quote.value() == L'\''));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_2_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote_2.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote_2.csv)^");
   BOOST_TEST((separator && separator.value() == L'\t'));
   BOOST_TEST((quote && quote.value() == L'\''));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Ambiguous_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
-  detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Ambiguous.csv)^", separator, quote);
+  auto [separator, quote] = detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Ambiguous.csv)^");
   BOOST_TEST((!separator));
   BOOST_TEST(!quote);
 }

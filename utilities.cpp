@@ -73,12 +73,11 @@ void initLogging() {
 #endif
 }
 
-void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separator, std::optional<wchar_t> &quote) {
+std::pair<std::optional<wchar_t>, std::optional<wchar_t>> detectSeparatorAndQuote(const bfs::path &filePath) {
   BOOST_LOG_FUNCTION();
   auto &gLogger = GlobalLogger::get();
 
-  separator = std::nullopt;
-  quote = std::nullopt;
+  std::optional<wchar_t> separator{std::nullopt}, quote{std::nullopt};
 
   std::wstring line{L""};
   {
@@ -158,4 +157,6 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
       }
     }
   }
+
+  return {separator, quote};
 }
