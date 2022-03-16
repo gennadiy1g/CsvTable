@@ -95,8 +95,6 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
 
   boost::trim(line);
   if (line.length()) {
-    constexpr wchar_t kTab{L'\t'}, kPipe{L'|'}, kSemicolon{L';'}, kComma{L','}, kSpace{L' '}, kDoubleQuote{L'\"'},
-        kSingleQuote{L'\''};
     {
       // Detect separator
       BOOST_LOG_NAMED_SCOPE("Detect separator");
