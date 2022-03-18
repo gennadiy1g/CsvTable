@@ -88,7 +88,10 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
       throw std::runtime_error("Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) +
                                "\" for reading!"s);
     }
-
+    /* All streams have goodbit by default (they do not throw exceptions due to error state flags being set).
+       https://www.cplusplus.com/reference/ios/ios/exceptions/
+    */
+    fileStream.exceptions(fileStream.badbit | fileStream.failbit); // throw if badbit or failbit is set
     std::getline(fileStream, line);
     BOOST_LOG_SEV(gLogger, trivial::trace)
         << "bad()=" << fileStream.bad() << ", fail()=" << fileStream.fail() << ", line=" << line;
