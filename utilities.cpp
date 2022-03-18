@@ -90,7 +90,8 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
     }
 
     std::getline(fileStream, line);
-    BOOST_LOG_SEV(gLogger, trivial::trace) << "line=" << line;
+    BOOST_LOG_SEV(gLogger, trivial::trace)
+        << "bad()=" << fileStream.bad() << ", fail()=" << fileStream.fail() << ", line=" << line;
   }
 
   boost::trim(line);
