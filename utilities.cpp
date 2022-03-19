@@ -3,6 +3,7 @@
 #include <string>
 #include <string_view>
 
+#include "SepChars.hpp"
 #include "log.hpp"
 #include "utilities.hpp"
 

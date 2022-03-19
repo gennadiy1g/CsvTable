@@ -10,6 +10,8 @@
 #include <thread>
 #include <vector>
 
+#include "SepChars.hpp"
+
 namespace bfs = boost::filesystem;
 
 class FileLines {
@@ -99,10 +101,10 @@ public:
 
 private:
   FileLines mFileLines;
-  EscapedListSeparator mEscapedListSeparator{L'\0', L',', L'\"'};
+  EscapedListSeparator mEscapedListSeparator{kNull, kComma, kDoubleQuote};
   std::map<std::size_t, std::vector<std::wstring>> mTokenizedLines;
   static constexpr std::size_t kMaxSize{10'000};
-  wchar_t mSeparator{L','};
-  wchar_t mEscape{L'\0'};
-  wchar_t mQuote{L'\"'};
+  wchar_t mSeparator{kComma};
+  wchar_t mEscape{kNull};
+  wchar_t mQuote{kDoubleQuote};
 };
