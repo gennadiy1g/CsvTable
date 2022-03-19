@@ -85,8 +85,9 @@ void detectSeparatorAndQuote(bfs::path filePath, std::optional<wchar_t> &separat
     BOOST_LOG_NAMED_SCOPE("Read 1st line");
     bfs::wifstream fileStream(filePath);
     if (!fileStream) {
-      throw std::runtime_error("Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) +
-                               "\" for reading!"s);
+      throw std::runtime_error(
+          "Unable to open file \""s + blocale::conv::utf_to_utf<char>(filePath.native()) +
+          "\" for reading!\n\nOne possible reason is that you do not have permission to read this file."s);
     }
     /* All streams have goodbit by default (they do not throw exceptions due to error state flags being set).
        https://www.cplusplus.com/reference/ios/ios/exceptions/
