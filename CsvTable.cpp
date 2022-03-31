@@ -325,7 +325,7 @@ void TokenizedFileLines::setTokenFuncParams(wchar_t escape, wchar_t separator, w
   BOOST_LOG_FUNCTION();
   auto &gLogger = GlobalLogger::get();
 
-  if (separator != mSeparator || quote != mQuote || escape != mEscape) {
+  if (escape != mEscape || separator != mSeparator || quote != mQuote) {
     BOOST_LOG_SEV(gLogger, trivial::trace) << "mTokenizedLines.clear()";
     mTokenizedLines.clear();
   }
