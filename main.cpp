@@ -50,12 +50,6 @@ BOOST_AUTO_TEST_CASE(non_existing_file) {
   BOOST_REQUIRE_THROW(FileLines(LR"^(non_existing_file)^"), std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE(not_text_file) {
-  std::optional<wchar_t> separator, quote;
-  BOOST_REQUIRE_THROW(detectSeparatorAndQuote(kTestDataDir + LR"^(OpenDialog.png)^", separator, quote),
-                      std::ios_base::failure);
-}
-
 BOOST_AUTO_TEST_CASE(test_case_ZX0training_UTF_8_csv) {
   FileLines fileLines(kTestDataDir + LR"^(ZX0training_UTF-8.csv)^"s);
   fileLines.joinWorkerThread();
@@ -505,6 +499,12 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Ambiguous_csv) {
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Ambiguous.csv)^", separator, quote);
   BOOST_TEST((!separator));
   BOOST_TEST(!quote);
+}
+
+BOOST_AUTO_TEST_CASE(not_text_file) {
+  std::optional<wchar_t> separator, quote;
+  BOOST_REQUIRE_THROW(detectSeparatorAndQuote(kTestDataDir + LR"^(OpenDialog.png)^", separator, quote),
+                      std::ios_base::failure);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
