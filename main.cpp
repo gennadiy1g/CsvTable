@@ -484,6 +484,13 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_2_csv) {
   BOOST_TEST((quote && quote.value() == kSingleQuote));
 }
 
+BOOST_AUTO_TEST_CASE(file_empty_csv) {
+  std::optional<wchar_t> separator, quote;
+  detectSeparatorAndQuote(kTestDataDir + LR"^(file_empty.csv)^", separator, quote);
+  BOOST_TEST((separator && separator.value() == kComma));
+  BOOST_TEST(!quote);
+}
+
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Ambiguous_csv) {
   std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Ambiguous.csv)^", separator, quote);
