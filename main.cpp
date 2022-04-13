@@ -422,80 +422,70 @@ BOOST_AUTO_TEST_SUITE_END();
 BOOST_AUTO_TEST_SUITE(detectSeparatorAndQuote_tests);
 
 BOOST_AUTO_TEST_CASE(Hits_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kComma));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Semicolon_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Semicolon.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kSemicolon));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Space_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_Space.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kSpace));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_Tab_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_TAB.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kTab));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(Hits_VerticalBar_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(Hits_VerticalBar.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kPipe));
   BOOST_TEST(!quote);
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_DoubleQuote_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_DoubleQuote.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kComma));
   BOOST_TEST((quote && quote.value() == kDoubleQuote));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_SingleQuote_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_SingleQuote.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kComma));
   BOOST_TEST((quote && quote.value() == kSingleQuote));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kTab));
   BOOST_TEST((quote && quote.value() == kSingleQuote));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote_2_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote_2.csv)^", separator, quote);
   BOOST_TEST((separator && separator.value() == kTab));
   BOOST_TEST((quote && quote.value() == kSingleQuote));
 }
 
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Ambiguous_csv) {
-  std::optional<wchar_t> separator;
-  std::optional<wchar_t> quote;
+  std::optional<wchar_t> separator, quote;
   detectSeparatorAndQuote(kTestDataDir + LR"^(russian_UTF-8_2_Ambiguous.csv)^", separator, quote);
   BOOST_TEST((!separator));
   BOOST_TEST(!quote);
