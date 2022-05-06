@@ -4,6 +4,7 @@
 #include <cstddef>
 
 #include "CsvTable.hpp"
+#include "SepChars.hpp"
 #include "log.hpp"
 
 namespace blocale = boost::locale;
@@ -334,6 +335,10 @@ void TokenizedFileLines::setTokenFuncParams(wchar_t escape, wchar_t separator, w
   mEscape = escape;
   mSeparator = separator;
   mQuote = quote;
+
+  if (mEscape != kNull) {
+    mNoEscEscapedListSeparator = EscapedListSeparator(kNull, separator, quote);
+  }
 }
 
 const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_t lineNum) {
@@ -376,15 +381,34 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
 
     auto line = mFileLines.getLine(lineNum);
     BOOST_LOG_SEV(gLogger, trivial::trace) << "line.substr()=" << line.substr(0, 50);
-    LineTokenizer tok(line, mEscapedListSeparator);
     std::vector<std::wstring> tokenizedLine;
+
     thread_local std::size_t numTokens{};
     if (numTokens) {
       tokenizedLine.reserve(numTokens);
     }
-    for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
-      tokenizedLine.push_back(*beg);
+
+    auto parsingFailed(false);
+    try {
+      LineTokenizer tok(line, mEscapedListSeparator);
+      for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
+        tokenizedLine.push_back(*beg);
+      }
+    } catch (const std::exception &e) {
+      if (mEscape == kNull) {
+        throw;
+      }
+      parsingFailed = true;
+      tokenizedLine.clear();
     }
+    if (parsingFailed) {
+      assert(mEscape != kNull);
+      LineTokenizer tok(line, mNoEscEscapedListSeparator);
+      for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
+        tokenizedLine.push_back(*beg);
+      }
+    }
+
     if (!numTokens && tokenizedLine.size()) {
       numTokens = tokenizedLine.size();
     }

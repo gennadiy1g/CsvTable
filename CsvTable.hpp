@@ -102,6 +102,7 @@ public:
 private:
   FileLines mFileLines;
   EscapedListSeparator mEscapedListSeparator{kNull, kComma, kDoubleQuote};
+  EscapedListSeparator mNoEscEscapedListSeparator{mEscapedListSeparator};
   std::map<std::size_t, std::vector<std::wstring>> mTokenizedLines;
   static constexpr std::size_t kMaxSize{10'000};
   wchar_t mSeparator{kComma};
