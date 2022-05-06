@@ -199,6 +199,20 @@ BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv_mod) {
   }
 }
 
+BOOST_AUTO_TEST_CASE(russian_UTF_8_2_csv_mod_wrong_esc) {
+  TokenizedFileLines tokenizedFileLines(kTestDataDir + LR"^(russian_UTF-8_2.csv)^");
+  tokenizedFileLines.setTokenFuncParams(L'1', kTab, kDoubleQuote);
+  tokenizedFileLines.joinWorkerThread();
+  BOOST_TEST(tokenizedFileLines.numLines() == 11);
+  BOOST_TEST(tokenizedFileLines.numColumns() == 1);
+
+  for (auto i = 0; i < 2; ++i) {
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0)->at(0) == L"идентификатор,переменная1,переменная2,переменная3");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(1)->at(0) == L"строка1,красный,большой,далеко");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(10)->at(0) == L"строка10,розовый,не маленький,близко");
+  }
+}
+
 BOOST_AUTO_TEST_CASE(russian_UTF_8_2_Tab_SingleQuote) {
   TokenizedFileLines tokenizedFileLines(kTestDataDir + LR"^(russian_UTF-8_2_Tab_SingleQuote.csv)^");
   tokenizedFileLines.joinWorkerThread();
