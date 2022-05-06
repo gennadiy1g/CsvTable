@@ -51,7 +51,7 @@ void FileLines::joinWorkerThread() {
 
 void FileLines::checkInputFile() const {
   auto errorMessage = [](bfs::path const &filePath) {
-    return "File \""s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\" ";
+    return "The file \'"s + blocale::conv::utf_to_utf<char>(filePath.native()) + "\' ";
   };
 
   auto inputFileStatus = bfs::status(mFilePath);
