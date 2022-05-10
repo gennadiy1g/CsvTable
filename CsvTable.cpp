@@ -93,6 +93,10 @@ void FileLines::getPositionsOfSampleLines() {
     }
   };
 
+  auto getPercent = [&fileStream, this]() {
+    return static_cast<int>(std::floor(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
+  };
+
   while (fileStream.good()) {
     BOOST_LOG_NAMED_SCOPE("In the loop");
 
@@ -166,7 +170,7 @@ void FileLines::getPositionsOfSampleLines() {
     if (mOnProgress) {
       if (auto timePoint = std::chrono::system_clock::now();
           std::chrono::duration<float, std::milli>(timePoint - prevTimePointP).count() > 500) {
-        percent = static_cast<int>(std::floor(static_cast<float>(fileStream.tellg()) / mFileSize * 100));
+        percent = getPercent();
         BOOST_LOG_SEV(gLogger, trivial::trace) << "percent=" << percent;
         flushBuffer();
         mOnProgress(numLines, percent);
@@ -204,7 +208,12 @@ void FileLines::getPositionsOfSampleLines() {
 
     flushBuffer();
     if (mOnProgress) {
-      mOnProgress(numLines, 100);
+      if (mIsNumLinesLimitReached) {
+        percent = getPercent();
+      } else {
+        percent = 100;
+      }
+      mOnProgress(numLines, percent);
     }
   }
 }
