@@ -182,7 +182,7 @@ void FileLines::getPositionsOfSampleLines() {
      * wxGridTableBase::GetNumberRows() at https://docs.wxwidgets.org/3.1.3/classwx_grid_table_base.html.
      * We do not need to get positions for more lines than the maximum number of rows that wxGrid can display. */
     constexpr std::size_t kMaxInt = static_cast<std::size_t>(std::numeric_limits<int>::max());
-    if (numLines == kMaxInt) {
+    if (numLines == kMaxInt + 1) {
       BOOST_LOG_SEV(gLogger, trivial::trace) << "Maximum number of rows that wxGrid can display has been reached!";
       mIsNumLinesLimitReached = true;
       break;
