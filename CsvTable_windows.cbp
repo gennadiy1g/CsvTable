@@ -13,7 +13,16 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="C:/MinGW/lib" />
 				</Compiler>
+				<Linker>
+					<Add library="libboost_log.a" />
+					<Add library="libboost_log_setup.a" />
+					<Add library="libboost_filesystem.a" />
+					<Add library="libboost_locale.a" />
+					<Add library="libboost_thread.a" />
+					<Add library="libboost_unit_test_framework.a" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/CsvTable" prefix_auto="1" extension_auto="1" />
@@ -23,9 +32,16 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-DNDEBUG" />
+					<Add directory="C:/MinGW/lib" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="libboost_log.a" />
+					<Add library="libboost_log_setup.a" />
+					<Add library="libboost_filesystem.a" />
+					<Add library="libboost_locale.a" />
+					<Add library="libboost_thread.a" />
+					<Add library="libboost_unit_test_framework.a" />
 				</Linker>
 			</Target>
 		</Build>
