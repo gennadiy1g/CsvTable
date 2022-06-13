@@ -399,23 +399,29 @@ const std::vector<std::wstring> *TokenizedFileLines::getTokenizedLine(std::size_
     }
 
     auto parsingFailed(false);
-    try {
+    {
       LineTokenizer tok(line, mEscapedListSeparator);
-      for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
-        tokenizedLine.push_back(*beg);
+      try {
+        for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
+          tokenizedLine.push_back(*beg);
+        }
+      } catch (const std::exception &e) {
+        BOOST_LOG_SEV(gLogger, trivial::debug)
+            << "Failed to parse lineNum=" << lineNum << ", line.substr()=" << line.substr(0, 50)
+            << (mEscape != kNull ? L", mEscape="s + mEscape : L""s);
+        parsingFailed = true;
       }
-    } catch (const std::exception &e) {
-      if (mEscape == kNull) {
-        throw;
-      }
-      parsingFailed = true;
-      tokenizedLine.clear();
     }
-    if (parsingFailed) {
-      assert(mEscape != kNull);
+    if (parsingFailed && mEscape != kNull) {
+      tokenizedLine.clear();
       LineTokenizer tok(line, mNoEscEscapedListSeparator);
-      for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
-        tokenizedLine.push_back(*beg);
+      try {
+        for (auto beg = tok.begin(); beg != tok.end(); ++beg) {
+          tokenizedLine.push_back(*beg);
+        }
+      } catch (const std::exception &e) {
+        BOOST_LOG_SEV(gLogger, trivial::debug)
+            << "Failed to parse lineNum=" << lineNum << ", line.substr()=" << line.substr(0, 50);
       }
     }
 
