@@ -431,6 +431,28 @@ BOOST_AUTO_TEST_CASE(web_complex_data_with_target_variable_csv) {
   }
 }
 
+BOOST_AUTO_TEST_CASE(Log_2012_03_18_23_40_39_txt) {
+  TokenizedFileLines tokenizedFileLines(kTestDataDir + LR"^(Log_2012-03-18_23.40.39.txt)^");
+  tokenizedFileLines.joinWorkerThread();
+  tokenizedFileLines.setTokenFuncParams(kNull, kTab, kSingleQuote);
+  BOOST_TEST(tokenizedFileLines.numLines() == 23);
+  BOOST_TEST(tokenizedFileLines.numColumns() == 2);
+
+  for (auto i = 0; i < 2; ++i) {
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0)->at(0) == L"2012-03-18 16:25:12.580");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(0)->at(1) == L"Soft10 {B61368B0-1CA8-43C2-BD22-C5DD5CB1A871}");
+
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(15)->at(0) == L"2012-03-18 16:25:12.583");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(15)->size() == 1);
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(12)->at(0) == L"2012-03-18 16:25:12.580");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(12)->size() == 1);
+
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(14)->at(0) == L"2012-03-18 16:25:12.583");
+    BOOST_CHECK(tokenizedFileLines.getTokenizedLine(14)->at(1) ==
+                LR"^(File system folder: "c:\Soft10Results\shan\attrition_test_part2\935DC176271B45E7")^");
+  }
+}
+
 BOOST_AUTO_TEST_SUITE_END();
 
 BOOST_AUTO_TEST_SUITE(detectSeparatorAndQuote_tests);
