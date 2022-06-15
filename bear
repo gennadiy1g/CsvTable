@@ -1,0 +1,5 @@
+rm ./compile_commands.json
+bear --append -- g++ -Wall -fexceptions -g -std=c++17  -c /home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/CsvTable.cpp -o obj/Debug/CsvTable.o
+bear --append -- g++ -Wall -fexceptions -g -std=c++17  -c /home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/main.cpp -o obj/Debug/main.o
+bear --append -- g++ -Wall -fexceptions -g -std=c++17  -c /home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/utilities.cpp -o obj/Debug/utilities.o
+bear --append -- g++  -o bin/Debug/CsvTable obj/Debug/CsvTable.o obj/Debug/main.o obj/Debug/utilities.o  -pthread  /usr/local/lib/libboost_filesystem.a /usr/local/lib/libboost_locale.a /usr/local/lib/libboost_log_setup.a /usr/local/lib/libboost_log.a /usr/local/lib/libboost_unit_test_framework.a /usr/local/lib/libboost_thread.a

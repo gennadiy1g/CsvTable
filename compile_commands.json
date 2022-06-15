@@ -7,13 +7,13 @@
       "-g",
       "-std=c++17",
       "-c",
-      "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/utilities.cpp",
+      "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/utilities.cpp",
       "-o",
       "obj/Debug/utilities.o"
     ],
-    "directory": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable",
-    "file": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/utilities.cpp",
-    "output": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/obj/Debug/utilities.o"
+    "directory": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable",
+    "file": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/utilities.cpp",
+    "output": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/obj/Debug/utilities.o"
   },
   {
     "arguments": [
@@ -23,13 +23,13 @@
       "-g",
       "-std=c++17",
       "-c",
-      "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/main.cpp",
+      "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/main.cpp",
       "-o",
       "obj/Debug/main.o"
     ],
-    "directory": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable",
-    "file": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/main.cpp",
-    "output": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/obj/Debug/main.o"
+    "directory": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable",
+    "file": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/main.cpp",
+    "output": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/obj/Debug/main.o"
   },
   {
     "arguments": [
@@ -39,12 +39,12 @@
       "-g",
       "-std=c++17",
       "-c",
-      "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/CsvTable.cpp",
+      "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/CsvTable.cpp",
       "-o",
       "obj/Debug/CsvTable.o"
     ],
-    "directory": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable",
-    "file": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/CsvTable.cpp",
-    "output": "/home/gennadiy/Projects/BuckwheatCsv2/CsvTable/obj/Debug/CsvTable.o"
+    "directory": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable",
+    "file": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/CsvTable.cpp",
+    "output": "/home/gennadiy/Projects/BuckwheatCsv2/BuckwheatCsv/CsvTable/obj/Debug/CsvTable.o"
   }
 ]
